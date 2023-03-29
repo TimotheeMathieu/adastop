@@ -88,7 +88,7 @@ The processed stop and we can plot the resulting decisions.
 
 ![](examples/plot_result.png)
 
-Remark that on the other hand, if there was no early accept (`--beta 0`, which is the default), the process would have continued until the last stage, but only with the two agents DDPG and TRPO.
+Remark that on the other hand, if there was no early accept (`--beta 0`, which is the default), the process would have continued until the last stage, but only with the two agents DDPG and TRPO. In this case, one may use the other runs `walker{3-6}.csv` in the examples folder to finish the process. 
 
 If one wants to reset AdaStop to redo the process, one can use `adastop reset examples`.
 
