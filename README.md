@@ -31,7 +31,7 @@ Remark that if, in the process of the algorithm, all the comparisons for one of 
 
 We give here an example based on files containing the evaluations of PPO and A2C given in the `examples` directory.
 
-The adastop algorithm is initialized with the first test done therough `adastop compare` and the current state of AdaStop is then saved in a pickle file:
+The adastop algorithm is initialized with the first test done through `adastop compare` and the current state of AdaStop is then saved in a pickle file:
 
 ```console
 > adastop compare --help
