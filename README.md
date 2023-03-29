@@ -26,8 +26,8 @@ There are two ways to use this package:
 
 ## CLI usage
 
-The command line interface takes as input csv files containing data a `pandas` dataframe with $n$ lines and as many columns as there are algorithms.
-Remark that if, in the process of the algorithm, all the comparisons for one of the algorithm are decided, then this algorithm does not need to be run anymore.
+The command line interface takes as input csv files. The csv files must each contain a dataframe with $n$ lines and as many columns as there are algorithms. Each csv file contains the output of $n$ runs of each algorithm.
+Remark that if, in the process of the algorithm, all the comparisons for one of the algorithm are decided, then this algorithm does not need to be run anymore and the number of column in the next csv file would decrease.
 
 We give here an example based on files containing the evaluations of PPO and A2C given in the `examples` directory.
 
