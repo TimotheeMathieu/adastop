@@ -33,7 +33,7 @@ We give here an example based on files containing the evaluations of PPO and A2C
 
 The adastop algorithm is initialized with the first test done therough `adastop compare` and the current state of AdaStop is then saved in a pickle file:
 
-```bash
+```console
 > adastop compare --help
 Usage: adastop compare [OPTIONS] INPUT_FILE
 
@@ -70,7 +70,7 @@ Comparator Saved
 ```
 After this first step, it is still undecided what is the ranking of PPO  (e.g. the "continue" decisions). We have to generate new runs for all the algorithms in order to have more information and be able to. Once these runs are generated, we continue the process.
 
-```
+```console
 > adastop compare examples/walker1.csv
 
 Test is finished, decisions are
