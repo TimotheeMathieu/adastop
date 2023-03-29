@@ -56,7 +56,13 @@ def compare(ctx, input_file, n_groups, n_permutations, alpha, beta, seed, compar
         comparator = MultipleAgentsComparator(n_fits_per_group, n_groups, n_permutations, comparisons, alpha, beta, seed)
         Z = [df[agent].values for agent in df.columns]
 
-    comparator.partial_compare({df.columns[i] : Z[i] for i in range(len(df.columns))}, False)
+    data = {df.columns[i] : Z[i] for i in range(len(df.columns))}
+    # recover also the data of agent that were decided. 
+    for agent in comparator.agent_names:
+        if agent not in df.columns:
+            data[agent]=comparator.eval_values[agent]
+
+    comparator.partial_compare(data, False)
     if not("continue" in list(comparator.decisions.values())):
         click.echo('')
         click.echo("Test is finished, decisions are")

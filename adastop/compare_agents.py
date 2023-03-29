@@ -189,7 +189,7 @@ class MultipleAgentsComparator:
         bk: float
            thresholds.
         """
-        Z = [eval_values[agent] for agent in eval_values]
+        Z = [eval_values[agent] for agent in self.agent_names]
         n_managers = len(Z)
 
         if self.k == 0:
