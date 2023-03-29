@@ -8,12 +8,23 @@ Then, Adastop examines these $n\times L$ numbers and decides that some of the al
 
 The parameters of Adastop are described below, most important are $n$ the number of evaluations at each interim and $K$ the maximum number of interims.
 
+# Installation
+
+To install adastop, use pip: from the root of adastop directory,
+```
+pip install --user .
+```
+
+This will automatically install the command line interface as well as the python library.
+
+# Usage
+
 There are two ways to use this package:
 
 - Command line interface: AdaStop can be used as a command line interface that takes as input csv files. The cli interface can either be called interactively or the process can be automated using bash script.
 - Python API: AdaStop is coded in python and can directly be imported as a module to be used in a python script.
 
-# CLI usage
+## CLI usage
 
 The command line interface takes as input csv files containing data a `pandas` dataframe with $n$ lines and as many columns as there are algorithms.
 Remark that if, in the process of the algorithm, all the comparisons for one of the algorithm are decided, then this algorithm does not need to be run anymore.
@@ -38,7 +49,7 @@ Options:
   --compare-to-first        Compare all agents to the first agent.
   --help                    Show this message and exit.
 
-> >cat examples/walker1.csv # file contains evaluations on walker environment
+> cat examples/walker1.csv # file contains evaluations on walker environment
 ,PPO,DDPG,SAC,TRPO
 0,3683.49072265625,420.27471923828125,4291.02978515625,446.09295654296875
 1,1576.483154296875,640.0671997070312,4551.0380859375,1918.919677734375
@@ -81,9 +92,30 @@ Remark that on the other hand, if there was no early accept (`--beta 0`, which i
 
 If one wants to reset AdaStop to redo the process, one can use `adastop reset examples`.
 
-# Python API: the compare_agents module
+## Python API:
 
-### _class_ compare_agents.MultipleAgentsComparator(n=5, K=5, B=10000, comparisons=None, alpha=0.01, beta=0, n_evaluations=100, seed=None, joblib_backend='threading')
+To use the python API, one only need to define a function train_evaluate(agent, n) which trains n copies of agent and returns n evaluation values.
+
+```python
+from adastop import MultipleAgentsComparator
+
+comparator = MultipleAgentsComparator(n=6, K=6, B=10000, alpha=0.05)
+
+eval_values = {agent.name: [] for agent in agents}
+
+for k in range(comparator.K):
+    for  agent in enumerate(agents):
+       # If the agent is still in one of the comparison considered, then generate new evaluations.
+       if agent in comparator.current_comparisons.ravel():
+           eval_values[agent.name].append(train_evaluate(agent, n))
+   decisions, T = comparator.partial_compare(eval_values, verbose)
+   if np.all([d in ["accept", "reject"] for d in decisions]):
+       break
+```
+
+## The compare_agents module
+
+### _class_ compare_agents.MultipleAgentsComparator(n=5, K=5, B=10000, comparisons=None, alpha=0.01, beta=0, seed=None, joblib_backend='threading')
 Bases: `object`
 
 Compare sequentially agents, with possible early stopping.
@@ -114,10 +146,6 @@ beta: float, default=0
 
     power spent in early accept.
 
-n_evaluations: int, default=100
-
-    number of evaluations used in the function _get_rewards.
-
 seed: int or None, default = None
 
 joblib_backend: str, default = “threading”
@@ -136,22 +164,4 @@ n_iters: dict
 
     number of iterations (i.e. number of fits) used for each agent. Keys are the agents’ names and values are ints.
 
-One can either use rlberry with self.compare, pre-computed scalars with self.compare_scalar or one can use
-the following code compatible with basically anything:
 
-```python
-comparator = Comparator(n=6, K=6, B=10000, alpha=0.05, beta=0.01)
-
-eval_values = {agent.name: [] for agent in agents}
-
-for k in range(comparator.K):
-    for  agent in enumerate(agents):
-       # If the agent is still in one of the comparison considered, then generate new evaluations.
-       if agent in comparator.current_comparisons.ravel():
-           eval_values[agent.name].append(train_evaluate(agent, n))
-   decisions, T = comparator.partial_compare(eval_values, verbose)
-   if np.all([d in ["accept", "reject"] for d in decisions]):
-       break
-```
-
-Where train_evaluate(agent, n) is a function that trains n copies of agent and returns n evaluation values.

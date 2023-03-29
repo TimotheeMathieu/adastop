@@ -57,7 +57,7 @@ class MultipleAgentsComparator:
     One can either use rlberry with self.compare, pre-computed scalars with self.compare_scalar or one can use
     the following code compatible with basically anything:
 
-    >>> comparator = Comparator(n=6, K=6, B=10000, alpha=0.05, beta=0.01)
+    >>> comparator = MultipleAgentsComparator(n=6, K=6, B=10000, alpha=0.05)
     >>>
     >>> eval_values = {agent.name: [] for agent in agents}
     >>>
