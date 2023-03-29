@@ -11,7 +11,6 @@ import itertools
 
 logger = logging.getLogger()
 
-
 class MultipleAgentsComparator:
     """
     Compare sequentially agents, with possible early stopping.
@@ -39,9 +38,6 @@ class MultipleAgentsComparator:
     beta: float, default=0
         power spent in early accept.
 
-    n_evaluations: int, default=100
-        number of evaluations used in the function _get_rewards.
-
     seed: int or None, default = None
 
     joblib_backend: str, default = "threading"
@@ -53,7 +49,6 @@ class MultipleAgentsComparator:
         list of the agents' names.
     decision: dict
         decision of the tests for each comparison, keys are the comparisons and values are in {"equal", "larger", "smaller"}.
-
     n_iters: dict
         number of iterations (i.e. number of fits) used for each agent. Keys are the agents' names and values are ints.
     
@@ -86,7 +81,6 @@ class MultipleAgentsComparator:
         comparisons = None,
         alpha=0.01,
         beta=0,
-        n_evaluations=100,
         seed=None,
         joblib_backend="threading",
     ):
@@ -96,7 +90,6 @@ class MultipleAgentsComparator:
         self.alpha = alpha
         self.beta = beta
         self.comparisons = comparisons
-        self.n_evaluations = n_evaluations
         self.boundary = []
         self.k = 0
         self.level_spent = 0
@@ -125,7 +118,7 @@ class MultipleAgentsComparator:
                 permutations = itertools.combinations(np.arange(2*self.n), self.n)
                 self.normalization = n_permutations
             else:
-                permutations = [ np.random.permutation(2*self.n)[:self.n] for _ in range(self.B)]
+                permutations = [ self.rng.permutation(2*self.n)[:self.n] for _ in range(self.B)]
                 self.normalization = self.B
 
             # Compute the summ differences on the evaluations for each comparisions and for each permutation
@@ -152,7 +145,7 @@ class MultipleAgentsComparator:
                 self.normalization = n_permutations ** (k+1) # number of permutations
             else :
                 n_perm_to_add = len(self.sum_diffs)
-                permutations_k = [np.random.permutation(2*self.n)[:self.n] for _ in range(n_perm_to_add)]
+                permutations_k = [self.rng.permutation(2*self.n)[:self.n] for _ in range(n_perm_to_add)]
                 began_random_at = np.floor(np.log(self.B)/np.log(n_permutations))
                 self.normalization = n_permutations ** began_random_at # number of permutations
 
@@ -303,7 +296,8 @@ class MultipleAgentsComparator:
                     self.decisions[str(self.current_comparisons[id_reject])] = "larger"
                 else:
                     self.decisions[str(self.current_comparisons[id_reject])] = "smaller"
-                print("reject")
+                if verbose:
+                    print("reject")
             elif Tmin < bk_inf:
                 id_accept = np.arange(len(current_decisions))[current_decisions == "continue"][imin]
                 current_decisions[id_accept] = "accept"
@@ -335,107 +329,6 @@ class MultipleAgentsComparator:
         self.current_comparisons = self.current_comparisons[~id_decided]
         self.sum_diffs = np.array(self.sum_diffs)[:, ~id_decided]
 
-    def compare(self, managers,  clean_after=True, verbose=True):
-        """
-        Compare the managers for each of the comparisons in `comparisons`.
-
-        Parameters
-        ----------
-        managers : list of tuple of agent_class and init_kwargs for the agent.
-        clean_after: boolean
-        verbose: boolean
-        """
-        
-        if not _RLBERRY_INSTALLED :
-            raise ValueError("Automatic comparison via `compare` needs the library `rlberry` which is not installed.") 
-        
-        Z = [np.array([]) for _ in managers]
-        # spawn independent seeds, one for each fit and one for the comparator.
-        seeder = Seeder(self.rng.randint(10000))
-        seeders = seeder.spawn(len(managers) * self.K + 1)
-        self.rng = seeders[-1].rng
-        
-        for k in range(self.K):
-            Z = self._fit(managers, Z, k, seeders, clean_after)
-            self.partial_compare({self.agent_names[i] : Z[i] for i in range(len(managers))}, verbose)
-            decisions = np.array(list(self.decisions.values()))
-            if np.all([d in ["smaller", "larger", "equal"] for d in decisions]):
-                break
-
-        return self.decisions
-
-    def compare_scalars(self, scalars, agent_names=None):
-        """
-        Compare the managers for each of the comparisons in `comparisons`.
-
-        Parameters
-        ----------
-        scalars : list of list of scalars.
-        agent_names : list of str or None
-        """
-        Z = [np.array([]) for _ in scalars]
-        if agent_names is None:
-            self.agent_names = ["Agent "+str(i) for i in range(len(scalars))]
-
-        for k in range(self.K):
-            Z = self._get_z_scalars(scalars, Z, k)
-            self.partial_compare({self.agent_names[i] : Z[i] for i in range(len(scalars))}, k)
-            decisions = np.array(list(self.decisions.values()))
-            if np.all([d in ["smaller", "larger", "equal"] for d in decisions]):
-                break
-        return self.decisions
-
-    def _get_z_scalars(self, scalars, Z, k):
-
-        for i in range(len(scalars)):
-            if (self.current_comparisons is None) or (i in np.array(self.current_comparisons).ravel()):
-                Z[i] = np.hstack([Z[i], scalars[i][k * self.n : (k + 1) * self.n]])
-        return Z
-
-    def _fit(self, managers, Z, k, seeders, clean_after):
-        """
-        fit rlberry agents.
-        """
-        agent_classes = [manager[0] for manager in managers]
-        kwargs_list = [manager[1] for manager in managers]
-        for kwarg in kwargs_list:
-            kwarg["n_fit"] = self.n
-        managers_in = []
-        for i in range(len(agent_classes)):
-            if (self.current_comparisons is None) or (i in np.array(self.current_comparisons).ravel()):
-                agent_class = agent_classes[i]
-                kwargs = kwargs_list[i]
-                seeder = seeders[i]
-                managers_in.append(AgentManager(agent_class, **kwargs, seed=seeder))
-        if self.agent_names is None:
-            self.agent_names = [manager.agent_name for manager in managers_in]
-
-        # For now, paralellize only training because _get_evals not pickleable
-        managers_in = Parallel(n_jobs=-1, backend=self.joblib_backend)(
-            delayed(_fit_agent)(manager) for manager in managers_in
-        )
-
-        idz = 0
-        for i in range(len(agent_classes)):
-            if (self.current_comparisons is None) or (i in np.array(self.current_comparisons).ravel()):
-                Z[i] = np.hstack([Z[i], self._get_evals(managers_in[idz])])
-                idz += 1
-        if clean_after:
-            for m in managers_in:
-                m.clear_output_dir()
-        return Z
-
-    def _get_evals(self, manager):
-        """
-        Can be overwritten for alternative evaluation function.
-        """
-        eval_values = []
-        for idx in range(self.n):
-            logger.info("Evaluating agent " + str(idx))
-            eval_values.append(
-                np.mean(manager.eval_agents(self.n_evaluations, agent_id=idx))
-            )
-        return eval_values
 
     def plot_results(self, agent_names=None, axes = None):
         """
