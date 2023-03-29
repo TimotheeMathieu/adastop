@@ -94,6 +94,7 @@ class MultipleAgentsComparator:
         self.k = 0
         self.level_spent = 0
         self.power_spent = 0
+        self.seed = seed
         self.rng = np.random.RandomState(seed)
         self.rejected_decision = []
         self.joblib_backend = joblib_backend
@@ -189,12 +190,12 @@ class MultipleAgentsComparator:
         bk: float
            thresholds.
         """
+        if self.agent_names is None:
+            self.agent_names = list(eval_values.keys())
         Z = [eval_values[agent] for agent in self.agent_names]
         n_managers = len(Z)
 
         if self.k == 0:
-            if self.agent_names is None:
-                self.agent_names = list(eval_values.keys())
             # initialization
             if self.comparisons is None:
                 self.comparisons = np.array(
@@ -207,7 +208,9 @@ class MultipleAgentsComparator:
                 
             self.decisions = {str(c):"continue" for c in self.comparisons}
             self.id_tracked = np.arange(len(self.decisions)) # ids of comparisons effectively tracked
+            
 
+        
         k = self.k
 
         clevel = self.alpha*(k + 1) / self.K
