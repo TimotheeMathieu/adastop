@@ -26,7 +26,7 @@ There are two ways to use this package:
 
 ## CLI usage
 
-The command line interface takes as input csv files. Each csv file must contain a dataframe with $n$ rows and as many columns as there are algorithms. Each of the $n$ rows correspond to one run of an algorithm.
+The command line interface takes as input csv files. Each csv file must contain a dataframe with $n$ rows and as many columns as there are algorithms. Each of the $n$ rows corresponds to one run of an algorithm.
 Please note that if, in the process of the algorithm, all the comparisons for one of the algorithm are decided, then this algorithm does not need to be run anymore and the number of columns in the next csv file would decrease.
 
 Below, we give an example based on files containing the evaluations of PPO and A2C given in the `examples` directory.
