@@ -26,12 +26,12 @@ There are two ways to use this package:
 
 ## CLI usage
 
-The command line interface takes as input csv files. The csv files must each contain a dataframe with $n$ lines and as many columns as there are algorithms. Each csv file contains the output of $n$ runs of each algorithm.
-Remark that if, in the process of the algorithm, all the comparisons for one of the algorithm are decided, then this algorithm does not need to be run anymore and the number of column in the next csv file would decrease.
+The command line interface takes as input csv files. Each csv file must contain a dataframe with $n$ rows and as many columns as there are algorithms. Each of the $n$ rows correspond to one run of an algorithm.
+Please note that if, in the process of the algorithm, all the comparisons for one of the algorithm are decided, then this algorithm does not need to be run anymore and the number of columns in the next csv file would decrease.
 
-We give here an example based on files containing the evaluations of PPO and A2C given in the `examples` directory.
+Below, we give an example based on files containing the evaluations of PPO and A2C given in the `examples` directory.
 
-The adastop algorithm is initialized with the first test done through `adastop compare` and the current state of AdaStop is then saved in a pickle file:
+The AdaStop algorithm is initialized with the first test done through `adastop compare` and the current state of AdaStop is then saved in a pickle file:
 
 ```console
 > adastop compare --help
@@ -84,7 +84,7 @@ Decision between SAC and TRPO is: larger
 
 Comparator Saved
 ```
-The processed stop and we can plot the resulting decisions.
+The processed stops and we can plot the resulting decisions.
 
 ![](examples/plot_result.png)
 
