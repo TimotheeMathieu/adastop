@@ -109,7 +109,7 @@ for k in range(comparator.K):
        if agent in comparator.current_comparisons.ravel():
            eval_values[agent.name].append(train_evaluate(agent, n))
    decisions, T = comparator.partial_compare(eval_values, verbose)
-   if np.all([d in ["accept", "reject"] for d in decisions]):
+   if np.all([d in ["equal", "smaller", "larger"] for d in decisions]):
        break
 ```
 
@@ -120,6 +120,8 @@ Bases: `object`
 
 Compare sequentially agents, with possible early stopping.
 At maximum, there can be n times K fits done.
+
+#### Parameters
 
 n: int, default=5
 
@@ -151,6 +153,8 @@ seed: int or None, default = None
 joblib_backend: str, default = “threading”
 
     backend to use to parallelize on multi-agents. Use “multiprocessing” or “loky” for a true parallelization.
+
+#### Attributes
 
 agent_names: list of str
 

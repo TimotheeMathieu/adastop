@@ -183,7 +183,7 @@ class MultipleAgentsComparator:
             print Steps
         Returns
         -------
-        decision: str in {'accept', 'reject', 'continue'}
+        decision: str in {"equal", "larger", "smaller", "continue"}
            decision of the test at this step.
         T: float
            Test statistic.
