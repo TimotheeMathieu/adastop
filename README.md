@@ -1,7 +1,7 @@
 # AdaStop
 Sequential testing for efficient and reliable comparison of stochastic algorithms.
 
-This package contains the AdaStop algorithm. AdaStop implements a *statistical test to adaptively choose the number of runs of stochastic algorithms* necessary to compare these algorithms and be able to rank them with a theoretically controlled family-wise error rate. One particular application for which AdaStop was created is to compare Reinforcement Learning algorithms.
+This package contains the AdaStop algorithm. AdaStop implements a *statistical test to adaptively choose the number of runs of stochastic algorithms* necessary to compare these algorithms and be able to rank them with a theoretically controlled family-wise error rate. One particular application for which AdaStop was created is to compare Reinforcement Learning algorithms. Please note, that what we call here *algorithm* is really *a certain implementation of an algorithm*.
 
 The test proceed in stages (or interims). First we collect $n$ performance measures for all $L$ algorithms computed on $n\times L$ different random seeds.
 Then, Adastop examines these $n\times L$ numbers and decides that some of the algorithms are different, some of them are equal, and some of them needs more data to be distinguished. The process then reapeats until a decision have been reached on all the algorithms.
@@ -21,12 +21,12 @@ This will automatically install the command line interface as well as the python
 
 There are two ways to use this package:
 
-- Command line interface: AdaStop can be used as a command line interface that takes as input csv files. The cli interface can either be called interactively or the process can be automated using bash script.
+- Command line interface: AdaStop can be used as a command line interface that takes csv files as input. The cli interface can either be called interactively or the process can be automated using bash script.
 - Python API: AdaStop is coded in python and can directly be imported as a module to be used in a python script.
 
 ## CLI usage
 
-The command line interface takes as input csv files. Each csv file must contain a dataframe with $n$ rows and as many columns as there are algorithms. Each of the $n$ rows corresponds to one run of an algorithm.
+The command line interface takes csv files as input. Each csv file must contain a dataframe with $n$ rows and as many columns as there are algorithms. Each of the $n$ rows corresponds to one run of an algorithm.
 Please note that if, in the process of the algorithm, all the comparisons for one of the algorithm are decided, then this algorithm does not need to be run anymore and the number of columns in the next csv file would decrease.
 
 Below, we give an example based on files containing the evaluations of PPO and A2C given in the `examples` directory.
@@ -88,7 +88,7 @@ The processed stops and we can plot the resulting decisions.
 
 ![](examples/plot_result.png)
 
-Remark that on the other hand, if there was no early accept (`--beta 0`, which is the default), the process would have continued until the last stage, but only with the two agents DDPG and TRPO. In this case, one may use the other runs `walker{3-6}.csv` in the examples folder to finish the process. 
+Please note that on the other hand, if there was no early accept (`--beta 0`, which is the default), the process would have continued until the last stage, but only with the two agents DDPG and TRPO. In this case, one may use the other runs `walker{3-6}.csv` in the examples folder to finish the process.
 
 If one wants to reset AdaStop to redo the process, one can use `adastop reset examples`.
 
