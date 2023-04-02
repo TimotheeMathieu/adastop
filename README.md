@@ -94,7 +94,7 @@ If one wants to reset AdaStop to redo the process, one can use `adastop reset ex
 
 ## Python API:
 
-To use the python API, one only needs to define a function train_evaluate(agent, n) which trains n copies of agent and returns n evaluation values.
+To use the python API, one only needs to define a function named `train_evaluate(agent, n)` which trains `n` copies of `agent` and returns `n` evaluation values.
 
 ```python
 from adastop import MultipleAgentsComparator
