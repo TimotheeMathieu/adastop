@@ -21,23 +21,29 @@ class MultipleAgentsComparator:
     Parameters
     ----------
 
-    n: int, default=5
-        number of fits before each early stopping check
+    n: int, or array of ints of size self.n_agents, default=5
+        If int, number of fits before each early stopping check. If array of int, a
+        different number of fits is used for each agent.
 
     K: int, default=5
-        number of check
+        number of check.
     
     B: int, default=None
         Number of random permutations used to approximate permutation distribution.
+    
     comparisons: list of tuple of indices or None
         if None, all the pairwise comparison are done.
         If = [(0,1), (0,2)] for instance, the compare only 0 vs 1  and 0 vs 2
+    
     alpha: float, default=0.01
         level of the test
 
     beta: float, default=0
         power spent in early accept.
 
+    e_values: boolean, default=False
+        Whether to use e-values of p-values.
+    
     seed: int or None, default = None
 
     joblib_backend: str, default = "threading"
@@ -81,6 +87,7 @@ class MultipleAgentsComparator:
         comparisons = None,
         alpha=0.01,
         beta=0,
+        e_values=False,
         seed=None,
         joblib_backend="threading",
     ):
@@ -89,6 +96,7 @@ class MultipleAgentsComparator:
         self.B = B
         self.alpha = alpha
         self.beta = beta
+        self.e_values = e_values
         self.comparisons = comparisons
         self.boundary = []
         self.k = 0
@@ -101,75 +109,89 @@ class MultipleAgentsComparator:
         self.agent_names = None
         self.current_comparisons = copy(comparisons)
         self.n_iters = None
-        self.sum_diffs = None
+        self.mean_diffs = None
         self.id_tracked = None
 
-    def compute_sum_diffs(self, k, Z):
+    def compute_mean_diffs(self, k, Z):
         """
         Compute the absolute value of the sum differences.
         """
         comparisons = self.current_comparisons
         boundary = self.boundary
+        print("k",k)
         if k == 0:
+            for i, comp in enumerate(comparisons):
+                # Define set of permutations. Either all permutations or a random sample if all permutations
+                # is too many permutations
+                n1 = self.n[comp[0]]
+                n2 = self.n[comp[1]]
+                n_permutations = binom(n1+n2, n1)
 
-            # Define set of permutations. Either all permutations or a random sample if all permutations
-            # is too many permutations
-            n_permutations = binom(2*self.n, self.n)
-            if self.B > n_permutations:
-                permutations = itertools.combinations(np.arange(2*self.n), self.n)
-                self.normalization = n_permutations
-            else:
-                permutations = [ self.rng.permutation(2*self.n)[:self.n] for _ in range(self.B)]
-                self.normalization = self.B
+                if self.B > n_permutations:
+                    permutations = itertools.combinations(np.arange(n1+n2), n1)
+                    self.normalization = n_permutations
+                else:
+                    permutations = [ self.rng.permutation(n1+n2)[:n1] for _ in range(self.B)]
+                    self.normalization = self.B
 
-            # Compute the summ differences on the evaluations for each comparisions and for each permutation
-            for perm in permutations:
-                sum_diff = []
-                for i, comp in enumerate(comparisons):
-                    Zi = np.hstack([Z[comp[0]][: self.n], Z[comp[1]][: self.n]])
-                    mask = np.zeros(2 * self.n)
+                # Compute the meajn differences on the evaluations for each comparisions and for each permutation
+                mean_diff = []
+                for perm in permutations:
+                    Zi = np.hstack([Z[comp[0]][: n1], Z[comp[1]][: n2]])
+                    mask = np.zeros(n1+n2)
                     mask[list(perm)] = 1
                     mask = mask == 1
-                    sum_diff.append(np.sum(Zi[mask] - Zi[~mask]))
-                self.sum_diffs.append(np.array(sum_diff))
+                    mean_diff.append(np.mean(Zi[mask]) - np.mean(Zi[~mask]))
+                self.mean_diffs[str(comp)] = mean_diff
         else:
             # Eliminate for conditional
-            sum_diffs = []
-            for zval in self.sum_diffs:
-                if np.max(zval) <= boundary[-1][1]:
-                    sum_diffs.append(np.abs(zval))
+            mean_diffs = {str(comp):[] for comp in self.mean_diffs}
+            to_remove = []
+            for i in range(len(self.mean_diffs[str(comparisons[0])])):
+                zval = []
+                for comp in self.mean_diffs:
+                    zval.append(self.mean_diffs[str(comp)][i])
+                if np.max(np.abs(zval)) <= boundary[-1][1]:
+                    for comp in self.mean_diffs:
+                        mean_diffs[str(comp)].append(self.mean_diffs[str(comp)][i])
                     
-            # add new permutations. Can be either all the permutations of block k, or using random permutations if this is too many.
-            n_permutations = binom(2*self.n, self.n)
-            if self.B > n_permutations ** (k+1):
-                permutations_k = itertools.combinations(np.arange(2*self.n), self.n)
-                self.normalization = n_permutations ** (k+1) # number of permutations
-            else :
-                n_perm_to_add = len(self.sum_diffs)
-                permutations_k = [self.rng.permutation(2*self.n)[:self.n] for _ in range(n_perm_to_add)]
-                began_random_at = np.floor(np.log(self.B)/np.log(n_permutations))
-                self.normalization = n_permutations ** began_random_at # number of permutations
+            for i, comp in enumerate(comparisons):
 
-            Zk = np.zeros(2*self.n)
-            new_sum_diffs = []
-            for id_p, perm_k in enumerate(permutations_k):
+                n1 = self.n[comp[0]]
+                n2 = self.n[comp[1]]
+                
+                # add new permutations. Can be either all the permutations of block k, or using random permutations if this is too many.
+                n_permutations = binom(n1+n2, n1)
                 if self.B > n_permutations ** (k+1):
-                    perms_before_k = np.arange(n_permutations **k).astype(int)
-                else:
-                    perms_before_k = [id_p]
-                for perm_before_k in perms_before_k:
-                    perm_sum_diffs = []
-                    for i, comp in enumerate(comparisons):
-                        # Compute the sum diffs for given permutation and comparison i
-                        Zk[:self.n]=Z[comp[0]][(k * self.n) : ((k + 1) * self.n)]
-                        Zk[self.n:(2*self.n)] = Z[comp[1]][(k * self.n) : ((k + 1) * self.n)]
-                        mask = np.zeros(2 * self.n)
+                    permutations_k = itertools.combinations(np.arange(n1+n2), n1)
+                    self.normalization = n_permutations ** (k+1) # number of permutations
+                else :
+                    n_perm_to_add = len(mean_diffs[str(comparisons[0])])
+                    permutations_k = [self.rng.permutation(n1+n2)[:n1] for _ in range(n_perm_to_add)]
+                    began_random_at = np.floor(np.log(self.B)/np.log(n_permutations))
+                    self.normalization = n_permutations ** began_random_at # number of permutations
+
+                Zk = np.zeros(n1+n2)
+                new_mean_diffs=[]
+                for id_p, perm_k in enumerate(permutations_k):
+                    if self.B > n_permutations ** (k+1):
+                        perms_before_k = np.arange(len(mean_diffs[str(comparisons[0])])).astype(int)
+                    else:
+                        perms_before_k = [id_p]
+                        
+                    for perm_before_k in perms_before_k:
+                        # Compute the mean diffs for given permutation and comparison i
+
+                        Zk[:n1]=Z[comp[0]][(k * n1) : ((k + 1) * n1)]
+                        Zk[n1:(n1+n2)] = Z[comp[1]][(k * n2) : ((k + 1) * n2)]
+                        mask = np.zeros(n1+n2)
                         mask[list(perm_k)] = 1
                         mask = mask == 1
-                        perm_sum_diffs.append(self.sum_diffs[perm_before_k][i]+ np.sum(Zk[mask] - Zk[~mask]))
-                    new_sum_diffs.append(np.array(perm_sum_diffs))
-            self.sum_diffs = new_sum_diffs
-        return self.sum_diffs
+
+                        new_mean_diffs.append(mean_diffs[str(comp)][perm_before_k] + np.mean(Zk[mask]) - np.mean(Zk[~mask]))
+
+                self.mean_diffs[str(comp)] = new_mean_diffs
+        return self.mean_diffs
 
     def partial_compare(self, eval_values, verbose=True):
         """
@@ -192,9 +214,12 @@ class MultipleAgentsComparator:
         """
         if self.agent_names is None:
             self.agent_names = list(eval_values.keys())
+
         Z = [eval_values[agent] for agent in self.agent_names]
         n_managers = len(Z)
-
+        if isinstance(self.n,int):
+            self.n = np.array([self.n]*n_managers)
+        
         if self.k == 0:
             # initialization
             if self.comparisons is None:
@@ -202,7 +227,7 @@ class MultipleAgentsComparator:
                     [(i, j) for i in range(n_managers) for j in range(n_managers) if i < j]
                 )
             self.current_comparisons = copy(self.comparisons)
-            self.sum_diffs = []
+            self.mean_diffs = {str(comp):[] for comp in self.comparisons}
             
             self.n_iters = {self.agent_names[i] : 0 for i in range(n_managers)}
                 
@@ -216,8 +241,9 @@ class MultipleAgentsComparator:
         clevel = self.alpha*(k + 1) / self.K
         dlevel = self.beta*(k + 1) / self.K
 
-        rs = np.abs(np.array(self.compute_sum_diffs(k, Z)))
-
+        mean_diffs = self.compute_mean_diffs(k, Z)
+        
+        
         if verbose:
             print("Step {}".format(k))
 
@@ -225,15 +251,14 @@ class MultipleAgentsComparator:
         current_sign = np.zeros(len(current_decisions))
         
         for j in range(len(current_decisions)):
-            rs_now = rs[:,current_decisions == "continue"]
-            values = np.sort(
-                np.max(rs_now, axis=1)
-            )  
+            current_comparisons = self.current_comparisons[current_decisions=="continue"]
+            mean_diffs_now = { str(comp):mean_diffs[str(comp)] for comp in current_comparisons}
+            max_mean_diffs = [ np.max([mean_diffs_now[str(comp)][i] for comp in current_comparisons]) for i in range(len(mean_diffs_now[str(current_comparisons[0])]))]
+            values = np.sort(max_mean_diffs)  
 
-            icumulative_probas = np.arange(len(rs_now))[::-1] / self.normalization  # This corresponds to 1 - F(t) = P(T > t)
+            icumulative_probas = np.arange(len(values))[::-1] / self.normalization  # This corresponds to 1 - F(t) = P(T > t)
 
             # Compute admissible values, i.e. values that would not be rejected nor accepted.
-
             admissible_values_sup = values[
                 self.level_spent + icumulative_probas <= clevel
             ]
@@ -249,7 +274,7 @@ class MultipleAgentsComparator:
                 bk_sup = np.inf
                 level_to_add = 0
 
-            cumulative_probas = np.arange(len(rs_now)) / self.normalization  # corresponds to P(T < t)
+            cumulative_probas = np.arange(len(values)) / self.normalization  # corresponds to P(T < t)
             admissible_values_inf = values[
                 self.power_spent + cumulative_probas < dlevel
             ]
@@ -269,27 +294,28 @@ class MultipleAgentsComparator:
             Tmaxsigned = 0
             Tminsigned = 0
             for i, comp in enumerate(self.current_comparisons[current_decisions == "continue"]):
-                Ti = np.abs(
-                    np.sum(
-                        Z[comp[0]][: ((k + 1) * self.n)]
-                        - Z[comp[1]][: ((k + 1) * self.n)]
+                Ti = (k+1)*np.abs(
+                    np.mean(
+                        Z[comp[0]][: ((k + 1) * self.n[comp[0]])])
+                        - np.mean(Z[comp[1]][: ((k + 1) * self.n[comp[1]])]
                     )
                 )
                 if Ti > Tmax:
                     Tmax = Ti
                     imax = i
-                    Tmaxsigned = np.sum(
-                        Z[comp[0]][: ((k + 1) * self.n)]
-                        - Z[comp[1]][: ((k + 1) * self.n)]
+                    Tmaxsigned = (k+1)*(np.mean(
+                        Z[comp[0]][: ((k + 1) * self.n[comp[0]])])
+                        - np.mean(Z[comp[1]][: ((k + 1) * self.n[comp[1]])]
                     )
+                )
 
                 if Ti < Tmin:
                     Tmin = Ti
                     imin = i
-                    Tminsigned = np.sum(
-                        Z[comp[0]][: ((k + 1) * self.n)]
-                        - Z[comp[1]][: ((k + 1) * self.n)]
-                    )
+                    Tminsigned = (k+1)*(np.mean(Z[comp[0]][: ((k + 1) * self.n[comp[0]])])
+                                        - np.mean(Z[comp[1]][: ((k + 1) * self.n[comp[1]])]
+                                  )
+                                    )
 
             if Tmax > bk_sup:
                 id_reject = np.arange(len(current_decisions))[current_decisions== "continue"][imax]
@@ -330,8 +356,7 @@ class MultipleAgentsComparator:
 
         self.id_tracked = self.id_tracked[~id_decided]
         self.current_comparisons = self.current_comparisons[~id_decided]
-        self.sum_diffs = np.array(self.sum_diffs)[:, ~id_decided]
-
+        self.mean_diffs = {str(comp):self.mean_diffs[str(comp)] for comp in current_comparisons}
 
     def plot_results(self, agent_names=None, axes = None):
         """
