@@ -34,6 +34,21 @@ Below, we give an example based on files containing the evaluations of PPO and A
 The AdaStop algorithm is initialized with the first test done through `adastop compare` and the current state of AdaStop is then saved in a pickle file:
 
 ```console
+> adastop
+Usage: adastop [OPTIONS] COMMAND [ARGS]...
+
+  Program to perform adaptive stopping algorithm using csv file intput_file.
+
+  Use adastop sub-command --help to have help for a specific sub-command
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  compare  Perform one step of adaptive stopping algorithm using csv file...
+  plot     Plot results of the comparator situated in the folder 'folder'.
+  reset    Reset the comparator to zero by removing the save file of the...
+
 > adastop compare --help
 Usage: adastop compare [OPTIONS] INPUT_FILE
 

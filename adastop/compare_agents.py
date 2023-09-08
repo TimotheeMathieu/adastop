@@ -72,8 +72,9 @@ class MultipleAgentsComparator:
     >>>        # If the agent is still in one of the comparison considered, then generate new evaluations.
     >>>        if agent in comparator.current_comparisons.ravel():
     >>>            eval_values[agent.name].append(train_evaluate(agent, n))
-    >>>    decisions, T = comparator.partial_compare(eval_values, verbose)
-    >>>    if np.all([d in ["accept", "reject"] for d in decisions]):
+    >>>    comparator.partial_compare(eval_values, verbose)
+    >>>    decisions = comparator.decisions # results of the decisions for step k
+    >>>    if np.all([d in ["accept", "reject"] for d in list(decisions.values())]):
     >>>        break
 
     Where train_evaluate(agent, n) is a function that trains n copies of agent and returns n evaluation values.
@@ -118,7 +119,6 @@ class MultipleAgentsComparator:
         """
         comparisons = self.current_comparisons
         boundary = self.boundary
-        print("k",k)
         if k == 0:
             for i, comp in enumerate(comparisons):
                 # Define set of permutations. Either all permutations or a random sample if all permutations
@@ -200,7 +200,8 @@ class MultipleAgentsComparator:
         Parameters
         ----------
         eval_values: dict of agents and evaluations
-            keys are agent names and values are concatenation of evaluations till interim k
+            keys are agent names and values are concatenation of evaluations till interim k,
+            e.g. {"PP0": [1,1,1,1,1], "SAC": [42,42,42,42,42]}
         verbose: bool
             print Steps
         Returns
@@ -437,6 +438,3 @@ class MultipleAgentsComparator:
         ax2.xaxis.set_label([])
         ax2.xaxis.tick_top()
 
-def _fit_agent(manager):
-    manager.fit()
-    return manager

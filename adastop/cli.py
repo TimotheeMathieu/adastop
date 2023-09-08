@@ -24,8 +24,8 @@ def adastop(ctx):
 @click.option("--n-groups", default=5, show_default=True, help="Number of groups.")
 @click.option("--n-permutations", default=10000, show_default=True, help="Number of random permutations.")
 @click.option("--alpha", default=0.05, show_default=True, help="Type I error.")
-@click.option("--beta", default=0, show_default=True, help="early accept parameter.")
-@click.option("--seed", default=None, type=int, show_default=True, help="early accept parameter.")
+@click.option("--beta", default=0.0, show_default=True, help="early accept parameter.")
+@click.option("--seed", default=None, type=int, show_default=True, help="Random seed.")
 @click.option("--compare-to-first", is_flag=True, show_default=True, default=False, help="Compare all agents to the first agent.")
 @click.argument('input_file',required = True, type=str)
 @click.pass_context
@@ -70,11 +70,18 @@ def compare(ctx, input_file, n_groups, n_permutations, alpha, beta, seed, compar
     if not("continue" in list(comparator.decisions.values())):
         click.echo('')
         click.echo("Test is finished, decisions are")
-    click.echo('')
-    for c in comparator.comparisons:
-        click.echo("Decision between "+ comparator.agent_names[c[0]] +" and "+comparator.agent_names[c[1]]+ " is: " +comparator.decisions[str(c)])
-
-    click.echo('')
+        click.echo('')
+        for c in comparator.comparisons:
+            click.echo("Decision between "+ comparator.agent_names[c[0]] +" and "+comparator.agent_names[c[1]]+ " is: "+comparator.decisions[str(c)])
+    else:
+        still_here = []
+        for c in comparator.comparisons:
+            if comparator.decisions[str(c)] == "continue":
+                still_here.append( comparator.agent_names[c[0]])
+                still_here.append( comparator.agent_names[c[1]])
+        still_here = np.unique(still_here)
+        click.echo("Still undecided about "+" ".join(still_here))
+    click.echo('') 
     
     with open(path_lf, 'wb') as fp:
         pickle.dump(comparator, fp)
