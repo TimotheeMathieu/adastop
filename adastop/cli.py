@@ -26,7 +26,7 @@ def adastop(ctx):
 @click.option("--alpha", default=0.05, show_default=True, help="Type I error.")
 @click.option("--beta", default=0.0, show_default=True, help="early accept parameter.")
 @click.option("--seed", default=None, type=int, show_default=True, help="Random seed.")
-@click.option("--compare-to-first", is_flag=True, show_default=True, default=False, help="Compare all agents to the first agent.")
+@click.option("--compare-to-first", is_flag=True, show_default=True, default=False, help="Compare all algorithms to the first algorithm.")
 @click.argument('input_file',required = True, type=str)
 @click.pass_context
 def compare(ctx, input_file, n_groups, n_permutations, alpha, beta, seed, compare_to_first):

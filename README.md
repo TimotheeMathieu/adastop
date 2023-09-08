@@ -29,7 +29,7 @@ There are two ways to use this package:
 The command line interface takes csv files as input. Each csv file must contain a dataframe with $n$ rows and as many columns as there are algorithms. Each of the $n$ rows corresponds to one run of an algorithm.
 Please note that if, in the process of the algorithm, all the comparisons for one of the algorithm are decided, then this algorithm does not need to be run anymore and the number of columns in the next csv file would decrease.
 
-Below, we give an example based on files containing the evaluations of PPO and A2C given in the `examples` directory.
+Below, we give an example based on files containing the evaluations of PPO,DDPG,SAC,TRPO, four Deep Reinforcement Learning algorithmes, given in the `examples` directory.
 
 The AdaStop algorithm is initialized with the first test done through `adastop compare` and the current state of AdaStop is then saved in a pickle file:
 
@@ -61,7 +61,7 @@ Options:
   --n-permutations INTEGER  Number of random permutations.  [default: 10000]
   --alpha FLOAT             Type I error.  [default: 0.05]
   --beta FLOAT              early accept parameter.  [default: 0]
-  --compare-to-first        Compare all agents to the first agent.
+  --compare-to-first        Compare all algorithms to the first algorithm.
   --help                    Show this message and exit.
 
 > cat examples/walker1.csv # file contains evaluations on walker environment
@@ -72,21 +72,32 @@ Options:
 3,1451.9110107421875,879.0955200195312,4697.365234375,757.0098876953125
 4,5177.005859375,736.5420532226562,4074.497802734375,1769.3448486328125
 
-> adastop compare --n-groups 5 --beta 0.01 --seed 42 examples/walker1.csv
-
-Decision between PPO and DDPG is: continue
-Decision between PPO and SAC is: continue
-Decision between PPO and TRPO is: continue
-Decision between DDPG and SAC is: smaller
-Decision between DDPG and TRPO is: equal
-Decision between SAC and TRPO is: larger
+> adastop reset . # reset the state of the comparator (remove hidden pickle file)
+Comparator file have been removed.
+> adastop compare --n-groups 5 --beta 0.01 --seed 42 walker1.csv 
+Still undecided about DDPG PPO SAC TRPO
 
 Comparator Saved
 ```
-After this first step, it is still undecided what is the ranking of PPO  (e.g. the "continue" decisions). We have to generate new runs for all the algorithms in order to have more information and be able to rank PPO. Once these runs are generated, we continue the process.
+After this first step, it is still undecided what is the ranking of DDPG and TRPO  (e.g. the "continue" decisions). We have to generate new runs for all the algorithms in order to have more information and be able to rank these algorithms. Once these runs are generated, we continue the process.
 
 ```console
-> adastop compare examples/walker1.csv
+> adastop compare --n-groups 5 --beta 0.01 --seed 42 walker2.csv
+Still undecided about DDPG TRPO
+
+Comparator Saved
+
+> adastop compare --n-groups 5 --beta 0.01 --seed 42 walker3.csv
+Still undecided about DDPG TRPO
+
+Comparator Saved
+
+> adastop compare --n-groups 5 --beta 0.01 --seed 42 walker4.csv
+Still undecided about DDPG TRPO
+
+Comparator Saved
+
+> adastop compare --n-groups 5 --beta 0.01 --seed 42 walker5.csv
 
 Test is finished, decisions are
 
@@ -94,7 +105,7 @@ Decision between PPO and DDPG is: larger
 Decision between PPO and SAC is: smaller
 Decision between PPO and TRPO is: larger
 Decision between DDPG and SAC is: smaller
-Decision between DDPG and TRPO is: equal
+Decision between DDPG and TRPO is: smaller
 Decision between SAC and TRPO is: larger
 
 Comparator Saved
@@ -102,8 +113,6 @@ Comparator Saved
 The processed stops and we can plot the resulting decisions.
 
 ![](examples/plot_result.png)
-
-Please note that on the other hand, if there was no early accept (`--beta 0`, which is the default), the process would have continued until the last stage, but only with the two agents DDPG and TRPO. In this case, one may use the other runs `walker{3-6}.csv` in the examples folder to finish the process.
 
 If one wants to reset AdaStop to redo the process, one can use `adastop reset examples`.
 
