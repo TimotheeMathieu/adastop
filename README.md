@@ -133,7 +133,7 @@ for k in range(comparator.K):
        if agent in comparator.current_comparisons.ravel():
            eval_values[agent.name].append(train_evaluate(agent, n))
    decisions, T = comparator.partial_compare(eval_values, verbose)
-   if np.all([d in ["equal", "smaller", "larger"] for d in decisions]):
+   if comparator.is_finished:
        break
 ```
 

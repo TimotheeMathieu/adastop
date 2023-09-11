@@ -74,7 +74,7 @@ class MultipleAgentsComparator:
     >>>            eval_values[agent.name].append(train_evaluate(agent, n))
     >>>    comparator.partial_compare(eval_values, verbose)
     >>>    decisions = comparator.decisions # results of the decisions for step k
-    >>>    if np.all([d in ["accept", "reject"] for d in list(decisions.values())]):
+    >>>    if comparator.is_finished:
     >>>        break
 
     Where train_evaluate(agent, n) is a function that trains n copies of agent and returns n evaluation values.
@@ -112,6 +112,7 @@ class MultipleAgentsComparator:
         self.n_iters = None
         self.mean_diffs = None
         self.id_tracked = None
+        self.is_finished = False
 
     def compute_mean_diffs(self, k, Z):
         """
@@ -207,11 +208,13 @@ class MultipleAgentsComparator:
         Returns
         -------
         decision: str in {"equal", "larger", "smaller", "continue"}
-           decision of the test at this step.
+           Decision of the test at this step.
+        id_finished: bool
+           Whether the test is finished or not.
         T: float
            Test statistic.
         bk: float
-           thresholds.
+           Thresholds of the tests.
         """
         if self.agent_names is None:
             self.agent_names = list(eval_values.keys())
@@ -354,7 +357,10 @@ class MultipleAgentsComparator:
             self.n_iters[self.agent_names[i]] = len(Z[i].ravel())
 
         id_decided = np.array(current_decisions) != "continue"
-
+        
+        if  not("continue" in self.decisions.values()):
+            self.is_finished = True
+            
         self.id_tracked = self.id_tracked[~id_decided]
         self.current_comparisons = self.current_comparisons[~id_decided]
         self.mean_diffs = {str(comp):self.mean_diffs[str(comp)] for comp in current_comparisons}

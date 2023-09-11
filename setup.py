@@ -6,7 +6,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'Click',
+        'Click', "joblib", "numpy", "matplotlib", "pandas", "seaborn", "scipy"
     ],
     entry_points={
         'console_scripts': [
