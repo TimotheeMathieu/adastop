@@ -1,9 +1,13 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from distutils.core import setup
+
+packages = find_packages(exclude=["tests", "examples",])
 
 setup(
     name='adastop',
     version='0.1.0',
-    packages=find_packages(),
+    license="MIT",
+    packages=packages,
     include_package_data=True,
     install_requires=[
         'Click', "joblib", "numpy", "matplotlib", "pandas", "seaborn", "scipy"
