@@ -389,16 +389,16 @@ class MultipleAgentsComparator:
             decision = self.decisions[str(c)]
             if decision == "equal":
                 links[c[0],c[1]] = 0
-
+                links[c[1],c[0]] = 0
             elif decision == "larger":
                 links[c[0],c[1]] = 1
-
+                links[c[1],c[0]] = -1
             else:
                 links[c[0],c[1]] = -1
-        
-        links = links - links.T
+                links[c[1],c[0]] = 1
+
         links = links[id_sort,:][:, id_sort]
-        links = links + 2*np.eye(len(links))
+        
         annot = []
         for i in range(len(links)):
             annot_i = []
