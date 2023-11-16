@@ -1,4 +1,4 @@
-zimport logging
+import logging
 import numpy as np
 from copy import copy
 import matplotlib.pyplot as plt
