@@ -1,4 +1,4 @@
-import logging
+zimport logging
 import numpy as np
 from copy import copy
 import matplotlib.pyplot as plt
@@ -237,7 +237,6 @@ class MultipleAgentsComparator:
                 
             self.decisions = {str(c):"continue" for c in self.comparisons}
             self.id_tracked = np.arange(len(self.decisions)) # ids of comparisons effectively tracked
-            
 
         
         k = self.k
@@ -292,7 +291,7 @@ class MultipleAgentsComparator:
                 bk_inf = -np.inf
                 power_to_add = 0
 
-            # Test statistic
+            # Test statistic, step-down
             Tmax = 0
             Tmin = np.inf
             Tmaxsigned = 0
@@ -383,7 +382,7 @@ class MultipleAgentsComparator:
         if agent_names is None:
             agent_names = self.agent_names
 
-        links = np.zeros([len(agent_names),len(agent_names)])
+        links = 2*np.ones([len(agent_names),len(agent_names)]) # all initialized with no decision
 
         for i in range(len(self.comparisons)):
             c = self.comparisons[i]
@@ -396,17 +395,15 @@ class MultipleAgentsComparator:
 
             else:
                 links[c[0],c[1]] = -1
-
-
+        
         links = links - links.T
         links = links[id_sort,:][:, id_sort]
         links = links + 2*np.eye(len(links))
-        print(links)
         annot = []
         for i in range(len(links)):
             annot_i = []
             for j in range(len(links)):
-                if i == j:
+                if links[i,j] == 2:
                     annot_i.append(" ")                    
                 elif links[i,j] == 0:
                     annot_i.append("${\\rightarrow  =}\downarrow$")
