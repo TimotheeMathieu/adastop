@@ -10,7 +10,11 @@ def test_cli():
     runner = CliRunner()
     result = runner.invoke(adastop, ['reset', 'examples'])
     assert result.exit_code == 0
-    result = runner.invoke(adastop, ['compare', 'examples/walker1.csv'])
-    assert result.exit_code == 0
+    for j in range(1,6):
+        
+        result = runner.invoke(adastop, ['compare', 'examples/walker'+str(j)+'.csv'])
+        assert result.exit_code == 0
+    result = runner.invoke(adastop, ['compare', 'examples/walker3.csv'])
+    assert result.exit_code == 1
     result = runner.invoke(adastop, ['reset', 'examples'])
     assert result.exit_code == 0
