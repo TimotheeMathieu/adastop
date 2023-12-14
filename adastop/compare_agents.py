@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.patches as mpatches
-from scipy.special import binom
+import math
 from joblib import Parallel, delayed
 import itertools
 from .plotting import plot_results, plot_results_sota
@@ -131,7 +131,7 @@ class MultipleAgentsComparator:
                 # is too many permutations
                 n1 = self.n[comp[0]]
                 n2 = self.n[comp[1]]
-                n_permutations = binom(n1+n2, n1)
+                n_permutations = math.comb(n1+n2, n1)
 
                 if self.B > n_permutations:
                     permutations = itertools.combinations(np.arange(n1+n2), n1)
@@ -167,7 +167,7 @@ class MultipleAgentsComparator:
                 n2 = self.n[comp[1]]
                 
                 # add new permutations. Can be either all the permutations of block k, or using random permutations if this is too many.
-                n_permutations = binom(n1+n2, n1)
+                n_permutations = math.comb(n1+n2, n1)
                 if self.B > n_permutations ** (k+1):
                     permutations_k = itertools.combinations(np.arange(n1+n2), n1)
                     self.normalization = n_permutations ** (k+1) # number of permutations
