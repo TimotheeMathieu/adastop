@@ -1,0 +1,84 @@
+trigger:
+  paths:
+    exclude:
+    - examples
+
+pr:
+  paths:
+    exclude:
+    - examples
+
+jobs:
+
+- job: 'linux'
+  pool:
+    vmImage: ubuntu-latest
+  strategy:
+    matrix:
+      Python310:
+        python.version: '3.10'
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+
+  - script: pip install .
+    displayName: 'Install dependencies'
+
+  - script: |
+      set -xe
+      pip install pytest-azurepipelines pytest-cov pytest-xvfb
+      pytest --import-mode=importlib --cov=adastop --cov-report xml tests
+    displayName: 'Test and coverage'
+  - script: |
+      curl -Os https://uploader.codecov.io/latest/linux/codecov
+      chmod +x codecov
+      ./codecov
+    displayName: 'Upload to codecov.io'
+
+
+- job: 'macOS'
+  pool:
+    vmImage: 'macOS-12'
+  strategy:
+    matrix:
+      Python310:
+        python.version: '3.10'
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+
+  - script: pip install .
+    displayName: 'Install dependencies'
+
+  - script: |
+      pip install pytest-azurepipelines pytest-xvfb
+      pytest tests
+    displayName: 'pytest'
+
+- job: 'windows'
+  pool:
+    vmImage: 'windows-2022'
+  strategy:
+    matrix:
+      Python310:
+        python.version: '3.10'
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+
+  - script: pip install .
+    displayName: 'Install dependencies'
+
+  - script: |
+      pip install pytest-azurepipelines pytest-xvfb
+      pytest tests
+    displayName: 'pytest'

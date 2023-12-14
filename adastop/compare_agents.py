@@ -11,6 +11,7 @@ import itertools
 
 logger = logging.getLogger()
 
+
 class MultipleAgentsComparator:
     """
     Compare sequentially agents, with possible early stopping.
@@ -132,7 +133,7 @@ class MultipleAgentsComparator:
                     permutations = itertools.combinations(np.arange(n1+n2), n1)
                     self.normalization = n_permutations
                 else:
-                    permutations = [ self.rng.permutation(n1+n2)[:n1] for _ in range(self.B)]
+                    permutations = [np.arange(n1)]+[ self.rng.permutation(n1+n2)[:n1] for _ in range(self.B-1)]
                     self.normalization = self.B
 
                 # Compute the meajn differences on the evaluations for each comparisions and for each permutation
@@ -168,7 +169,7 @@ class MultipleAgentsComparator:
                     self.normalization = n_permutations ** (k+1) # number of permutations
                 else :
                     n_perm_to_add = len(mean_diffs[str(comparisons[0])])
-                    permutations_k = [self.rng.permutation(n1+n2)[:n1] for _ in range(n_perm_to_add)]
+                    permutations_k = [np.arange(n1)]+[self.rng.permutation(n1+n2)[:n1] for _ in range(n_perm_to_add-1)]
                     began_random_at = np.floor(np.log(self.B)/np.log(n_permutations))
                     self.normalization = n_permutations ** began_random_at # number of permutations
 
@@ -440,4 +441,89 @@ class MultipleAgentsComparator:
 
         ax2.xaxis.set_label([])
         ax2.xaxis.tick_top()
+
+    def plot_results_sota(self, agent_names=None, axes = None):
+        """
+        visual representation of results.
+
+        Parameters
+        ----------
+        agent_names : list of str or None
+        axes : tuple of two matplotlib axes of None
+             if None, use the following:
+             `fig, (ax1, ax2) = plt.subplots(2, 1, gridspec_kw={"height_ratios": [1, 2]}, figsize=(6,5))`
+        """
+        id_sort = np.argsort(self.mean_eval_values)
+        Z = [self.eval_values[self.agent_names[i]] for i  in id_sort]
+
+        if agent_names is None:
+            agent_names = self.agent_names
+        assert len(self.decisions) == len(agent_names) -1
+        
+        links = 2*np.ones([len(agent_names)]) # all initialized with no decision
+
+        
+        for i in range(len(self.comparisons)):
+            c = self.comparisons[i]
+            decision = self.decisions[str(c)]
+            if decision == "equal":
+                links[c[1]] = 0
+            elif decision == "larger":
+                links[c[1]] = 1
+            else:
+                links[c[1]] = -1
+
+        links = links[id_sort]
+        
+        annot = []
+        for i in range(len(links)):
+            if links[i] == 2:
+                annot.append(" ")                    
+            elif links[i] == 0:
+                annot.append("$=$")
+            elif links[i] == 1:
+                annot.append("$\geq$")
+            else:
+                annot.append("$\leq$")
+        if axes is None:
+            fig, (ax1, ax2) = plt.subplots(
+                2, 1, gridspec_kw={"height_ratios": [1, 6]}, figsize=(6,3.5)
+            )
+        else:
+            (ax1, ax2) = axes
+
+        n_iterations = [self.n_iters[self.agent_names[i]] for i in id_sort]
+        the_table = ax1.table(
+            cellText=[n_iterations], rowLabels=["$N_{scores}$"], loc="top", cellLoc="center",
+        )
+        for c in the_table.get_celld().values():
+            c.visible_edges = ''
+        
+        print(links, annot)
+        # Draw the heatmap with the mask and correct aspect ratio
+        res = sns.heatmap([np.array(links)[:-1]], annot = [np.array(annot)[:-1]], cmap="Set2", vmax=2, center=0,linewidths=.5, ax =ax1, cbar=False,yticklabels=[''], xticklabels=['']*len(agent_names),fmt='')
+
+        def set_xmargin(ax, left=0.0, right=0.3):
+            ax.set_xmargin(0)
+            ax.autoscale_view()
+            lim = ax.get_xlim()
+            delta = np.diff(lim)
+            left = lim[0] - delta*left
+            right = lim[1] + delta*right
+            ax.set_xlim(left,right)
+
+        set_xmargin(ax1, right=0.14)
+
+        # Drawing the frame
+        for _, spine in res.spines.items():
+            spine.set_visible(True)
+            spine.set_linewidth(1)
+
+        box_plot = ax2.boxplot(Z, labels=np.array(agent_names)[id_sort], showmeans=True)
+        for mean in box_plot['means']:
+            mean.set_alpha(0.6)
+
+        ax2.xaxis.set_label([])
+        ax2.xaxis.tick_top()
+        plt.subplots_adjust(top=0.9, hspace=0.3)
 
