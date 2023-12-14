@@ -31,6 +31,7 @@ jobs:
       set -xe
       pip install pytest-azurepipelines pytest-cov pytest-xvfb
       pytest --import-mode=importlib --cov=adastop --cov-report xml tests
+      cat coverage.xml | head -n 2 # print the coverage in the pipeline
     displayName: 'Test and coverage'
   - script: |
       curl -Os https://uploader.codecov.io/latest/linux/codecov
