@@ -119,7 +119,6 @@ def plot(ctx, folder):
         raise ValueError('Comparator save file not found.')
     
     comparator.plot_results()
+    plt.ion()
     plt.show()
     
-if __name__ == '__main__':
-    adastop()
