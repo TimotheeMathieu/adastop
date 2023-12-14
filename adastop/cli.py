@@ -95,8 +95,12 @@ def reset(ctx, folder):
     Reset the comparator to zero by removing the save file of the comparator situated in the folder 'folder'.
     """
     path_lf = Path(folder) / LITTER_FILE
-    os.remove(path_lf)
-    click.echo("Comparator file have been removed.")
+    if os.path.isfile(path_lf):
+        os.remove(path_lf)
+        click.echo("Comparator file have been removed.")
+    else:
+        click.echo("no comparator file found.")
+
 
 
 @adastop.command()
