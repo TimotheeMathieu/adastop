@@ -8,7 +8,7 @@ import matplotlib.patches as mpatches
 from scipy.special import binom
 from joblib import Parallel, delayed
 import itertools
-from adastop import plot_results, plot_results_sota
+from .plotting import plot_results, plot_results_sota
 
 logger = logging.getLogger()
 

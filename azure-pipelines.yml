@@ -24,13 +24,13 @@ jobs:
       versionSpec: '$(python.version)'
     displayName: 'Use Python $(python.version)'
 
-  - script: pip install .
+  - script: python -m pip install .
     displayName: 'Install dependencies'
 
   - script: |
       set -xe
-      pip install pytest-azurepipelines pytest-cov pytest-xvfb
-      pytest --import-mode=importlib --cov=adastop --cov-report xml tests
+      python -m pip install pytest-azurepipelines pytest-cov pytest-xvfb
+      python -m pytest --import-mode=importlib --cov=adastop --cov-report xml tests
       cat coverage.xml | head -n 2 # print the coverage in the pipeline
     displayName: 'Test and coverage'
   - script: |
