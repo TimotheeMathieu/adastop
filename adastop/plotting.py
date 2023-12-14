@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
-
+import numpy as np
+import seaborn as sns
 
 def plot_results(comparator, agent_names=None, axes = None):
     """
@@ -162,4 +163,6 @@ def plot_results_sota(comparator, agent_names=None, axes = None):
     ax2.xaxis.set_label([])
     ax2.xaxis.tick_top()
     plt.subplots_adjust(top=0.9, hspace=0.3)
+
+
 
