@@ -444,7 +444,7 @@ class MultipleAgentsComparator:
 
     def plot_results_sota(self, agent_names=None, axes = None):
         """
-        visual representation of results.
+        visual representation of results -- all versus one. The one is supposed to be first agent name.
 
         Parameters
         ----------
