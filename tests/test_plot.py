@@ -23,7 +23,7 @@ def test_plot():
 
     # plt.savefig('fig.pdf')
     fig, axes= plt.subplots(1,2)
-    comparator.plot_results(axes)
+    comparator.plot_results(axes=axes)
 
     
 def test_plot_sota():
@@ -41,4 +41,4 @@ def test_plot_sota():
     comparator.plot_results_sota()
     # plt.savefig('fig2.pdf')
     fig, axes= plt.subplots(1,2)
-    comparator.plot_results_sota(axes)
+    comparator.plot_results_sota(axes=axes)

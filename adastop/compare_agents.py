@@ -2,7 +2,6 @@ import logging
 import numpy as np
 from copy import copy
 import matplotlib.pyplot as plt
-import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.patches as mpatches
 import math
