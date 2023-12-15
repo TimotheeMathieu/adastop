@@ -70,9 +70,8 @@ def compare(ctx, input_file, n_groups, n_permutations, alpha, beta, seed, compar
     if not("continue" in list(comparator.decisions.values())):
         click.echo('')
         click.echo("Test is finished, decisions are")
-        click.echo('')
-        for c in comparator.comparisons:
-            click.echo("Decision between "+ comparator.agent_names[c[0]] +" and "+comparator.agent_names[c[1]]+ " is: "+comparator.decisions[str(c)])
+        click.echo(comparator.get_results().to_markdown())
+        
     else:
         still_here = []
         for c in comparator.comparisons:
