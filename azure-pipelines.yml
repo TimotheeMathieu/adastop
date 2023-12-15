@@ -29,7 +29,7 @@ jobs:
 
   - script: |
       set -xe
-      python -m pip install pytest-azurepipelines pytest-cov pytest-xvfb
+      python -m pip install seaborn pytest-azurepipelines pytest-cov pytest-xvfb
       python -m pytest --import-mode=importlib --cov=adastop --cov-report xml tests
       cat coverage.xml | head -n 2 # print the coverage in the pipeline
     displayName: 'Test and coverage'
@@ -58,7 +58,7 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      pip install pytest-azurepipelines pytest-xvfb
+      pip install seaborn pytest-azurepipelines pytest-xvfb
       pytest tests
     displayName: 'pytest'
 
@@ -80,6 +80,6 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      pip install pytest-azurepipelines pytest-xvfb
+      pip install seaborn pytest-azurepipelines pytest-xvfb
       pytest tests
     displayName: 'pytest'

@@ -11,6 +11,7 @@ def test_runtime():
     comparator = MultipleAgentsComparator(n=3, K=3, B=B,  alpha=alpha, seed=42, beta = 0.01, joblib_backend = "multiprocessing")
     evals = {"Agent "+str(k):np.random.normal(size=3) for k in range(3)}
     comparator.partial_compare(evals)
+    
 
 @pytest.mark.parametrize("K,n", [(5,3), (3, 5), (1, 15)])
 def test_type1(K,n):
@@ -27,6 +28,7 @@ def test_type1(K,n):
                 evals = {"Agent "+str(k): np.random.normal(size=n) for k in range(n_agents)}
             comparator.partial_compare(evals)
         idxs.append(not("equal" in comparator.decisions.values()))
+        print(comparator.get_results())
     assert np.mean(idxs) < 2*alpha + 1/4/(np.sqrt(n_runs)), "type 1 error seems to be too large."
         
 @pytest.mark.parametrize("K,n", [(3, 5), (1, 15)])

@@ -1,7 +1,7 @@
 import pytest
 from adastop import MultipleAgentsComparator
 import numpy as np
-
+import matplotlib.pyplot as plt
 B = 500
 alpha = 0.05
 n_runs = 10
@@ -20,6 +20,7 @@ def test_plot():
             evals = {"Agent "+str(k): np.random.normal(size=n) for k in range(n_agents)}
         comparator.partial_compare(evals)
     comparator.plot_results()
+    plt.savefig('fig.pdf')
 
     
 def test_plot_sota():

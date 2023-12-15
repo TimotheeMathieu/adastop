@@ -6,6 +6,7 @@ import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.patches as mpatches
 import math
+import pandas as pd
 from joblib import Parallel, delayed
 import itertools
 from .plotting import plot_results, plot_results_sota
@@ -212,7 +213,7 @@ class MultipleAgentsComparator:
             print Steps
         Returns
         -------
-        decision: str in {"equal", "larger", "smaller", "continue"}
+        decisions: dictionary with comparisons as index and with values str in {"equal", "larger", "smaller", "continue"}
            Decision of the test at this step.
         id_finished: bool
            Whether the test is finished or not.
@@ -367,7 +368,25 @@ class MultipleAgentsComparator:
             
         self.id_tracked = self.id_tracked[~id_decided]
         self.current_comparisons = self.current_comparisons[~id_decided]
-        self.mean_diffs = {str(comp):self.mean_diffs[str(comp)] for comp in current_comparisons}
+        self.mean_diffs = {str(comp): self.mean_diffs[str(comp)] for comp in current_comparisons}
+
+    def get_results(self):
+        """
+        Returns a dataframe with the results of the tests.
+        """
+        results = pd.DataFrame()
+        for c in self.comparisons:
+            results = pd.concat([results, pd.DataFrame(
+                {
+                    "Agent1 vs Agent2": 
+                        ["{0} vs {1}".format(self.agent_names[c[0]], self.agent_names[c[1]])],
+                    "mean Agent1": self.mean_eval_values[c[0]],
+                    "mean Agent2": self.mean_eval_values[c[1]],
+                    "mean diff": self.mean_eval_values[c[0]]-self.mean_eval_values[c[1]],
+                    "decisions": self.decisions[str(c)],
+                }
+            )])
+        return results
 
     def plot_results(self, agent_names=None, axes=None):
         """
