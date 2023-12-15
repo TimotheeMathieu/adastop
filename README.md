@@ -10,9 +10,9 @@ The parameters of Adastop are described below, most important are $n$ the number
 
 # Installation
 
-To install adastop, use pip: from the root of adastop directory,
+To install adastop, use pip:
 ```
-pip install --user .
+pip install adastop
 ```
 
 This will automatically install the command line interface as well as the python library.
