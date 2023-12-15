@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-try:
-    import seaborn as sns
-except:
-    raise RuntimeError("Please install seaborn to use the plotting facilities of adastop.")
+import matplotlib as mpl
+from matplotlib.colors import ListedColormap
+
 def plot_results(comparator, agent_names=None, axes = None):
     """
     visual representation of results.
@@ -54,7 +53,7 @@ def plot_results(comparator, agent_names=None, axes = None):
         annot+= [annot_i]
     if axes is None:
         fig, (ax1, ax2) = plt.subplots(
-            2, 1, gridspec_kw={"height_ratios": [1, 1]}, figsize=(6,5)
+            2, 1, gridspec_kw={"height_ratios": [1, 1]}, figsize=(6,5), 
         )
     else:
         (ax1, ax2) = axes
@@ -65,14 +64,22 @@ def plot_results(comparator, agent_names=None, axes = None):
     )
 
     # Draw the heatmap with the mask and correct aspect ratio
-    res = sns.heatmap(links, annot = annot, cmap="Set2", vmax=2, center=0,linewidths=.5, ax =ax1, 
-                      cbar=False, yticklabels=np.array(agent_names)[id_sort],  
-                      xticklabels=['']*len(agent_names),fmt='')
+    colors = mpl.colormaps["Pastel1"].colors
+    colors = [colors[0], "lightgray", colors[1], "white"]
+    cmap = ListedColormap(colors, name="my_cmap")
 
-    # Drawing the frame
-    for _, spine in res.spines.items():
-        spine.set_visible(True)
-        spine.set_linewidth(1)
+    im = ax1.imshow(links, cmap=cmap, vmin=-1, vmax=2, aspect='auto')
+
+    ax1.set_yticks(np.arange(len(id_sort)), labels=np.array(agent_names)[id_sort])
+    ax1.set_xticks([], labels=[])
+    # Loop over data dimensions and create text annotations.
+    for i in range(len(annot)):
+        for j in range(len(annot[0])):
+            text = ax1.text(j, i, annot[i][j],
+                           ha="center", va="center", color="k")
+
+
+    ax1.autoscale(False)
 
     box_plot = ax2.boxplot(Z, labels=np.array(agent_names)[id_sort], showmeans=True)
     for mean in box_plot['means']:
@@ -138,25 +145,20 @@ def plot_results_sota(comparator, agent_names=None, axes = None):
     for c in the_table.get_celld().values():
         c.visible_edges = ''
 
-    print(links, annot)
     # Draw the heatmap with the mask and correct aspect ratio
-    res = sns.heatmap([np.array(links)[:-1]], annot = [np.array(annot)[:-1]], cmap="Set2", vmax=2, center=0,linewidths=.5, ax =ax1, cbar=False,yticklabels=[''], xticklabels=['']*len(agent_names),fmt='')
+    colors = mpl.colormaps["Pastel1"].colors
+    colors = [colors[0], "lightgray", colors[1], "white"]
+    cmap = ListedColormap(colors, name="my_cmap")
+    im = ax1.imshow([links], cmap=cmap, vmin=-1, vmax=2, aspect='auto')
 
-    def set_xmargin(ax, left=0.0, right=0.3):
-        ax.set_xmargin(0)
-        ax.autoscale_view()
-        lim = ax.get_xlim()
-        delta = np.diff(lim)
-        left = lim[0] - delta*left
-        right = lim[1] + delta*right
-        ax.set_xlim(left,right)
+    ax1.set_yticks([], labels=[])
+    ax1.set_xticks([], labels=[])
+    # Loop over data dimensions and create text annotations.
+    for i in range(len(annot)):
+        text = ax1.text(i, 0, annot[i],
+                           ha="center", va="center", color="k")
+    ax1.autoscale(False)
 
-    set_xmargin(ax1, right=0.14)
-
-    # Drawing the frame
-    for _, spine in res.spines.items():
-        spine.set_visible(True)
-        spine.set_linewidth(1)
 
     box_plot = ax2.boxplot(Z, labels=np.array(agent_names)[id_sort], showmeans=True)
     for mean in box_plot['means']:

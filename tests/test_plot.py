@@ -20,7 +20,7 @@ def test_plot():
             evals = {"Agent "+str(k): np.random.normal(size=n) for k in range(n_agents)}
         comparator.partial_compare(evals)
     comparator.plot_results()
-    plt.savefig('fig.pdf')
+    # plt.savefig('fig.pdf')
 
     
 def test_plot_sota():
@@ -36,3 +36,4 @@ def test_plot_sota():
             evals = {"Agent "+str(k): np.random.normal(size=n) for k in range(n_agents)}
         comparator.partial_compare(evals)
     comparator.plot_results_sota()
+    # plt.savefig('fig2.pdf')
