@@ -1,5 +1,6 @@
 from setuptools import find_packages
 from distutils.core import setup
+import os
 
 ver_file = os.path.join("adastop", "_version.py")
 with open(ver_file) as f:
