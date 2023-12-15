@@ -99,18 +99,21 @@ Comparator Saved
 
 > adastop compare --n-groups 5 --beta 0.01 --seed 42 walker5.csv
 
-Test is finished, decisions are
 
-Decision between PPO and DDPG is: larger
-Decision between PPO and SAC is: smaller
-Decision between PPO and TRPO is: larger
-Decision between DDPG and SAC is: smaller
-Decision between DDPG and TRPO is: smaller
-Decision between SAC and TRPO is: larger
+Test is finished, decisions are
+|    | Agent1 vs Agent2   |   mean Agent1 |   mean Agent2 |   mean diff | decisions   |
+|---:|:-------------------|--------------:|--------------:|------------:|:------------|
+|  0 | PPO vs DDPG        |      2901.53  |       884.119 |    2017.41  | larger      |
+|  0 | PPO vs SAC         |      2901.53  |      4543.4   |   -1641.87  | smaller     |
+|  0 | PPO vs TRPO        |      2901.53  |      1215.42  |    1686.11  | larger      |
+|  0 | DDPG vs SAC        |       884.119 |      4543.4   |   -3659.28  | smaller     |
+|  0 | DDPG vs TRPO       |       884.119 |      1215.42  |    -331.297 | smaller     |
+|  0 | SAC vs TRPO        |      4543.4   |      1215.42  |    3327.98  | larger      |
 
 Comparator Saved
+
 ```
-The processed stops and we can plot the resulting decisions.
+The process stops and we can plot the resulting decisions.
 
 ![](examples/plot_result.png)
 

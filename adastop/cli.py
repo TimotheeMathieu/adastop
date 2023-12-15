@@ -104,8 +104,9 @@ def reset(ctx, folder):
 
 @adastop.command()
 @click.argument('folder',required = True, type=str)
+@click.argument('target_file',required = True, type=str)
 @click.pass_context
-def plot(ctx, folder):
+def plot(ctx, folder, target_file):
     """
     Plot results of the comparator situated in the folder 'folder'.
     """
@@ -118,6 +119,4 @@ def plot(ctx, folder):
         raise ValueError('Comparator save file not found.')
     
     comparator.plot_results()
-    plt.ion()
-    plt.show()
-    
+    plt.savefig(target_file)    
