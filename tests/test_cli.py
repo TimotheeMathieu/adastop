@@ -16,7 +16,7 @@ def test_cli():
         assert result.exit_code == 0
     result = runner.invoke(adastop, ['compare', 'examples/walker3.csv'])
     assert result.exit_code == 1
-    result = runner.invoke(adastop, ['plot', 'examples'])
+    result = runner.invoke(adastop, ['plot', 'examples', "test.pdf"])
     assert result.exit_code == 0
     result = runner.invoke(adastop, ['reset', 'examples'])
     assert result.exit_code == 0
