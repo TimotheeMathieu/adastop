@@ -270,6 +270,8 @@ class MultipleAgentsComparator:
             admissible_values_sup = values[
                 self.level_spent + icumulative_probas <= clevel
             ]
+            if len(np.unique(values)) < 1/clevel:
+                print("WARNING: too many values are equal, or size of group too small, the test may not be precise.")
 
             if len(admissible_values_sup) > 0:
                 bk_sup = admissible_values_sup[0]  # the minimum admissible value
@@ -324,7 +326,6 @@ class MultipleAgentsComparator:
                                         - np.mean(Z[comp[1]][: ((k + 1) * self.n[comp[1]])]
                                   )
                                     )
-
             if Tmax > bk_sup:
                 id_reject = np.arange(len(current_decisions))[current_decisions== "continue"][imax]
                 current_decisions[id_reject] = "reject"
