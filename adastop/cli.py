@@ -116,17 +116,28 @@ def compare_benchopt(ctx, config_file, size_group, n_groups, n_permutations, alp
     """
     path_lf = Path(config_file).parent.absolute() / LITTER_FILE
 
-    # if this is not first group, load data for comparator.
+
     if os.path.isfile(path_lf):
         with open(path_lf, 'rb') as fp:
             comparator = pickle.load(fp)
-        k = comparator.k
+            k = comparator.k
     else:
         k = 0
     
-    subprocess.check_output(["benchopt", "run",  ".",  "--config",
-                    config_file, "--env", "-r",  str(size_group), 
-                    "--output", "adastop_result_file_"+str(k)])
+    # if this is not first group, load data for comparator.
+    if os.path.isfile( "outputs/adastop_result_file_"+str(k)+".csv"):
+        df = pd.read_csv("outputs/adastop_result_file_"+str(k)+".csv", index_col=0)
+    else:
+        if k > 0:
+            solvers = comparator.agent_names
+            arg_solver = " -s "+" -s ".join(solvers)
+            subprocess.check_output(["benchopt", "run",  ".",  "--config",
+                        config_file, "--env", "-r",  str(size_group), 
+                        "--output", "adastop_result_file_"+str(k)])
+        else:
+            subprocess.check_output(["benchopt", "run",  ".",  "--config",
+                        config_file, "--env", "-r",  str(size_group), 
+                        "--output", "adastop_result_file_"+str(k)])
     
     df = process_benchopt("outputs/adastop_result_file_"+str(k)+".parquet")
     df.to_csv("outputs/adastop_result_file_"+str(k)+".csv")
