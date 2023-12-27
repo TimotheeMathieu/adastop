@@ -134,7 +134,7 @@ def compare_benchopt(ctx, config_file, size_group, n_groups, n_permutations, alp
         if k > 0:
             solvers = comparator.agent_names
             arg_solver = " -s "+" -s ".join(solvers)
-            print("Doing comparisons for "+ ", ".join(solver))
+            print("Doing comparisons for "+str(len(solvers))+ "solvers: "+", ".join(solvers))
             subprocess.check_output(["benchopt", "run",  ".",  "--config",
                         config_file, "--env", "-r",  str(size_group), 
                         "--output", "adastop_result_file_"+str(k)])
