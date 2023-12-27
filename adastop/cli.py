@@ -132,9 +132,13 @@ def compare_benchopt(ctx, config_file, size_group, n_groups, n_permutations, alp
         df = pd.read_csv("outputs/adastop_result_file_"+str(k)+".csv", index_col=0)
     else:
         if k > 0:
-            solvers = comparator.agent_names
-            arg_solver = " -s "+" -s ".join(solvers)
-            print("Doing comparisons for "+str(len(solvers))+ "solvers: "+", ".join(solvers))
+            undecided_solvers = []
+            for i in range(len(comparator.agent_names)):
+                if i in comparator.current_comparisons.ravel():
+                    undecided_solvers.append(comparator.agent_names[i])
+
+            arg_solver = " -s "+" -s ".join(undecided_solvers)
+            print("Doing comparisons for "+str(len(undecided_solvers))+ " solvers: "+", ".join(undecided_solvers))
             subprocess.check_output(["benchopt", "run",  ".",  "--config",
                         config_file, "--env", "-r",  str(size_group), 
                         "--output", "adastop_result_file_"+str(k)])
