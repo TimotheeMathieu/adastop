@@ -143,7 +143,6 @@ def compare_benchopt(ctx, config_file, size_group, n_groups, n_permutations, alp
                 
 
             config['solver']=undecided_solvers
-            config['forced-solvers'] = undecided_solvers
 
             with open("/tmp/config_benchopt.yml", 'w') as file:
                 config = yaml.dump(config, file)
