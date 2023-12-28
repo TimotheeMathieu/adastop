@@ -3,7 +3,7 @@ from benchopt.benchmark import Benchmark
 import pandas as pd
 
 
-def run_benchopt(solver, dataset, n_repetitions, output_name, forced_solvers, timeout=100, max_runs=10): 
+def run_benchopt(solver, dataset, n_repetitions, output_name, forced_solvers, objective_filter, timeout=100, max_runs=10): 
     # load benchmark
     BENCHMARK_PATH = "./"
     benchmark = Benchmark(BENCHMARK_PATH)
@@ -17,7 +17,8 @@ def run_benchopt(solver, dataset, n_repetitions, output_name, forced_solvers, ti
         timeout=timeout,
         max_runs=max_runs,
         output_name=output_name,
-        forced_solvers = forced_solvers
+        forced_solvers = forced_solvers,
+        objective_filters=objective_filter
     )
 
 def process_benchopt(file):
