@@ -150,7 +150,7 @@ def compare_benchopt(ctx, config_file, size_group, n_groups, n_permutations, alp
                 
             
             print("Doing comparisons for "+str(len(undecided_solvers))+ " solvers: "+", ".join(undecided_solvers))
-            subprocess.check_output(["benchopt", "run",  ".",  "--config /tmp/config_benchopt.yml",
+            subprocess.check_output(["benchopt", "run",  ".",  "--config",  "/tmp/config_benchopt.yml",
                          "--env", "-r",  str(size_group), 
                         "--output", "adastop_result_file_"+str(k)])
 
