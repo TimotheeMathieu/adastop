@@ -1,25 +1,5 @@
-from benchopt import run_benchmark
-from benchopt.benchmark import Benchmark
 import pandas as pd
 
-
-def run_benchopt(solver, dataset, n_repetitions, output_name, forced_solvers, objective_filter, timeout=100, max_runs=10): 
-    # load benchmark
-    BENCHMARK_PATH = "./"
-    benchmark = Benchmark(BENCHMARK_PATH)
-
-    # run benchmark
-    run_benchmark(
-        benchmark,
-        solver_names=solver,
-        dataset_names=dataset,
-        n_repetitions=n_repetitions,
-        timeout=timeout,
-        max_runs=max_runs,
-        output_name=output_name,
-        forced_solvers = forced_solvers,
-        objective_filters=objective_filter
-    )
 
 def process_benchopt(file):
     """

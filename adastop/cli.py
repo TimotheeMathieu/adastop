@@ -7,7 +7,7 @@ import subprocess
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from .benchopt import process_benchopt, run_benchopt
+from .benchopt import process_benchopt
 from .compare_agents import MultipleAgentsComparator
 
 
@@ -140,14 +140,19 @@ def compare_benchopt(ctx, config_file, size_group, n_groups, n_permutations, alp
 
             with open(config_file, 'r') as file:
                 config = yaml.safe_load(file)
+                
 
             config['solver']=undecided_solvers
-            config['n_repetitions']=size_group
-            config['output_name'] = "adastop_result_file_"+str(k)
             config['forced_solvers'] = undecided_solvers
+
+            with open("/tmp/config_benchopt.yml", 'w') as file:
+                config = yaml.dump(config, file)
+                
             
             print("Doing comparisons for "+str(len(undecided_solvers))+ " solvers: "+", ".join(undecided_solvers))
-            run_benchopt(**config)
+            subprocess.check_output(["benchopt", "run",  ".",  "--config /tmp/config_benchopt.yml",
+                         "--env", "-r",  str(size_group), 
+                        "--output", "adastop_result_file_"+str(k)])
 
         else:
             # initially, run everything
