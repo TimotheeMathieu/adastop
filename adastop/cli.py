@@ -1,12 +1,13 @@
 import click
 import pickle
+import yaml
 import os
 from pathlib import Path
 import subprocess
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from .data_processing import process_benchopt
+from .benchopt import process_benchopt, run_benchopt
 from .compare_agents import MultipleAgentsComparator
 
 
@@ -137,12 +138,19 @@ def compare_benchopt(ctx, config_file, size_group, n_groups, n_permutations, alp
                 if i in comparator.current_comparisons.ravel():
                     undecided_solvers.append(comparator.agent_names[i])
 
-            arg_solver = " -s "+" -s ".join(undecided_solvers)
+            with open(config_file, 'r') as file:
+                config = yaml.safe_load(file)
+
+            config['solver']=undecided_solvers
+            config['n_repetitions']=size_group
+            config['output_name'] = "adastop_result_file_"+str(k)
+            config['forced_solvers'] = undecided_solvers
+            
             print("Doing comparisons for "+str(len(undecided_solvers))+ " solvers: "+", ".join(undecided_solvers))
-            subprocess.check_output(["benchopt", "run",  ".",  "--config",
-                        config_file, "--env", "-r",  str(size_group), 
-                        "--output", "adastop_result_file_"+str(k)])
+            run_benchopt(**config)
+
         else:
+            # initially, run everything
             subprocess.check_output(["benchopt", "run",  ".",  "--config",
                         config_file, "--env", "-r",  str(size_group), 
                         "--output", "adastop_result_file_"+str(k)])
