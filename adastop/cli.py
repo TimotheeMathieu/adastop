@@ -31,7 +31,12 @@ def compare_data(path_lf, df, n_groups, n_permutations, alpha, beta, seed, compa
     if os.path.isfile(path_lf):
         with open(path_lf, 'rb') as fp:
             comparator = pickle.load(fp)
-        names = comparator.agent_names
+
+        names = []
+        for i in range(len(comparator.agent_names)):
+            if i in comparator.current_comparisons.ravel():
+                names.append(comparator.agent_names[i])
+
 
         Z = [np.hstack([comparator.eval_values[agent], df[agent]]) for agent in names]
         if len(Z[0]) > comparator.K * n_fits_per_group:
