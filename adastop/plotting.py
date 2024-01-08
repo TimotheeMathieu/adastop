@@ -140,7 +140,7 @@ def plot_results_sota(comparator, agent_names=None, axes = None):
 
     n_iterations = [comparator.n_iters[comparator.agent_names[i]] for i in id_sort]
     the_table = ax1.table(
-        cellText=[n_iterations], rowLabels=["$N_{scores}$"], loc="top", cellLoc="center",
+        cellText=[n_iterations], rowLabels=["$N_{score}$"], loc="top", cellLoc="center",
     )
     for c in the_table.get_celld().values():
         c.visible_edges = ''

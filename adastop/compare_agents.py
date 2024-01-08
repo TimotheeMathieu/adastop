@@ -6,7 +6,6 @@ from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.patches as mpatches
 import math
 import pandas as pd
-from joblib import Parallel, delayed
 import itertools
 from .plotting import plot_results, plot_results_sota
 
@@ -51,9 +50,6 @@ class MultipleAgentsComparator:
     
     seed: int or None, default = None
 
-    joblib_backend: str, default = "threading"
-        backend to use to parallelize on multi-agents. Use "multiprocessing" or "loky" for a true parallelization.
-
     Attributes
     ----------
     agent_names: list of str
@@ -95,7 +91,6 @@ class MultipleAgentsComparator:
         beta=0,
         e_values=False,
         seed=None,
-        joblib_backend="threading",
     ):
         self.n = n
         self.K = K
@@ -111,7 +106,6 @@ class MultipleAgentsComparator:
         self.seed = seed
         self.rng = np.random.RandomState(seed)
         self.rejected_decision = []
-        self.joblib_backend = joblib_backend
         self.agent_names = None
         self.current_comparisons = copy(comparisons)
         self.n_iters = None
