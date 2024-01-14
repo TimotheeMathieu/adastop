@@ -201,6 +201,6 @@ n_iters: dict
 we provide a guix channel that used with guix container to have a reproducible adastop execution. 
 ```
 curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/guix/channels.scm > channels.scm
-guix time-machine --channels=channels.scm -- shell -CN python-adastop -- adastop
+guix time-machine --channels=channels.scm -- shell -CN python-adastop -- adastop commpare my_file.csv
 ```
 Remark that with these command line, nothing is installed and the computation is done in a container. You can use `guix gc` to clean up the necessary packages downloaded by guix during the above command.
