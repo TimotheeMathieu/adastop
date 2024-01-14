@@ -196,3 +196,29 @@ n_iters: dict
     number of iterations (i.e. number of fits) used for each agent. Keys are the agents’ names and values are ints.
 
 
+### Guix
+
+we provide a guix channel that can be added with
+```
+  (channel
+        (name 'adastop)
+        (url "https://github.com/TimotheeMathieu/adastop")
+        (branch "guix")
+        )
+```
+
+We tested the compatibility with the following guix main channel
+
+```
+(channel
+        (name 'guix)
+        (url "https://git.savannah.gnu.org/git/guix.git")
+        (branch "master")
+        (commit
+          "c0e21e523d93081153a2ffc91e5a9f06afe62b91")
+        (introduction
+          (make-channel-introduction
+            "9edb3f66fd807b096b48283debdcddccfea34bad"
+            (openpgp-fingerprint
+              "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
+```
