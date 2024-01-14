@@ -198,27 +198,9 @@ n_iters: dict
 
 ### Guix
 
-we provide a guix channel that can be added with
+we provide a guix channel that used with guix container to have a reproducible adastop execution. 
 ```
-  (channel
-        (name 'adastop)
-        (url "https://github.com/TimotheeMathieu/adastop")
-        (branch "guix")
-        )
+curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/guix/channels.scm > channels.scm
+guix time-machine --channels=channels.scm -- shell -CN python-adastop -- adastop
 ```
-
-We tested the compatibility with the following guix main channel
-
-```
-(channel
-        (name 'guix)
-        (url "https://git.savannah.gnu.org/git/guix.git")
-        (branch "master")
-        (commit
-          "c0e21e523d93081153a2ffc91e5a9f06afe62b91")
-        (introduction
-          (make-channel-introduction
-            "9edb3f66fd807b096b48283debdcddccfea34bad"
-            (openpgp-fingerprint
-              "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
-```
+Remark that with these command line, nothing is installed and the computation is done in a container. You can use `guix gc` to clean up the necessary packages downloaded by guix during the above command.
