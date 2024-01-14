@@ -22,7 +22,7 @@
        (file-name (git-file-name name version))
        (sha256
                (base32
-                "0jrfm36r9p398mnr6d77srhms2jrl8i6rs69r4pb1v91b0ig43jb"))
+                "0vl2czvqnczzzja6q11isgrm8c89db2lxyv4wssy46vy4nx5c517"))
        )
      )
     (build-system python-build-system)
