@@ -11,5 +11,5 @@ def process_benchopt(file):
     for rep in df["idx_rep"].unique():
         for solver in df["solver_name"].unique():
             df_rep_solver = df.loc[ (df["solver_name"]==solver) & (df["idx_rep"]==rep)]
-            df_ret[solver].append(df_rep_solver['objective_value'].iloc[-1])
+            df_ret[solver].append(df_rep_solver['objective_test_loss'].iloc[-1])
     return pd.DataFrame(df_ret)

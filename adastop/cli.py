@@ -55,7 +55,7 @@ def compare_data(path_lf, df, n_groups, n_permutations, alpha, beta, seed, compa
     # recover also the data of agent that were decided.
     if comparator.agent_names is not None:
         for agent in comparator.agent_names:
-            if agent not in df.columns:
+            if agent not in data.keys():
                 data[agent]=comparator.eval_values[agent]
 
     comparator.partial_compare(data, False)
@@ -122,6 +122,8 @@ def compare_benchopt(ctx, config_file, size_group, n_groups, n_permutations, alp
     """
     Perform one step of computing benchmark and then adaptive stopping algorithm.
     The benchmark is supposed to be in the current directory.
+
+    WARNING: still experimental.
     """
     path_lf = Path(config_file).parent.absolute() / LITTER_FILE
 
