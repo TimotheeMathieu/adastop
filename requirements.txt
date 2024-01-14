@@ -1,7 +1,0 @@
-click
-joblib
-matplotlib
-numpy
-pandas
-scipy
-seaborn

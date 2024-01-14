@@ -15,7 +15,7 @@ setup(
     packages=packages,
     include_package_data=True,
     install_requires=[
-        'Click', "joblib", "numpy", "matplotlib", "pandas", "tabulate"
+        'Click', "numpy", "matplotlib", "pandas", "tabulate"
     ],
     entry_points={
         'console_scripts': [
