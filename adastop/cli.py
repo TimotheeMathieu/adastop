@@ -38,6 +38,7 @@ def compare(ctx, input_file, n_groups, n_permutations, alpha, beta, seed, compar
     df = pd.read_csv(input_file, index_col=0)
     n_fits_per_group = len(df) 
     n_agents = len(df.columns)
+
     if compare_to_first:
         comparisons = [(0,i) for i in range(1, n_agents)]
     else:
@@ -48,7 +49,13 @@ def compare(ctx, input_file, n_groups, n_permutations, alpha, beta, seed, compar
         with open(path_lf, 'rb') as fp:
             comparator = pickle.load(fp)
 
-        Z = [np.hstack([comparator.eval_values[agent], df[agent]]) for agent in df.columns]
+        names = []
+        for i in range(len(comparator.agent_names)):
+            if i in comparator.current_comparisons.ravel():
+                names.append(comparator.agent_names[i])
+
+
+        Z = [np.hstack([comparator.eval_values[agent], df[agent]]) for agent in names]
         if len(Z[0]) > comparator.K * n_fits_per_group:
             raise ValueError('Error: you tried to use more group than what was initially declared, this is not allowed by the theory.')
         assert "continue" in list(comparator.decisions.values()), "Test finished at last iteration."
@@ -57,13 +64,15 @@ def compare(ctx, input_file, n_groups, n_permutations, alpha, beta, seed, compar
         comparator = MultipleAgentsComparator(n_fits_per_group, n_groups,
                                               n_permutations, comparisons,
                                               alpha, beta, seed)
-        Z = [df[agent].values for agent in df.columns]
+        names = df.columns
 
-    data = {df.columns[i] : Z[i] for i in range(len(df.columns))}
+        Z = [df[agent].values for agent in names]
+
+    data = {names[i] : Z[i] for i in range(len(names))}
     # recover also the data of agent that were decided.
     if comparator.agent_names is not None:
         for agent in comparator.agent_names:
-            if agent not in df.columns:
+            if agent not in data.keys():
                 data[agent]=comparator.eval_values[agent]
 
     comparator.partial_compare(data, False)
@@ -85,6 +94,7 @@ def compare(ctx, input_file, n_groups, n_permutations, alpha, beta, seed, compar
     with open(path_lf, 'wb') as fp:
         pickle.dump(comparator, fp)
         click.echo("Comparator Saved")
+
 
 @adastop.command()
 @click.argument('folder',required = True, type=str)
