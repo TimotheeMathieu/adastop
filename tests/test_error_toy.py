@@ -8,7 +8,7 @@ n_runs = 10
 
 def test_runtime():
     idxs = []
-    comparator = MultipleAgentsComparator(n=3, K=3, B=B,  alpha=alpha, seed=42, beta = 0.01, joblib_backend = "multiprocessing")
+    comparator = MultipleAgentsComparator(n=3, K=3, B=B,  alpha=alpha, seed=42, beta = 0.01)
     evals = {"Agent "+str(k):np.random.normal(size=3) for k in range(3)}
     comparator.partial_compare(evals)
     
