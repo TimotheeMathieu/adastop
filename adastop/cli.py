@@ -115,8 +115,10 @@ def reset(ctx, folder):
 @adastop.command()
 @click.argument('folder',required = True, type=str)
 @click.argument('target_file',required = True, type=str)
+@click.option('--width',required = False, type=int, default = 6)
+@click.option('--height',required = False, type=int, default = 5)
 @click.pass_context
-def plot(ctx, folder, target_file):
+def plot(ctx, folder, target_file,width, height ):
     """
     Plot results of the comparator situated in the folder 'folder'.
     """
@@ -128,5 +130,7 @@ def plot(ctx, folder, target_file):
     else:
         raise ValueError('Comparator save file not found.')
     
-    comparator.plot_results()
+    fig, (ax1, ax2) = plt.subplots(2, 1, gridspec_kw={"height_ratios": [1, 2]}, figsize=(width,height))
+    
+    comparator.plot_results(axes= (ax1, ax2))
     plt.savefig(target_file)    
