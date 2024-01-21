@@ -18,11 +18,11 @@
        (method git-fetch)
        (uri (git-reference
              (url "https://github.com/TimotheeMathieu/adastop")
-             (commit "142650e56fcb797e29661433d8e936f3aa221af4")))
+             (commit "f609b94924aad8ccace108f3daba8e856fb306e9")))
        (file-name (git-file-name name version))
        (sha256
                (base32
-                "0vl2czvqnczzzja6q11isgrm8c89db2lxyv4wssy46vy4nx5c517"))
+                "1idxz6d3lg6l6ib75dcypnq6nb4frfqxy82lckfnfxz23npjjkwv"))
        )
      )
     (build-system python-build-system)
