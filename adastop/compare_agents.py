@@ -376,6 +376,8 @@ class MultipleAgentsComparator:
                     "mean Agent1": self.mean_eval_values[c[0]],
                     "mean Agent2": self.mean_eval_values[c[1]],
                     "mean diff": self.mean_eval_values[c[0]]-self.mean_eval_values[c[1]],
+                    "std Agent 1": np.std(self.eval_values[self.agent_names[c[0]]]),
+                    "std Agent 2": np.std(self.eval_values[self.agent_names[c[0]]]),
                     "decisions": self.decisions[str(c)],
                 }
             )])
