@@ -14,5 +14,5 @@
         (url "https://github.com/TimotheeMathieu/adastop")
         (branch "guix")
         (commit
-          "1d21b86bd8c5bbb9dd86a13777bf3d4a967ad232"))
+          "bee1e0870be4a42bdbfc8bbd133c592c08fefe29"))
      )
