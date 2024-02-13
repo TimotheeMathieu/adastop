@@ -45,9 +45,6 @@ class MultipleAgentsComparator:
     beta: float, default=0
         power spent in early accept.
 
-    e_values: boolean, default=False
-        Whether to use e-values of p-values.
-    
     seed: int or None, default = None
 
     Attributes
@@ -89,7 +86,6 @@ class MultipleAgentsComparator:
         comparisons = None,
         alpha=0.01,
         beta=0,
-        e_values=False,
         seed=None,
     ):
         self.n = n
@@ -97,7 +93,6 @@ class MultipleAgentsComparator:
         self.B = B
         self.alpha = alpha
         self.beta = beta
-        self.e_values = e_values
         self.comparisons = comparisons
         self.boundary = []
         self.k = 0
