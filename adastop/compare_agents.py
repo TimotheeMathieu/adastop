@@ -58,8 +58,7 @@ class MultipleAgentsComparator:
     
     Examples
     --------
-    One can either use rlberry with self.compare, pre-computed scalars with self.compare_scalar or one can use
-    the following code compatible with basically anything:
+    Adastop can be used with the following code compatible with basically anything:
 
     >>> comparator = MultipleAgentsComparator(n=6, K=6, B=10000, alpha=0.05)
     >>>
