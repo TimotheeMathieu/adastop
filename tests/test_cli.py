@@ -20,3 +20,5 @@ def test_cli():
     assert result.exit_code == 0
     result = runner.invoke(adastop, ['reset', 'examples'])
     assert result.exit_code == 0
+    result = runner.invoke(adastop, ['status', 'examples'])
+    assert result.exit_code == 0
