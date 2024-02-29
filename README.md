@@ -48,21 +48,26 @@ Commands:
   compare  Perform one step of adaptive stopping algorithm using csv file...
   plot     Plot results of the comparator situated in the folder 'folder'.
   reset    Reset the comparator to zero by removing the save file of the...
+  status   Print the status of the comparator located in the folder...
 
 > adastop compare --help
 Usage: adastop compare [OPTIONS] INPUT_FILE
 
   Perform one step of adaptive stopping algorithm using csv file intput_file.
-  At first call, the comparator will be initialized with the arguments passed
-  and then it will be saved to a save file in `.adastop_comparator.pkl`.
+  The csv file must be of size `size_group`. At first call, the comparator
+  will be initialized with the arguments passed and then it will be saved to a
+  save file in `.adastop_comparator.pkl`.
 
 Options:
   --n-groups INTEGER        Number of groups.  [default: 5]
+  --size-group INTEGER      Number of groups.  [default: 5]
   --n-permutations INTEGER  Number of random permutations.  [default: 10000]
   --alpha FLOAT             Type I error.  [default: 0.05]
-  --beta FLOAT              early accept parameter.  [default: 0]
+  --beta FLOAT              early accept parameter.  [default: 0.0]
+  --seed INTEGER            Random seed.
   --compare-to-first        Compare all algorithms to the first algorithm.
   --help                    Show this message and exit.
+
 
 > cat examples/walker1.csv # file contains evaluations on walker environment
 ,PPO,DDPG,SAC,TRPO
@@ -101,98 +106,20 @@ Comparator Saved
 
 
 Test is finished, decisions are
-|    | Agent1 vs Agent2   |   mean Agent1 |   mean Agent2 |   mean diff | decisions   |
-|---:|:-------------------|--------------:|--------------:|------------:|:------------|
-|  0 | PPO vs DDPG        |      2901.53  |       884.119 |    2017.41  | larger      |
-|  0 | PPO vs SAC         |      2901.53  |      4543.4   |   -1641.87  | smaller     |
-|  0 | PPO vs TRPO        |      2901.53  |      1215.42  |    1686.11  | larger      |
-|  0 | DDPG vs SAC        |       884.119 |      4543.4   |   -3659.28  | smaller     |
-|  0 | DDPG vs TRPO       |       884.119 |      1215.42  |    -331.297 | smaller     |
-|  0 | SAC vs TRPO        |      4543.4   |      1215.42  |    3327.98  | larger      |
+|    | Agent1 vs Agent2   |   mean Agent1 |   mean Agent2 |   mean diff |   std Agent 1 |   std Agent 2 | decisions   |
+|---:|:-------------------|--------------:|--------------:|------------:|--------------:|--------------:|:------------|
+|  0 | PPO vs DDPG        |      2901.53  |       884.119 |    2017.41  |       1257.93 |       535.74  | larger      |
+|  0 | PPO vs SAC         |      2901.53  |      4543.4   |   -1641.87  |       1257.93 |       432.13  | smaller     |
+|  0 | PPO vs TRPO        |      2901.53  |      1215.42  |    1686.11  |       1257.93 |       529.672 | larger      |
+|  0 | DDPG vs SAC        |       884.119 |      4543.4   |   -3659.28  |        535.74 |       432.13  | smaller     |
+|  0 | DDPG vs TRPO       |       884.119 |      1215.42  |    -331.297 |        535.74 |       529.672 | smaller     |
+|  0 | SAC vs TRPO        |      4543.4   |      1215.42  |    3327.98  |        432.13 |       529.672 | larger      |
 
 Comparator Saved
-
 ```
 The process stops and we can plot the resulting decisions.
 
 ![](examples/plot_result.png)
 
 If one wants to reset AdaStop to redo the process, one can use `adastop reset examples`.
-
-## Python API:
-
-To use the python API, one only needs to define a function named `train_evaluate(agent, n)` which trains `n` copies of `agent` and returns `n` evaluation values.
-
-```python
-from adastop import MultipleAgentsComparator
-
-comparator = MultipleAgentsComparator(n=6, K=6, B=10000, alpha=0.05)
-
-eval_values = {agent.name: [] for agent in agents}
-
-for k in range(comparator.K):
-    for  agent in enumerate(agents):
-       # If the agent is still in one of the comparison considered, then generate new evaluations.
-       if agent in comparator.current_comparisons.ravel():
-           eval_values[agent.name].append(train_evaluate(agent, n))
-   decisions, T = comparator.partial_compare(eval_values, verbose)
-   if comparator.is_finished:
-       break
-```
-
-## The compare_agents module
-
-### _class_ compare_agents.MultipleAgentsComparator(n=5, K=5, B=10000, comparisons=None, alpha=0.01, beta=0, seed=None, joblib_backend='threading')
-Bases: `object`
-
-Compare sequentially agents, with possible early stopping.
-At maximum, there can be n times K fits done.
-
-#### Parameters
-
-n: int, default=5
-
-    number of fits before each early stopping check
-
-K: int, default=5
-
-    number of check
-
-B: int, default=None
-
-    Number of random permutations used to approximate permutation distribution.
-
-comparisons: list of tuple of indices or None
-
-    if None, all the pairwise comparison are done.
-    If = [(0,1), (0,2)] for instance, the compare only 0 vs 1  and 0 vs 2
-
-alpha: float, default=0.01
-
-    level of the test
-
-beta: float, default=0
-
-    power spent in early accept.
-
-seed: int or None, default = None
-
-joblib_backend: str, default = “threading”
-
-    backend to use to parallelize on multi-agents. Use “multiprocessing” or “loky” for a true parallelization.
-
-#### Attributes
-
-agent_names: list of str
-
-    list of the agents’ names.
-
-decision: dict
-
-    decision of the tests for each comparison, keys are the comparisons and values are in {“equal”, “larger”, “smaller”}.
-
-n_iters: dict
-
-    number of iterations (i.e. number of fits) used for each agent. Keys are the agents’ names and values are ints.
-
 

@@ -22,6 +22,7 @@ def adastop(ctx):
 
 @adastop.command()
 @click.option("--n-groups", default=5, show_default=True, help="Number of groups.")
+@click.option("--size-group", default=5, show_default=True, help="Number of groups.")
 @click.option("--n-permutations", default=10000, show_default=True, help="Number of random permutations.")
 @click.option("--alpha", default=0.05, show_default=True, help="Type I error.")
 @click.option("--beta", default=0.0, show_default=True, help="early accept parameter.")
@@ -29,13 +30,17 @@ def adastop(ctx):
 @click.option("--compare-to-first", is_flag=True, show_default=True, default=False, help="Compare all algorithms to the first algorithm.")
 @click.argument('input_file',required = True, type=str)
 @click.pass_context
-def compare(ctx, input_file, n_groups, n_permutations, alpha, beta, seed, compare_to_first):
+def compare(ctx, input_file, n_groups, size_group, n_permutations, alpha, beta, seed, compare_to_first):
     """
     Perform one step of adaptive stopping algorithm using csv file intput_file.
+    The csv file must be of size `size_group`.
     At first call, the comparator will be initialized with the arguments passed and then it will be saved to a save file in `.adastop_comparator.pkl`.
     """
     path_lf = Path(input_file).parent.absolute() / LITTER_FILE
     df = pd.read_csv(input_file, index_col=0)
+
+    assert len(df) == size_group , "The csv file does not contain the right number of scores. If must constain `size_group` scores. Either change the argument `size_group` or give a csv file with {} scores".format(size_group)
+    
     n_fits_per_group = len(df) 
     n_agents = len(df.columns)
 
@@ -134,3 +139,42 @@ def plot(ctx, folder, target_file,width, height ):
     
     comparator.plot_results(axes= (ax1, ax2))
     plt.savefig(target_file)    
+
+
+
+@adastop.command()
+@click.argument('folder',required = True, type=str)
+@click.option("--info", default="all", show_default=True, help="Informations printed. Can be all (print all informations), n_iters (print the current number of training round for each agent), means_scores (print the current mean score for each agent) or decisions (print the current decisions).")
+@click.pass_context
+def status(ctx, folder, info):
+    """
+    Print the status of the comparator located in the folder 'folder'.
+    """
+    path_lf = Path(folder) / LITTER_FILE
+    if os.path.isfile(path_lf):
+        with open(path_lf, 'rb') as fp:
+            comparator = pickle.load(fp)
+    else:
+        raise ValueError('Comparator save file not found.')
+    
+    if info in ["all", "n_iters"]:
+        click.echo("")
+        click.echo("Number of scores used for each agent:")
+        click.echo("")
+        for key in comparator.n_iters:
+            click.echo(key + ":"+ str(comparator.n_iters[key]))
+        
+    if info in ["all", "means_scores"]:
+        click.echo("")
+        click.echo("Mean of scores of each agent:")
+        click.echo("")
+        for key in comparator.eval_values:
+            click.echo(key + ":"+ str(np.mean(comparator.eval_values[key])))
+
+    if info in ["all", "decisions"]:
+        click.echo("")
+        click.echo("Decision for each comparison:")
+        click.echo("")
+        for c in comparator.comparisons:
+            click.echo("{0} vs {1}".format(comparator.agent_names[c[0]], comparator.agent_names[c[1]])
+                       + ":"+ str(comparator.decisions[str(c)]))
