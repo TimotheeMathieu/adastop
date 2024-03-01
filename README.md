@@ -17,6 +17,8 @@ pip install adastop
 
 This will automatically install the command line interface as well as the python library.
 
+WARNING: this Readme is for the dev version of adastop, to see the README associated to the released version, see https://pypi.org/project/adastop/
+
 # Usage
 
 There are two ways to use this package:
@@ -87,22 +89,22 @@ Comparator Saved
 After this first step, it is still undecided what is the ranking of DDPG and TRPO  (e.g. the "continue" decisions). We have to generate new runs for all the algorithms in order to have more information and be able to rank these algorithms. Once these runs are generated, we continue the process.
 
 ```console
-> adastop compare --n-groups 5 --beta 0.01 --seed 42 walker2.csv
+> adastop compare --n-groups 5 --size-group 5 --beta 0.01 --seed 42 walker2.csv
 Still undecided about DDPG TRPO
 
 Comparator Saved
 
-> adastop compare --n-groups 5 --beta 0.01 --seed 42 walker3.csv
+> adastop compare --n-groups 5 --size-group 5 --beta 0.01 --seed 42 walker3.csv
 Still undecided about DDPG TRPO
 
 Comparator Saved
 
-> adastop compare --n-groups 5 --beta 0.01 --seed 42 walker4.csv
+> adastop compare --n-groups 5 --size-group 5 --beta 0.01 --seed 42 walker4.csv
 Still undecided about DDPG TRPO
 
 Comparator Saved
 
-> adastop compare --n-groups 5 --beta 0.01 --seed 42 walker5.csv
+> adastop compare --n-groups 5 --size-group 5 --beta 0.01 --seed 42 walker5.csv
 
 
 Test is finished, decisions are
