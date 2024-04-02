@@ -77,7 +77,12 @@ cat examples/walker1.csv # file contains evaluations on walker environment
 4,5177.005859375,736.5420532226562,4074.497802734375,1769.3448486328125
 ```
 
-The input format of adastop is under the form of a csv file containing the scores for one batch of experiment. AdaStop is a sequential algorithm and as such we do not give it all the data at once, we obtain first a batch of data, launch AdaStop and then if AdaStop is still undecided on some of the algorithms, we get another batch of data. Let us launch AdaStop on this first batch of data. 
+The input format of adastop is under the form of a csv file containing the scores for one batch of experiment. AdaStop is a sequential algorithm and as such we do not give it all the data at once, we obtain first a batch of data, launch AdaStop and then if AdaStop is still undecided on some of the algorithms, we get another batch of data. 
+
+
+## Doing a comparison using AdaStop
+
+Let us launch AdaStop on this first batch of data. 
 
 First, we clean up the corrent directory of any litter files that could have been spawned by a previous usage of `adastop` (if you never used `adastop` before, this command will not have any effect).
 
@@ -141,7 +146,9 @@ Test is finished, decisions are
 
 Comparator Saved
 ```
-The process stops and we can plot the resulting decisions.
+The process stops when all the comparisons are decided.
+
+### Analysis of AdaStop results -- plot and status commands
 
 ```bash
 adastop plot . tesult.pdf

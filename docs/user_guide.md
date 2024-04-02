@@ -20,4 +20,4 @@ WARNING: this Readme is for the dev version of adastop, to see the README associ
 
 ## Usage
 
-See [the tutorial](tutorials)
+See [the tutorial](tutorials).
