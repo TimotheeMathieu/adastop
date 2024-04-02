@@ -49,8 +49,6 @@ source_suffix = [".rst", ".md"]
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-
-
 html_theme_options = {
     "header_links_before_dropdown": 4,
         "logo": {
