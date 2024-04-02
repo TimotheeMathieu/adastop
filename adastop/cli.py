@@ -21,11 +21,11 @@ def adastop(ctx):
     pass
 
 @adastop.command()
-@click.option("--n-groups", default=5, show_default=True, help="Number of groups.")
-@click.option("--size-group", default=5, show_default=True, help="Number of groups.")
-@click.option("--n-permutations", default=10000, show_default=True, help="Number of random permutations.")
-@click.option("--alpha", default=0.05, show_default=True, help="Type I error.")
-@click.option("--beta", default=0.0, show_default=True, help="early accept parameter.")
+@click.option("-K", "--n-groups", default=5, type=int, show_default=True, help="Number of groups.")
+@click.option("-N", "--size-group", default=5,type=int, show_default=True, help="Number of groups.")
+@click.option("-B", "--n-permutations", default=10000,type=int, show_default=True, help="Number of random permutations.")
+@click.option("--alpha", default=0.05,type=float, show_default=True, help="Type I error.")
+@click.option("--beta", default=0.0,type=float, show_default=True, help="early accept parameter.")
 @click.option("--seed", default=None, type=int, show_default=True, help="Random seed.")
 @click.option("--compare-to-first", is_flag=True, show_default=True, default=False, help="Compare all algorithms to the first algorithm.")
 @click.argument('input_file',required = True, type=str)
