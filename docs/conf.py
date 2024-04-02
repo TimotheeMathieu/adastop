@@ -28,7 +28,7 @@ extensions = [
     "numpydoc",
 ]
 
-myst_enable_extensions = ["amsmath"]
+myst_enable_extensions = ["dollarmath", "amsmath"]
 
 autodoc_default_options = {
     "members": True,
