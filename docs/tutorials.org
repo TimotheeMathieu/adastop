@@ -1,3 +1,4 @@
+#+OPTIONS: toc:nil   
 * Tutorial
 
 There are two ways to use AdaStop:
@@ -33,8 +34,8 @@ adastop compare --help
 Let us download the first batch of data and print it
 
 #+begin_src bash :session *shell* :results output :exports both
-curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker1.csv > walker1.csv
-cat examples/walker1.csv # file contains evaluations on walker environment
+curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker1.csv > walker1.csv 
+cat walker1.csv # file contains evaluations on walker environment
 #+end_src
 
 
@@ -62,23 +63,23 @@ adastop compare --n-groups 5 --size-group 5  walker1.csv
 After this first step, it is still undecided what is the ranking of DDPG and TRPO  (e.g. the "continue" decisions). We have to generate new runs for all the algorithms in order to have more information and be able to rank these algorithms. Once these runs are generated, we continue the process.
 
 #+begin_src bash :session *shell* :results output :exports both
-curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker2.csv > walker2.csv
+curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker2.csv > walker2.csv
 adastop compare --n-groups 5 --size-group 5  walker2.csv
 #+end_src
 
 #+begin_src bash :session *shell* :results output :exports both
-curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker3.csv > walker3.csv
+curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker3.csv > walker3.csv
 adastop compare --n-groups 5 --size-group 5  walker3.csv
 #+end_src
 
 
 #+begin_src bash :session *shell* :results output :exports both
-curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker4.csv > walker4.csv
+curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker4.csv > walker4.csv
 adastop compare --n-groups 5 --size-group 5  walker4.csv
 #+end_src
 
 #+begin_src bash :session *shell* :results output :exports both
-curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker5.csv > walker5.csv
+curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker5.csv > walker5.csv
 adastop compare --n-groups 5 --size-group 5  walker5.csv
 #+end_src
 

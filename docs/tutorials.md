@@ -1,15 +1,4 @@
 
-# Table of Contents
-
-1.  [Tutorial](#org0402588)
-    1.  [Case study: Comparison of Reinforcement Learning algorithms](#org9f95e2a)
-    2.  [Help for cli tool](#orge0051cb)
-    3.  [Download and first look at the example data.](#org8f19459)
-    4.  [Doing a comparison using AdaStop](#orgeeaff1c)
-    5.  [Analysis of AdaStop results &#x2013; plot and status commands](#org5e93c2a)
-
-
-<a id="org0402588"></a>
 
 # Tutorial
 
@@ -21,8 +10,6 @@ There are two ways to use AdaStop:
 In this tutorial we show how to use the CLI as it seem more convenient and more adapted to the majority of users.
 
 
-<a id="org9f95e2a"></a>
-
 ## Case study: Comparison of Reinforcement Learning algorithms
 
 The command line interface takes csv files as input. Each csv file must contain a dataframe with $n$ rows and as many columns as there are algorithms. Each of the $n$ rows corresponds to one run of an algorithm.
@@ -30,8 +17,6 @@ Please note that if, in the process of the algorithm, all the comparisons for on
 
 Below, we give an example based on files containing the evaluations of PPO,DDPG,SAC,TRPO, four Deep Reinforcement Learning algorithmes, given in the \`examples\` directory of the main repository.
 
-
-<a id="orge0051cb"></a>
 
 ## Help for cli tool
 
@@ -77,24 +62,22 @@ AdaStop CLI contains sub-commands whose help can be obtaine using \`adastop sub-
       --help                        Show this message and exit.
 
 
-<a id="org8f19459"></a>
-
 ## Download and first look at the example data.
 
 Let us download the first batch of data and print it
 
-    curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker1.csv > walker1.csv
-    cat examples/walker1.csv # file contains evaluations on walker environment
+    curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker1.csv > walker1.csv 
+    cat walker1.csv # file contains evaluations on walker environment
 
-    % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                     Dload  Upload   Total   Spent    Left  Speed
-      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   380  100   380    0     0   3453      0 --:--:-- --:--:-- --:--:--  3486
-    cat: examples/walker1.csv: Aucun fichier ou dossier de ce nom
+    ,PPO,DDPG,SAC,TRPO
+    0,3683.49072265625,420.27471923828125,4291.02978515625,446.09295654296875
+    1,1576.483154296875,640.0671997070312,4551.0380859375,1918.919677734375
+    2,3908.14013671875,2338.0419921875,4669.77490234375,1015.7262573242188
+    3,1451.9110107421875,879.0955200195312,4697.365234375,757.0098876953125
+    4,5177.005859375,736.5420532226562,4074.497802734375,1769.3448486328125
 
 The input format of adastop is under the form of a csv file containing the scores for one batch of experiment. AdaStop is a sequential algorithm and as such we do not give it all the data at once, we obtain first a batch of data, launch AdaStop and then if AdaStop is still undecided on some of the algorithms, we get another batch of data. 
 
-
-<a id="orgeeaff1c"></a>
 
 ## Doing a comparison using AdaStop
 
@@ -116,42 +99,30 @@ Then, we do the comparison. Due to the cost of running this task, we use small b
 
 After this first step, it is still undecided what is the ranking of DDPG and TRPO  (e.g. the "continue" decisions). We have to generate new runs for all the algorithms in order to have more information and be able to rank these algorithms. Once these runs are generated, we continue the process.
 
-    curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker2.csv > walker2.csv
+    curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker2.csv > walker2.csv
     adastop compare --n-groups 5 --size-group 5  walker2.csv
 
-    % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                     Dload  Upload   Total   Spent    Left  Speed
-      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   383  100   383    0     0   2452      0 --:--:-- --:--:-- --:--:--  2455
     Still undecided about DDPG TRPO
     
     Comparator Saved
 
-    curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker3.csv > walker3.csv
+    curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker3.csv > walker3.csv
     adastop compare --n-groups 5 --size-group 5  walker3.csv
 
-    % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                     Dload  Upload   Total   Spent    Left  Speed
-      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   201  100   201    0     0   1058      0 --:--:-- --:--:-- --:--:--  1063
     Still undecided about DDPG TRPO
     
     Comparator Saved
 
-    curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker4.csv > walker4.csv
+    curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker4.csv > walker4.csv
     adastop compare --n-groups 5 --size-group 5  walker4.csv
 
-    % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                     Dload  Upload   Total   Spent    Left  Speed
-      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   200  100   200    0     0   1894      0 --:--:-- --:--:-- --:--:--  1904
     Still undecided about DDPG TRPO
     
     Comparator Saved
 
-    curl -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker5.csv > walker5.csv
+    curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker5.csv > walker5.csv
     adastop compare --n-groups 5 --size-group 5  walker5.csv
 
-    % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                     Dload  Upload   Total   Spent    Left  Speed
-      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   199  100   199    0     0   1782      0 --:--:-- --:--:-- --:--:--  1792
     Test is finished, decisions are
     |    | Agent1 vs Agent2   |   mean Agent1 |   mean Agent2 |   mean diff |   std Agent 1 |   std Agent 2 | decisions   |
     |---:|:-------------------|--------------:|--------------:|------------:|--------------:|--------------:|:------------|
@@ -159,15 +130,13 @@ After this first step, it is still undecided what is the ranking of DDPG and TRP
     |  0 | PPO vs SAC         |      2901.53  |      4543.4   |   -1641.87  |       1257.93 |       432.13  | smaller     |
     |  0 | PPO vs TRPO        |      2901.53  |      1215.42  |    1686.11  |       1257.93 |       529.672 | larger      |
     |  0 | DDPG vs SAC        |       884.119 |      4543.4   |   -3659.28  |        535.74 |       432.13  | smaller     |
-    |  0 | DDPG vs TRPO       |       884.119 |      1215.42  |    -331.297 |        535.74 |       529.672 | equal       |
+    |  0 | DDPG vs TRPO       |       884.119 |      1215.42  |    -331.297 |        535.74 |       529.672 | smaller     |
     |  0 | SAC vs TRPO        |      4543.4   |      1215.42  |    3327.98  |        432.13 |       529.672 | larger      |
     
     Comparator Saved
 
 The process stops when all the comparisons are decided.
 
-
-<a id="org5e93c2a"></a>
 
 ## Analysis of AdaStop results &#x2013; plot and status commands
 
@@ -201,6 +170,6 @@ Finally, we can use \`adastop status\` to get additional informations on how the
     PPO vs SAC:smaller
     PPO vs TRPO:larger
     DDPG vs SAC:smaller
-    DDPG vs TRPO:equal
+    DDPG vs TRPO:smaller
     SAC vs TRPO:larger
 
