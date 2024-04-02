@@ -20,20 +20,20 @@ Below, we give an example based on files containing the evaluations of PPO,DDPG,
 The AdaStop algorithm is initialized with the first test done through `adastop compare` and the current state of AdaStop is then saved in a pickle file. The help of `adastop` command line can be obtained with the following:
 
 
-#+begin_src bash :session *shell* :results output :exports both
+#+begin_src bash :session *shell* :results verbatim :exports both
 adastop --help
 #+end_src
 
 AdaStop CLI contains sub-commands whose help can be obtaine using `adastop sub-command --help. For example, to obtain the help of the compare sub-command, type the following.
 
-#+begin_src bash :session *shell* :results output :exports both
+#+begin_src bash :session *shell* :results verbatim :exports both
 adastop compare --help
 #+end_src
 
 ** Download and first look at the example data.
 Let us download the first batch of data and print it
 
-#+begin_src bash :session *shell* :results output :exports both
+#+begin_src bash :session *shell* :results verbatim :exports both
 curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker1.csv > walker1.csv 
 cat walker1.csv # file contains evaluations on walker environment
 #+end_src
@@ -49,36 +49,36 @@ Let us launch AdaStop on this first batch of data.
 
 First, we clean up the corrent directory of any litter files that could have been spawned by a previous usage of `adastop` (if you never used `adastop` before, this command will not have any effect).
 
-#+begin_src bash :session *shell* :results output :exports both
+#+begin_src bash :session *shell* :results verbatim :exports both 
 adastop reset . # reset the state of the comparator (remove hidden pickle file)
 #+end_src
 
 
 Then, we do the comparison. Due to the cost of running this task, we use small batch of data (`--size-group` is 5, which corresponds to 5 scores per batch) and we limit ourselves to a maximum of $25$ samples (i.e. we use 5 groups). By default the test will run with $\alpha$ the family-wise error of the test set to $0.05\%$.
 
-#+begin_src bash :session *shell* :results output :exports both
+#+begin_src bash :session *shell* :results verbatim :exports both
 adastop compare --n-groups 5 --size-group 5  walker1.csv 
 #+end_src
 
 After this first step, it is still undecided what is the ranking of DDPG and TRPO  (e.g. the "continue" decisions). We have to generate new runs for all the algorithms in order to have more information and be able to rank these algorithms. Once these runs are generated, we continue the process.
 
-#+begin_src bash :session *shell* :results output :exports both
+#+begin_src bash :session *shell* :results verbatim  :exports both
 curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker2.csv > walker2.csv
 adastop compare --n-groups 5 --size-group 5  walker2.csv
 #+end_src
 
-#+begin_src bash :session *shell* :results output :exports both
+#+begin_src bash :session *shell* :results verbatim :exports both
 curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker3.csv > walker3.csv
 adastop compare --n-groups 5 --size-group 5  walker3.csv
 #+end_src
 
 
-#+begin_src bash :session *shell* :results output :exports both
+#+begin_src bash :session *shell* :results verbatim :exports both
 curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker4.csv > walker4.csv
 adastop compare --n-groups 5 --size-group 5  walker4.csv
 #+end_src
 
-#+begin_src bash :session *shell* :results output :exports both
+#+begin_src bash :session *shell* :results raw :exports both
 curl -s -C - https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker5.csv > walker5.csv
 adastop compare --n-groups 5 --size-group 5  walker5.csv
 #+end_src
@@ -87,7 +87,7 @@ The process stops when all the comparisons are decided.
 
 ** Analysis of AdaStop results -- plot and status commands
 
-#+begin_src bash :session *shell* :results output :exports both
+#+begin_src bash :session *shell* :results verbatim :exports both
 adastop plot . tesult.pdf
 #+end_src
 
@@ -97,6 +97,6 @@ If one wants to reset AdaStop to redo the process, one can use `adastop reset .`
 
 Finally, we can use `adastop status` to get additional informations on how the test went in text format.
 
-#+begin_src bash :session *shell* :results output :exports both
+#+begin_src bash :session *shell* :results verbatim :exports both
 adastop status .
 #+end_src
