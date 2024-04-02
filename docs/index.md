@@ -16,3 +16,14 @@ Information on how to use adastop library.
 
 user_guide
 ```
+
+
+## API
+
+Information on python classes behind AdaStop.
+
+```{toctree}
+:maxdepth: 2
+
+api
+```
