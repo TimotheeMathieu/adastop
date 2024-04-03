@@ -30,7 +30,7 @@ The advised way to use adastop is via its command line interface. We explain her
 
 The command `adastop compare` does one interim of AdaStop algorithm, i.e. it analyses one batch of data and decide whether to continue (keep gathering further data) or whether the test is decided.
 
-As input, `adastop compare` takes a csv file containing as many lines as there are scores (plus one line for headers) and as many columns as there are algorithms to compare. At the end of the process, you may have to generate up to `n-groups` csv files, typically 5 to 10 files. For example, to compare a file with 5 scores, while aiming for a maximum of 6 interims, with a family-wise error of $0.05$, use
+As input, `adastop compare` takes a csv file containing as many lines as there are scores (plus one line for headers) and as many columns as there are algorithms to compare (plus one for the run numbers). At the end of the process, you may have to generate up to `n-groups` csv files, typically 5 to 10 files. For example, to compare a file with 5 scores, while aiming for a maximum of 6 interims, with a family-wise error of $0.05$, use
 
 ```bash
 adastop compare --size-group 5 --n-groups 6 --alpha 0.05 first_results.csv
