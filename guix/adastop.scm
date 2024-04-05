@@ -18,7 +18,7 @@
        (method git-fetch)
        (uri (git-reference
              (url "https://github.com/TimotheeMathieu/adastop")
-             (version "v0.1.2")))
+             (commit "250067239539b98b13f248ae3be536621b2b1903")))
        (file-name (git-file-name name version))
        (sha256
                (base32
