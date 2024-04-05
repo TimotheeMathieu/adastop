@@ -7,10 +7,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from .compare_agents import MultipleAgentsComparator
+from ._version import __version__
 
 LITTER_FILE = ".adastop_comparator.pkl"
 
 @click.group()
+@click.version_option(__version__)
 @click.pass_context
 def adastop(ctx):
     """
