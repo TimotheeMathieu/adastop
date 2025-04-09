@@ -24,7 +24,25 @@ See [the tutorial](tutorials).
 
 ## AdaStop 
 
-The advised way to use adastop is via its command line interface. We explain here the usage of each of `adastop`'s commands.
+The advised way to use adastop is via its command line interface. We explain here the usage of each of `adastop`'s commands. A documentation is available via the `--help` command for adastop but also for each of its sub-command.
+
+```bash
+$ adastop --help
+adastop --help        
+Usage: adastop [OPTIONS] COMMAND [ARGS]...
+
+  Program to perform adaptive stopping algorithm using csv file intput_file.
+
+  Use adastop sub-command --help to have help for a specific sub-command
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  compare  Perform one step of adaptive stopping algorithm using csv file...
+  plot     Plot results of the comparator situated in the folder 'folder'.
+  reset    Reset the comparator to zero by removing the save file of the...
+```
 
 ### Invoking `adastop compare`
 
@@ -40,6 +58,28 @@ This command will create a hidden file `.adastop_comparator.pkl` that contains t
 
 Then, once you did the comparison on the first file, you can use iteratively `adastop compare` to continue the comparison on further data. See the [tutorial](Tutorial) for an example of use.
 
+
+#### adastop compare help message
+
+```bash
+$ adastop compare --help
+Usage: adastop compare [OPTIONS] INPUT_FILE
+
+  Perform one step of adaptive stopping algorithm using csv file intput_file.
+  At first call, the comparator will be initialized with the arguments passed
+  and then it will be saved to a save file in `.adastop_comparator.pkl`.
+
+Options:
+  --n-groups INTEGER        Number of groups.  [default: 5]
+  --n-permutations INTEGER  Number of random permutations.  [default: 10000]
+  --alpha FLOAT             Type I error.  [default: 0.05]
+  --beta FLOAT              early accept parameter.  [default: 0.0]
+  --seed INTEGER            Random seed.
+  --compare-to-first        Compare all algorithms to the first algorithm.
+  --help                    Show this message and exit.
+```
+
+
 ### Invoking `adastop plot`
 
 The command `adastop plot` generate a plot representing the results of the comparison of `adastop`. It can only be done once `adastop compare` has been executed until completion. Then, to plot the result of a comparison, use 
@@ -50,3 +90,19 @@ adastop plot DIR output_file.pdf
 where DIR is the directory in which the hidden `.adastop_comparator.pkl` file is located, i.e. it is the directory in which you did `adastop compare`, typically DIR will be the current directory `.`. `output_file.pdf` is the file in which to export the plot, the format of the file will be guessed from the suffix, `png`, `jpg` and `pdf` are accepted.
 
 You can also specify the height and width of the output graph using the `width` and `height` parameters for the command.
+
+#### adastop plot help message
+
+```bash
+$ adastop plot --help
+Usage: adastop plot [OPTIONS] FOLDER TARGET_FILE
+
+  Plot results of the comparator situated in the folder 'folder'.
+
+Options:
+  --width INTEGER
+  --height INTEGER
+  --help            Show this message and exit.
+
+```
+
