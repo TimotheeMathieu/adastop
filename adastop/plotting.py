@@ -85,7 +85,7 @@ def plot_results(comparator, agent_names=None, axes = None):
     for mean in box_plot['means']:
         mean.set_alpha(0.6)
 
-    ax2.xaxis.set_label([])
+    ax2.xaxis.set_label_text([])
     ax2.xaxis.tick_top()
 
 def plot_results_sota(comparator, agent_names=None, axes = None):
@@ -164,7 +164,7 @@ def plot_results_sota(comparator, agent_names=None, axes = None):
     for mean in box_plot['means']:
         mean.set_alpha(0.6)
 
-    ax2.xaxis.set_label([])
+    ax2.xaxis.set_label_text([])
     ax2.xaxis.tick_top()
     plt.subplots_adjust(top=0.9, hspace=0.3)
 
