@@ -58,6 +58,11 @@ This command will create a hidden file `.adastop_comparator.pkl` that contains t
 
 Then, once you did the comparison on the first file, you can use iteratively `adastop compare` to continue the comparison on further data. See the [tutorial](Tutorial) for an example of use.
 
+#### Choice of comparisons
+
+In adastopn, one can choose which comparisons are done. The default is to do all the pairwise comparisons between two algorithms. In practice, it is sometimes sufficient to compare to only one of them, a benchmark, for this the `--compare-to-first` argument can be used. For a more fine-grained control on which comparison to do, the python API can take the comparisons as input.
+
+**Remark**: it is not statistically ok to execute adastop several times and interpret the result as though it was only one test, if adastop is run several times this is multiple testing and some calibration has to be done. Instead, it is better to do all the comparisons at the same time, running the adastop algorithm only once, and adastop will handle the multiplicity of hypotheses by itself.
 
 #### adastop compare help message
 
