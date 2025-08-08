@@ -26,5 +26,5 @@ def test_cli():
     result = runner.invoke(adastop, ['reset', 'examples'])
     assert result.exit_code == 0
         
-    result = runner.invoke(adastop, ['compare', "--compare-to-first", 'examples/walker0.csv'])
+    result = runner.invoke(adastop, ['compare', "--compare-to-first", 'examples/walker1.csv'])
     assert result.exit_code == 0
