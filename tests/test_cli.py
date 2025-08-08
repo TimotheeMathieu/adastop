@@ -14,11 +14,17 @@ def test_cli():
         
         result = runner.invoke(adastop, ['compare', 'examples/walker'+str(j)+'.csv'])
         assert result.exit_code == 0
+
     result = runner.invoke(adastop, ['compare', 'examples/walker3.csv'])
     assert result.exit_code == 1
+
     result = runner.invoke(adastop, ['plot', 'examples', "test.pdf"])
     assert result.exit_code == 0
     result = runner.invoke(adastop, ['status', 'examples'])
     assert result.exit_code == 0
+
     result = runner.invoke(adastop, ['reset', 'examples'])
+    assert result.exit_code == 0
+        
+    result = runner.invoke(adastop, ['compare', "--compare-to-first", 'examples/walker0.csv'])
     assert result.exit_code == 0
