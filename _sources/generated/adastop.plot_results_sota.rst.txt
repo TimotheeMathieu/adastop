@@ -1,0 +1,12 @@
+﻿:mod:`adastop`.plot_results_sota
+=============================================
+
+.. currentmodule:: adastop
+
+.. autofunction:: plot_results_sota
+
+.. include:: adastop.plot_results_sota.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>
