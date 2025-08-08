@@ -47,7 +47,7 @@ def compare(ctx, input_file, n_groups, size_group, n_permutations, alpha, beta, 
     n_agents = len(df.columns)
 
     if compare_to_first:
-        comparisons = [(0,i) for i in range(1, n_agents)]
+        comparisons = np.array([(0,i) for i in range(1, n_agents)])
     else:
         comparisons = None
 
