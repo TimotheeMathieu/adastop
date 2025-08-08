@@ -46,7 +46,7 @@ def test_plot_sota():
 
 def test_plot_noteq():
     n_agents = 3
-    comparator = MultipleAgentsComparator(n=n, K=K, B=B,  alpha=alpha, seed=42, beta = 0.01)
+    comparator = MultipleAgentsComparator(n=10, K=K, B=B,  alpha=alpha, seed=42, beta = 0.01)
     evals = {}
     while not comparator.is_finished:
         if len(evals) >0:
