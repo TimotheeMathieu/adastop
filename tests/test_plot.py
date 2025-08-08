@@ -51,9 +51,9 @@ def test_plot_noteq():
     while not comparator.is_finished:
         if len(evals) >0:
             for k in range(n_agents):
-                evals["Agent "+str(k)] = np.hstack([evals["Agent "+str(k)] , k+np.random.normal(size=n)])
+                evals["Agent "+str(k)] = np.hstack([evals["Agent "+str(k)] , k+np.random.normal(size=10)])
         else:
-            evals = {"Agent "+str(k): np.random.normal(size=n)+k for k in range(n_agents)}
+            evals = {"Agent "+str(k): np.random.normal(size=10)+k for k in range(n_agents)}
         comparator.partial_compare(evals)
     # plt.savefig('fig2.pdf')
     fig, axes= plt.subplots(1,2)
