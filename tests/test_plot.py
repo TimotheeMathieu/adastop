@@ -58,4 +58,4 @@ def test_plot_noteq():
     comparator.plot_results_sota()
     # plt.savefig('fig2.pdf')
     fig, axes= plt.subplots(1,2)
-    comparator.plot_results_sota(axes=axes)
+    comparator.plot_results(axes=axes)

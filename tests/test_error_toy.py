@@ -13,7 +13,7 @@ def test_runtime():
     comparator.partial_compare(evals)
     
 
-@pytest.mark.parametrize("K,n", [(5,3), (3, 5), (1, 15)])
+@pytest.mark.parametrize("K,n", [(10,2),(5,3), (3, 5), (1, 15)])
 def test_type1(K,n):
     idxs = []
     n_agents = 3
@@ -49,7 +49,6 @@ def test_type1_large_beta(K,n):
         print(comparator.get_results())
     assert np.mean(idxs) < 2*alpha + 1/4/(np.sqrt(n_runs)), "type 1 error seems to be too large."
         
-
 @pytest.mark.parametrize("K,n", [(3, 5), (1, 15)])
 def test_type2(K,n):
     idxs = []

@@ -15,7 +15,7 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      Python310:
+      Python312:
         python.version: '3.12'
 
   steps:
@@ -45,7 +45,7 @@ jobs:
     vmImage: 'macOS-15'
   strategy:
     matrix:
-      Python310:
+      Python312:
         python.version: '3.12'
 
   steps:
@@ -67,7 +67,7 @@ jobs:
     vmImage: 'windows-2022'
   strategy:
     matrix:
-      Python310:
+      Python312:
         python.version: '3.12'
 
   steps:
