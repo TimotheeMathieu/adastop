@@ -16,7 +16,7 @@ jobs:
   strategy:
     matrix:
       Python310:
-        python.version: '3.10'
+        python.version: '3.12'
 
   steps:
   - task: UsePythonVersion@0
@@ -46,7 +46,7 @@ jobs:
   strategy:
     matrix:
       Python310:
-        python.version: '3.10'
+        python.version: '3.12'
 
   steps:
   - task: UsePythonVersion@0
@@ -68,7 +68,7 @@ jobs:
   strategy:
     matrix:
       Python310:
-        python.version: '3.10'
+        python.version: '3.12'
 
   steps:
   - task: UsePythonVersion@0
