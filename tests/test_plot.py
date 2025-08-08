@@ -55,7 +55,6 @@ def test_plot_noteq():
         else:
             evals = {"Agent "+str(k): np.random.normal(size=n)+k for k in range(n_agents)}
         comparator.partial_compare(evals)
-    comparator.plot_results_sota()
     # plt.savefig('fig2.pdf')
     fig, axes= plt.subplots(1,2)
     comparator.plot_results(axes=axes)
