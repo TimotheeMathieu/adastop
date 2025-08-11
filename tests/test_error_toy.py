@@ -6,11 +6,18 @@ B = 5000
 alpha = 0.05
 n_runs = 10
 
-def test_runtime():
+def test_partial_compare():
     idxs = []
     comparator = MultipleAgentsComparator(n=3, K=3, B=B,  alpha=alpha, seed=42, beta = 0.01)
     evals = {"Agent "+str(k):np.random.normal(size=3) for k in range(3)}
     comparator.partial_compare(evals)
+
+
+def test_partial_compare_not_enough_points():
+    comparator = MultipleAgentsComparator(n=3, K=3, B=5000,  alpha=-1e-5, seed=42, beta = 0.01)
+    evals = {"Agent 1":np.array([0,0,0]),"Agent 2":np.array([0,0,0]),"Agent 3":np.array([0,0,0])}
+    comparator.partial_compare(evals)
+
     
 
 @pytest.mark.parametrize("K,n", [(10,2),(5,3), (3, 5), (1, 15)])
