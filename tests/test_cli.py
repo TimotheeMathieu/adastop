@@ -28,3 +28,21 @@ def test_cli():
         
     result = runner.invoke(adastop, ['compare', "--compare-to-first", 'examples/walker1.csv'])
     assert result.exit_code == 0
+
+
+
+def test_plot_no_comparator_save_file():
+    runner = CliRunner()
+    runner.invoke(adastop, ['reset', 'examples'])
+
+    result = runner.invoke(adastop, ['plot', 'examples', "test.pdf"])
+    assert result.exit_code == 1
+    assert result.exception.args[0] == 'Comparator save file not found.'
+
+def test_status_no_comparator_save_file():
+    runner = CliRunner()
+    runner.invoke(adastop, ['reset', 'examples'])
+
+    result = runner.invoke(adastop, ['status', 'examples'])
+    assert result.exit_code == 1
+    assert result.exception.args[0] == 'Comparator save file not found.'
