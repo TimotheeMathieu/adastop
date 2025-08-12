@@ -15,6 +15,17 @@ The command line interface takes csv files as input. Each csv file must contain 
 Below, we give an example based on files containing the evaluations of PPO,DDPG,SAC,TRPO, four Deep Reinforcement Learning algorithmes, given in the \`examples\` directory of the main repository.
 
 
+## Installation
+
+To install adastop, use pip:
+```bash
+pip install adastop
+```
+
+This will automatically install the command line interface as well as the python library.
+
+
+
 ## Help for cli tool
 
 The AdaStop algorithm is initialized with the first test done through \`adastop compare\` and the current state of AdaStop is then saved in a pickle file. The help of \`adastop\` command line can be obtained with the following:
@@ -90,7 +101,7 @@ The input format of adastop is under the form of a csv file containing the score
 
 Let us launch AdaStop on this first batch of data.
 
-First, we clean up the corrent directory of any litter files that could have been spawned by a previous usage of \`adastop\` (if you never used \`adastop\` before, this command will not have any effect).
+First, we clean up the current directory of any litter files that could have been spawned by a previous usage of \`adastop\` (if you never used \`adastop\` before, this command will not have any effect).
 
 ```bash
 adastop reset . # reset the state of the comparator (remove hidden pickle file)
