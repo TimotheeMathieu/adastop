@@ -35,7 +35,7 @@ def test_type1(K,n):
                 evals = {"Agent "+str(k): np.random.normal(size=n) for k in range(n_agents)}
             comparator.partial_compare(evals)
         idxs.append(not("equal" in comparator.decisions.values()))
-        print(comparator.get_results())
+        print(comparator.get_results().to_string(index=False))
     assert np.mean(idxs) < 2*alpha + 1/4/(np.sqrt(n_runs)), "type 1 error seems to be too large."
         
 @pytest.mark.parametrize("K,n", [(5,3), (3, 5), (1, 15)])
@@ -53,7 +53,7 @@ def test_type1_large_beta(K,n):
                 evals = {"Agent "+str(k): np.random.normal(size=n) for k in range(n_agents)}
             comparator.partial_compare(evals)
         idxs.append(not("equal" in comparator.decisions.values()))
-        print(comparator.get_results())
+        print(comparator.get_results().to_string(index=False))
     assert np.mean(idxs) < 2*alpha + 1/4/(np.sqrt(n_runs)), "type 1 error seems to be too large."
         
 @pytest.mark.parametrize("K,n", [(3, 5), (1, 15)])

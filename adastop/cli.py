@@ -86,7 +86,7 @@ def compare(ctx, input_file, n_groups, size_group, n_permutations, alpha, beta, 
     if not("continue" in list(comparator.decisions.values())):
         click.echo('')
         click.echo("Test is finished, decisions are")
-        click.echo(comparator.get_results().to_markdown())
+        click.echo(comparator.get_results().to_markdown(index=False))
         
     else:
         still_here = []
