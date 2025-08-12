@@ -212,7 +212,7 @@ class MultipleAgentsComparator:
         if self.agent_names is None:
             self.agent_names = list(eval_values.keys())
 
-        Z = np.array([np.array(eval_values[agent]) for agent in self.agent_names])
+        Z = [np.array(eval_values[agent]) for agent in self.agent_names]
         n_managers = len(Z)
         if isinstance(self.n,int):
             self.n = np.array([self.n]*n_managers)
