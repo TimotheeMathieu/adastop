@@ -155,14 +155,14 @@ adastop compare --n-groups 5 --size-group 5  walker5.csv
 
 Test is finished, decisions are
 
-|   | Agent1 vs Agent2 | mean Agent1 | mean Agent2 | mean diff | std Agent 1 | std Agent 2 | decisions |
-|--- |---------------- |----------- |----------- |--------- |----------- |----------- |--------- |
-| 0 | PPO vs DDPG      | 2901.53     | 884.119     | 2017.41   | 1257.93     | 535.74      | larger    |
-| 0 | PPO vs SAC       | 2901.53     | 4543.4      | -1641.87  | 1257.93     | 432.13      | smaller   |
-| 0 | PPO vs TRPO      | 2901.53     | 1215.42     | 1686.11   | 1257.93     | 529.672     | larger    |
-| 0 | DDPG vs SAC      | 884.119     | 4543.4      | -3659.28  | 535.74      | 432.13      | smaller   |
-| 0 | DDPG vs TRPO     | 884.119     | 1215.42     | -331.297  | 535.74      | 529.672     | smaller   |
-| 0 | SAC vs TRPO      | 4543.4      | 1215.42     | 3327.98   | 432.13      | 529.672     | larger    |
+| Agent1 vs Agent2 | mean Agent1 | mean Agent2 | mean diff | std Agent 1 | std Agent 2 | decisions |
+|----------------- |------------ |------------ |---------- |------------ |------------ |---------- |
+| PPO vs DDPG      | 2901.53     | 884.119     | 2017.41   | 1257.93     | 535.74      | larger    |
+| PPO vs SAC       | 2901.53     | 4543.4      | -1641.87  | 1257.93     | 432.13      | smaller   |
+| PPO vs TRPO      | 2901.53     | 1215.42     | 1686.11   | 1257.93     | 529.672     | larger    |
+| DDPG vs SAC      | 884.119     | 4543.4      | -3659.28  | 535.74      | 432.13      | smaller   |
+| DDPG vs TRPO     | 884.119     | 1215.42     | -331.297  | 535.74      | 529.672     | smaller   |
+| SAC vs TRPO      | 4543.4      | 1215.42     | 3327.98   | 432.13      | 529.672     | larger    |
 
 Comparator Saved
 
