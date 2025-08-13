@@ -139,7 +139,7 @@ class MultipleAgentsComparator:
                 zval = []
                 for comp in self.mean_diffs:
                     zval.append(self.mean_diffs[str(comp)][i])
-                if np.max(np.abs(zval)) <= boundary[-1][1]:
+                if np.max(np.abs(zval)) <= boundary[-1]:
                     for comp in self.mean_diffs:
                         mean_diffs[str(comp)].append(self.mean_diffs[str(comp)][i])
                     
