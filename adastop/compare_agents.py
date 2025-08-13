@@ -206,7 +206,7 @@ class MultipleAgentsComparator:
         if self.agent_names is None:
             self.agent_names = list(eval_values.keys())
 
-        Z = [eval_values[agent] for agent in self.agent_names]
+        Z = [np.array(eval_values[agent]) for agent in self.agent_names]
         n_managers = len(Z)
         if isinstance(self.n,int):
             self.n = np.array([self.n]*n_managers)
@@ -249,20 +249,19 @@ class MultipleAgentsComparator:
 
             # Compute admissible values, i.e. values that would not be rejected nor accepted.
             admissible_values_sup = values[
-                self.level_spent + icumulative_probas <= clevel
+                self.level_spent + icumulative_probas < clevel
             ]
 
             if len(admissible_values_sup) > 0:
                 bk_sup = admissible_values_sup[0]  # the minimum admissible value
                 level_to_add = icumulative_probas[
-                    self.level_spent + icumulative_probas <= clevel
+                    self.level_spent + icumulative_probas < clevel
                 ][0]
             else:
                 # This case is possible if clevel-self.level_spent <= 1/ self.normalization (smallest proba possible),
                 # in which case there are not enough points and we don't take any decision for now. Happens in particular if B is None.
                 bk_sup = np.inf
                 level_to_add = 0
-
 
             # Test statistic, step-down
             Tmax = 0
