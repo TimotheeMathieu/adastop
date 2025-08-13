@@ -22,6 +22,8 @@ def test_cli():
 
     result = runner.invoke(adastop, ['compare',"--seed", "1",  'examples/walker3.csv'])
     assert result.exit_code == 1
+    assert result.exception.args[0] == 'Error: you tried to use more group than necessary. Use adastop status to see current status for more info.'
+
 
     result = runner.invoke(adastop, ['plot', 'examples', test_pdf_path])
     assert result.exit_code == 0
