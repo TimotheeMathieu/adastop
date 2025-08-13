@@ -17,7 +17,6 @@ def test_cli():
     result = runner.invoke(adastop, ['reset', 'examples'])
     assert result.exit_code == 0
     for j in range(1,6):
-        
         result = runner.invoke(adastop, ['compare', "--seed", "1",  'examples/walker'+str(j)+'.csv'])
         assert result.exit_code == 0
 
