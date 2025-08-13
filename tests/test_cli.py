@@ -18,10 +18,10 @@ def test_cli():
     assert result.exit_code == 0
     for j in range(1,6):
         
-        result = runner.invoke(adastop, ['compare', "--seed", "42",  'examples/walker'+str(j)+'.csv'])
+        result = runner.invoke(adastop, ['compare', "--seed", "1",  'examples/walker'+str(j)+'.csv'])
         assert result.exit_code == 0
 
-    result = runner.invoke(adastop, ['compare',"--seed", "42",  'examples/walker3.csv'])
+    result = runner.invoke(adastop, ['compare',"--seed", "1",  'examples/walker3.csv'])
     assert result.exit_code == 1
 
     result = runner.invoke(adastop, ['plot', 'examples', test_pdf_path])
@@ -34,7 +34,7 @@ def test_cli():
     result = runner.invoke(adastop, ['reset', 'examples'])
     assert result.exit_code == 0
         
-    result = runner.invoke(adastop, ['compare', "--compare-to-first","--seed", "42",  'examples/walker1.csv'])
+    result = runner.invoke(adastop, ['compare', "--compare-to-first","--seed", "1",  'examples/walker1.csv'])
     assert result.exit_code == 0
 
 
