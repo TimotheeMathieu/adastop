@@ -1,0 +1,708 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tutorial &#8212; adastop 0.1.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=92734c54"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="User Guide" href="user_guide.html" />
+    <link rel="prev" title="AdaStop" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">AdaStop</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Tutorial
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/TimotheeMathieu/adastop" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/adastop" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-custom fa-pypi fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Tutorial
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/TimotheeMathieu/adastop" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/adastop" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-custom fa-pypi fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-comparison-of-reinforcement-learning-algorithms">Case study: Comparison of Reinforcement Learning algorithms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#help-for-cli-tool">Help for cli tool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-first-look-at-the-example-data">Download and first look at the example data.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-a-comparison-using-adastop">Doing a comparison using AdaStop</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-of-adastop-results-plot-and-status-commands">Analysis of AdaStop results – plot and status commands</a></li>
+</ul>
+  </nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Tutorial</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading">#</a></h1>
+<p>There are two ways to use AdaStop:</p>
+<ul class="simple">
+<li><p>Command line interface: AdaStop can be used as a command line interface that takes csv files as input. The cli interface can either be called interactively or the process can be automated using bash script.</p></li>
+<li><p>Python API: AdaStop is coded in python and can directly be imported as a module to be used in a python script.</p></li>
+</ul>
+<p>In this tutorial we show how to use the CLI as it seem more convenient and more adapted to the majority of users.</p>
+<section id="case-study-comparison-of-reinforcement-learning-algorithms">
+<h2>Case study: Comparison of Reinforcement Learning algorithms<a class="headerlink" href="#case-study-comparison-of-reinforcement-learning-algorithms" title="Link to this heading">#</a></h2>
+<p>The command line interface takes csv files as input. Each csv file must contain a dataframe with <span class="math notranslate nohighlight">\(n\)</span> rows and as many columns as there are algorithms. Each of the <span class="math notranslate nohighlight">\(n\)</span> rows corresponds to one run of an algorithm. Please note that if, in the process of the algorithm, all the comparisons for one of the algorithm are decided, then this algorithm does not need to be run anymore and the number of columns in the next csv file would decrease.</p>
+<p>Below, we give an example based on files containing the evaluations of PPO,DDPG,SAC,TRPO, four Deep Reinforcement Learning algorithmes, given in the `examples` directory of the main repository.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>To install adastop, use pip:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>adastop
+</pre></div>
+</div>
+<p>This will automatically install the command line interface as well as the python library.</p>
+</section>
+<section id="help-for-cli-tool">
+<h2>Help for cli tool<a class="headerlink" href="#help-for-cli-tool" title="Link to this heading">#</a></h2>
+<p>The AdaStop algorithm is initialized with the first test done through `adastop compare` and the current state of AdaStop is then saved in a pickle file. The help of `adastop` command line can be obtained with the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>adastop<span class="w"> </span>--help
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">adastop</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="n">COMMAND</span> <span class="p">[</span><span class="n">ARGS</span><span class="p">]</span><span class="o">...</span>
+
+  <span class="n">Program</span> <span class="n">to</span> <span class="n">perform</span> <span class="n">adaptive</span> <span class="n">stopping</span> <span class="n">algorithm</span> <span class="n">using</span> <span class="n">csv</span> <span class="n">file</span> <span class="n">intput_file</span><span class="o">.</span>
+
+  <span class="n">Use</span> <span class="n">adastop</span> <span class="n">sub</span><span class="o">-</span><span class="n">command</span> <span class="o">--</span><span class="n">help</span> <span class="n">to</span> <span class="n">have</span> <span class="n">help</span> <span class="k">for</span> <span class="n">a</span> <span class="n">specific</span> <span class="n">sub</span><span class="o">-</span><span class="n">command</span>
+
+<span class="n">Options</span><span class="p">:</span>
+  <span class="o">--</span><span class="n">help</span>  <span class="n">Show</span> <span class="n">this</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span><span class="o">.</span>
+
+<span class="n">Commands</span><span class="p">:</span>
+  <span class="n">compare</span>  <span class="n">Perform</span> <span class="n">one</span> <span class="n">step</span> <span class="n">of</span> <span class="n">adaptive</span> <span class="n">stopping</span> <span class="n">algorithm</span> <span class="n">using</span> <span class="n">csv</span> <span class="n">file</span><span class="o">...</span>
+  <span class="n">plot</span>     <span class="n">Plot</span> <span class="n">results</span> <span class="n">of</span> <span class="n">the</span> <span class="n">comparator</span> <span class="n">situated</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">folder</span> <span class="s1">&#39;folder&#39;</span><span class="o">.</span>
+  <span class="n">reset</span>    <span class="n">Reset</span> <span class="n">the</span> <span class="n">comparator</span> <span class="n">to</span> <span class="n">zero</span> <span class="n">by</span> <span class="n">removing</span> <span class="n">the</span> <span class="n">save</span> <span class="n">file</span> <span class="n">of</span> <span class="n">the</span><span class="o">...</span>
+  <span class="n">status</span>   <span class="n">Print</span> <span class="n">the</span> <span class="n">status</span> <span class="n">of</span> <span class="n">the</span> <span class="n">comparator</span> <span class="n">located</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">folder</span><span class="o">...</span>
+</pre></div>
+</div>
+<p>AdaStop CLI contains sub-commands whose help can be obtaine using `adastop sub-command –help. For example, to obtain the help of the compare sub-command, type the following.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>adastop<span class="w"> </span>compare<span class="w"> </span>--help
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Usage: adastop compare [OPTIONS] INPUT_FILE
+
+  Perform one step of adaptive stopping algorithm using csv file intput_file.
+  The csv file must be of size `size_group`. At first call, the comparator
+  will be initialized with the arguments passed and then it will be saved to a
+  save file in `.adastop_comparator.pkl`.
+
+Options:
+  -K, --n-groups INTEGER        Number of groups.  [default: 5]
+  -N, --size-group INTEGER      Number of groups.  [default: 5]
+  -B, --n-permutations INTEGER  Number of random permutations.  [default:
+                                10000]
+  --alpha FLOAT                 Type I error.  [default: 0.05]
+  --seed INTEGER                Random seed.
+  --compare-to-first            Compare all algorithms to the first algorithm.
+  --help                        Show this message and exit.
+</pre></div>
+</div>
+</section>
+<section id="download-and-first-look-at-the-example-data">
+<h2>Download and first look at the example data.<a class="headerlink" href="#download-and-first-look-at-the-example-data" title="Link to this heading">#</a></h2>
+<p>Let us download the first batch of data and print it</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>-C<span class="w"> </span>-<span class="w"> </span>https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker1.csv<span class="w"> </span>&gt;<span class="w"> </span>walker1.csv<span class="w"> </span>
+cat<span class="w"> </span>walker1.csv<span class="w"> </span><span class="c1"># file contains evaluations on walker environment</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>,PPO,DDPG,SAC,TRPO
+0,3683.49072265625,420.27471923828125,4291.02978515625,446.09295654296875
+1,1576.483154296875,640.0671997070312,4551.0380859375,1918.919677734375
+2,3908.14013671875,2338.0419921875,4669.77490234375,1015.7262573242188
+3,1451.9110107421875,879.0955200195312,4697.365234375,757.0098876953125
+4,5177.005859375,736.5420532226562,4074.497802734375,1769.3448486328125
+</pre></div>
+</div>
+<p>The input format of adastop is under the form of a csv file containing the scores for one batch of experiment. AdaStop is a sequential algorithm and as such we do not give it all the data at once, we obtain first a batch of data, launch AdaStop and then if AdaStop is still undecided on some of the algorithms, we get another batch of data.</p>
+</section>
+<section id="doing-a-comparison-using-adastop">
+<h2>Doing a comparison using AdaStop<a class="headerlink" href="#doing-a-comparison-using-adastop" title="Link to this heading">#</a></h2>
+<p>Let us launch AdaStop on this first batch of data.</p>
+<p>First, we clean up the current directory of any litter files that could have been spawned by a previous usage of `adastop` (if you never used `adastop` before, this command will not have any effect).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>adastop<span class="w"> </span>reset<span class="w"> </span>.<span class="w"> </span><span class="c1"># reset the state of the comparator (remove hidden pickle file)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Comparator file have been removed.
+</pre></div>
+</div>
+<p>Then, we do the comparison. Due to the cost of running this task, we use small batch of data (`–size-group` is 5, which corresponds to 5 scores per batch) and we limit ourselves to a maximum of <span class="math notranslate nohighlight">\(25\)</span> samples (i.e. we use 5 groups). By default the test will run with <span class="math notranslate nohighlight">\(\alpha\)</span> the family-wise error of the test set to <span class="math notranslate nohighlight">\(0.05\%\)</span>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>adastop<span class="w"> </span>compare<span class="w"> </span>--n-groups<span class="w"> </span><span class="m">5</span><span class="w"> </span>--size-group<span class="w"> </span><span class="m">5</span><span class="w">  </span>walker1.csv<span class="w"> </span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Still undecided about DDPG PPO SAC TRPO
+
+Comparator Saved
+</pre></div>
+</div>
+<p>After this first step, it is still undecided what is the ranking of DDPG and TRPO (e.g. the “continue” decisions). We have to generate new runs for all the algorithms in order to have more information and be able to rank these algorithms. Once these runs are generated, we continue the process.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>-C<span class="w"> </span>-<span class="w"> </span>https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker2.csv<span class="w"> </span>&gt;<span class="w"> </span>walker2.csv
+adastop<span class="w"> </span>compare<span class="w"> </span>--n-groups<span class="w"> </span><span class="m">5</span><span class="w"> </span>--size-group<span class="w"> </span><span class="m">5</span><span class="w">  </span>walker2.csv
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Still undecided about DDPG TRPO
+
+Comparator Saved
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>-C<span class="w"> </span>-<span class="w"> </span>https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker3.csv<span class="w"> </span>&gt;<span class="w"> </span>walker3.csv
+adastop<span class="w"> </span>compare<span class="w"> </span>--n-groups<span class="w"> </span><span class="m">5</span><span class="w"> </span>--size-group<span class="w"> </span><span class="m">5</span><span class="w">  </span>walker3.csv
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Still undecided about DDPG TRPO
+
+Comparator Saved
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>-C<span class="w"> </span>-<span class="w"> </span>https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker4.csv<span class="w"> </span>&gt;<span class="w"> </span>walker4.csv
+adastop<span class="w"> </span>compare<span class="w"> </span>--n-groups<span class="w"> </span><span class="m">5</span><span class="w"> </span>--size-group<span class="w"> </span><span class="m">5</span><span class="w">  </span>walker4.csv
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Still undecided about DDPG TRPO
+
+Comparator Saved
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>-C<span class="w"> </span>-<span class="w"> </span>https://raw.githubusercontent.com/TimotheeMathieu/adastop/main/examples/walker5.csv<span class="w"> </span>&gt;<span class="w"> </span>walker5.csv
+adastop<span class="w"> </span>compare<span class="w"> </span>--n-groups<span class="w"> </span><span class="m">5</span><span class="w"> </span>--size-group<span class="w"> </span><span class="m">5</span><span class="w">  </span>walker5.csv
+</pre></div>
+</div>
+<p>Test is finished, decisions are</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Agent1 vs Agent2</p></th>
+<th class="head"><p>mean Agent1</p></th>
+<th class="head"><p>mean Agent2</p></th>
+<th class="head"><p>mean diff</p></th>
+<th class="head"><p>std Agent 1</p></th>
+<th class="head"><p>std Agent 2</p></th>
+<th class="head"><p>decisions</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PPO vs DDPG</p></td>
+<td><p>2901.53</p></td>
+<td><p>884.119</p></td>
+<td><p>2017.41</p></td>
+<td><p>1257.93</p></td>
+<td><p>535.74</p></td>
+<td><p>larger</p></td>
+</tr>
+<tr class="row-odd"><td><p>PPO vs SAC</p></td>
+<td><p>2901.53</p></td>
+<td><p>4543.4</p></td>
+<td><p>-1641.87</p></td>
+<td><p>1257.93</p></td>
+<td><p>432.13</p></td>
+<td><p>smaller</p></td>
+</tr>
+<tr class="row-even"><td><p>PPO vs TRPO</p></td>
+<td><p>2901.53</p></td>
+<td><p>1215.42</p></td>
+<td><p>1686.11</p></td>
+<td><p>1257.93</p></td>
+<td><p>529.672</p></td>
+<td><p>larger</p></td>
+</tr>
+<tr class="row-odd"><td><p>DDPG vs SAC</p></td>
+<td><p>884.119</p></td>
+<td><p>4543.4</p></td>
+<td><p>-3659.28</p></td>
+<td><p>535.74</p></td>
+<td><p>432.13</p></td>
+<td><p>smaller</p></td>
+</tr>
+<tr class="row-even"><td><p>DDPG vs TRPO</p></td>
+<td><p>884.119</p></td>
+<td><p>1215.42</p></td>
+<td><p>-331.297</p></td>
+<td><p>535.74</p></td>
+<td><p>529.672</p></td>
+<td><p>smaller</p></td>
+</tr>
+<tr class="row-odd"><td><p>SAC vs TRPO</p></td>
+<td><p>4543.4</p></td>
+<td><p>1215.42</p></td>
+<td><p>3327.98</p></td>
+<td><p>432.13</p></td>
+<td><p>529.672</p></td>
+<td><p>larger</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Comparator Saved</p>
+<p>The process stops when all the comparisons are decided.</p>
+</section>
+<section id="analysis-of-adastop-results-plot-and-status-commands">
+<h2>Analysis of AdaStop results – plot and status commands<a class="headerlink" href="#analysis-of-adastop-results-plot-and-status-commands" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>adastop<span class="w"> </span>plot<span class="w"> </span>.<span class="w"> </span>result.pdf
+</pre></div>
+</div>
+<p><img alt="img" src="_images/plot_result.png" /></p>
+<p>If one wants to reset AdaStop to redo the process, one can use `adastop reset .`.</p>
+<p>Finally, we can use `adastop status` to get additional informations on how the test went in text format.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>adastop<span class="w"> </span>status<span class="w"> </span>.
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Number</span> <span class="n">of</span> <span class="n">scores</span> <span class="n">used</span> <span class="k">for</span> <span class="n">each</span> <span class="n">agent</span><span class="p">:</span>
+
+<span class="n">PPO</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">DDPG</span><span class="p">:</span><span class="mi">25</span>
+<span class="n">SAC</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TRPO</span><span class="p">:</span><span class="mi">25</span>
+
+<span class="n">Mean</span> <span class="n">of</span> <span class="n">scores</span> <span class="n">of</span> <span class="n">each</span> <span class="n">agent</span><span class="p">:</span>
+
+<span class="n">PPO</span><span class="p">:</span><span class="mf">2901.527783203125</span>
+<span class="n">DDPG</span><span class="p">:</span><span class="mf">884.1189752197265</span>
+<span class="n">SAC</span><span class="p">:</span><span class="mf">4543.398095703125</span>
+<span class="n">TRPO</span><span class="p">:</span><span class="mf">1215.4159606933595</span>
+
+<span class="n">Decision</span> <span class="k">for</span> <span class="n">each</span> <span class="n">comparison</span><span class="p">:</span>
+
+<span class="n">PPO</span> <span class="n">vs</span> <span class="n">DDPG</span><span class="p">:</span><span class="n">larger</span>
+<span class="n">PPO</span> <span class="n">vs</span> <span class="n">SAC</span><span class="p">:</span><span class="n">smaller</span>
+<span class="n">PPO</span> <span class="n">vs</span> <span class="n">TRPO</span><span class="p">:</span><span class="n">larger</span>
+<span class="n">DDPG</span> <span class="n">vs</span> <span class="n">SAC</span><span class="p">:</span><span class="n">smaller</span>
+<span class="n">DDPG</span> <span class="n">vs</span> <span class="n">TRPO</span><span class="p">:</span><span class="n">smaller</span>
+<span class="n">SAC</span> <span class="n">vs</span> <span class="n">TRPO</span><span class="p">:</span><span class="n">larger</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">AdaStop</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="user_guide.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">User Guide</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Timothee Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

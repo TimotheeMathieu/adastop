@@ -1,0 +1,829 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>adastop.compare_agents &#8212; adastop 0.1.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=92734c54"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/adastop/compare_agents';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">AdaStop</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorial
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/TimotheeMathieu/adastop" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/adastop" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-custom fa-pypi fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorial
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/TimotheeMathieu/adastop" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/adastop" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-custom fa-pypi fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">adastop.compare_agents</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for adastop.compare_agents</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearSegmentedColormap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpatches</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_results</span><span class="p">,</span> <span class="n">plot_results_sota</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+
+
+<span class="c1"># TODO:</span>
+<span class="c1"># - make a get_result function here that also print a textual summary.</span>
+
+<div class="viewcode-block" id="MultipleAgentsComparator">
+<a class="viewcode-back" href="../../generated/adastop.MultipleAgentsComparator.html#adastop.MultipleAgentsComparator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MultipleAgentsComparator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare sequentially agents, with possible early stopping.</span>
+<span class="sd">    At maximum, there can be n times K fits done.</span>
+
+<span class="sd">    For now, implement only a two-sided test.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    n: int, or array of ints of size self.n_agents, default=5</span>
+<span class="sd">        If int, number of fits before each early stopping check. If array of int, a</span>
+<span class="sd">        different number of fits is used for each agent.</span>
+
+<span class="sd">    K: int, default=5</span>
+<span class="sd">        number of check.</span>
+<span class="sd">    </span>
+<span class="sd">    B: int, default=None</span>
+<span class="sd">        Number of random permutations used to approximate permutation distribution.</span>
+<span class="sd">    </span>
+<span class="sd">    comparisons: list of tuple of indices or None</span>
+<span class="sd">        if None, all the pairwise comparison are done.</span>
+<span class="sd">        If = [(0,1), (0,2)] for instance, the compare only 0 vs 1  and 0 vs 2</span>
+<span class="sd">    </span>
+<span class="sd">    alpha: float, default=0.01</span>
+<span class="sd">        level of the test</span>
+
+<span class="sd">    seed: int or None, default = None</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    agent_names: list of str</span>
+<span class="sd">        list of the agents&#39; names.</span>
+<span class="sd">    decision: dict</span>
+<span class="sd">        decision of the tests for each comparison, keys are the comparisons and values are in {&quot;equal&quot;, &quot;larger&quot;, &quot;smaller&quot;}.</span>
+<span class="sd">    n_iters: dict</span>
+<span class="sd">        number of iterations (i.e. number of fits) used for each agent. Keys are the agents&#39; names and values are ints.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Adastop can be used with the following code compatible with basically anything:</span>
+
+<span class="sd">    &gt;&gt;&gt; comparator = MultipleAgentsComparator(n=6, K=6, B=10000, alpha=0.05)</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; eval_values = {agent.name: [] for agent in agents}</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; for k in range(comparator.K):</span>
+<span class="sd">    &gt;&gt;&gt;    for  agent in enumerate(agents):</span>
+<span class="sd">    &gt;&gt;&gt;        # If the agent is still in one of the comparison considered, then generate new evaluations.</span>
+<span class="sd">    &gt;&gt;&gt;        if agent in comparator.current_comparisons.ravel():</span>
+<span class="sd">    &gt;&gt;&gt;            eval_values[agent.name].append(train_evaluate(agent, n))</span>
+<span class="sd">    &gt;&gt;&gt;    comparator.partial_compare(eval_values, verbose)</span>
+<span class="sd">    &gt;&gt;&gt;    decisions = comparator.decisions # results of the decisions for step k</span>
+<span class="sd">    &gt;&gt;&gt;    if comparator.is_finished:</span>
+<span class="sd">    &gt;&gt;&gt;        break</span>
+
+<span class="sd">    Where train_evaluate(agent, n) is a function that trains n copies of agent and returns n evaluation values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">K</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">B</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+        <span class="n">comparisons</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="n">K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">B</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comparisons</span> <span class="o">=</span> <span class="n">comparisons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level_spent</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rejected_decision</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agent_names</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_comparisons</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">comparisons</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_iters</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_tracked</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_finished</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="MultipleAgentsComparator.compute_mean_diffs">
+<a class="viewcode-back" href="../../generated/adastop.MultipleAgentsComparator.html#adastop.MultipleAgentsComparator.compute_mean_diffs">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_mean_diffs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">Z</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the absolute value of the sum differences.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comparisons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_comparisons</span>
+        <span class="n">boundary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">comparisons</span><span class="p">):</span>
+                <span class="c1"># Define set of permutations. Either all permutations or a random sample if all permutations</span>
+                <span class="c1"># is too many permutations</span>
+                <span class="n">n1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="n">n2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="n">n_permutations</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">comb</span><span class="p">(</span><span class="n">n1</span><span class="o">+</span><span class="n">n2</span><span class="p">,</span> <span class="n">n1</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">&gt;</span> <span class="n">n_permutations</span><span class="p">:</span>
+                    <span class="n">permutations</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n1</span><span class="o">+</span><span class="n">n2</span><span class="p">),</span> <span class="n">n1</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">normalization</span> <span class="o">=</span> <span class="n">n_permutations</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">permutations</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n1</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n1</span><span class="o">+</span><span class="n">n2</span><span class="p">)[:</span><span class="n">n1</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">normalization</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span>
+
+                <span class="c1"># Compute the meajn differences on the evaluations for each comparisions and for each permutation</span>
+                <span class="n">mean_diff</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">perm</span> <span class="ow">in</span> <span class="n">permutations</span><span class="p">:</span>
+                    <span class="n">Zi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">Z</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:</span> <span class="n">n1</span><span class="p">],</span> <span class="n">Z</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]][:</span> <span class="n">n2</span><span class="p">]])</span>
+                    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n1</span><span class="o">+</span><span class="n">n2</span><span class="p">)</span>
+                    <span class="n">mask</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">perm</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">==</span> <span class="mi">1</span>
+                    <span class="n">mean_diff</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Zi</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Zi</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">)]</span> <span class="o">=</span> <span class="n">mean_diff</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Eliminate for conditional</span>
+            <span class="n">mean_diffs</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">):[]</span> <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span><span class="p">}</span>
+            <span class="n">to_remove</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comparisons</span><span class="p">[</span><span class="mi">0</span><span class="p">])])):</span>
+                <span class="n">zval</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span><span class="p">:</span>
+                    <span class="n">zval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">)][</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">zval</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">boundary</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span><span class="p">:</span>
+                        <span class="n">mean_diffs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">)][</span><span class="n">i</span><span class="p">])</span>
+                    
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">comparisons</span><span class="p">):</span>
+
+                <span class="n">n1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="n">n2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+                
+                <span class="c1"># add new permutations. Can be either all the permutations of block k, or using random permutations if this is too many.</span>
+                <span class="n">n_permutations</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">comb</span><span class="p">(</span><span class="n">n1</span><span class="o">+</span><span class="n">n2</span><span class="p">,</span> <span class="n">n1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">&gt;</span> <span class="n">n_permutations</span> <span class="o">**</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">permutations_k</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n1</span><span class="o">+</span><span class="n">n2</span><span class="p">),</span> <span class="n">n1</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">normalization</span> <span class="o">=</span> <span class="n">n_permutations</span> <span class="o">**</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># number of permutations</span>
+                <span class="k">else</span> <span class="p">:</span>
+                    <span class="n">n_perm_to_add</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mean_diffs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comparisons</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
+                    <span class="n">permutations_k</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n1</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n1</span><span class="o">+</span><span class="n">n2</span><span class="p">)[:</span><span class="n">n1</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_perm_to_add</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+                    <span class="n">began_random_at</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n_permutations</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">normalization</span> <span class="o">=</span> <span class="n">n_permutations</span> <span class="o">**</span> <span class="n">began_random_at</span> <span class="c1"># number of permutations</span>
+
+                <span class="n">Zk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n1</span><span class="o">+</span><span class="n">n2</span><span class="p">)</span>
+                <span class="n">new_mean_diffs</span><span class="o">=</span><span class="p">[]</span>
+                <span class="k">for</span> <span class="n">id_p</span><span class="p">,</span> <span class="n">perm_k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">permutations_k</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">&gt;</span> <span class="n">n_permutations</span> <span class="o">**</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                        <span class="n">perms_before_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mean_diffs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comparisons</span><span class="p">[</span><span class="mi">0</span><span class="p">])]))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">perms_before_k</span> <span class="o">=</span> <span class="p">[</span><span class="n">id_p</span><span class="p">]</span>
+                        
+                    <span class="k">for</span> <span class="n">perm_before_k</span> <span class="ow">in</span> <span class="n">perms_before_k</span><span class="p">:</span>
+                        <span class="c1"># Compute the mean diffs for given permutation and comparison i</span>
+
+                        <span class="n">Zk</span><span class="p">[:</span><span class="n">n1</span><span class="p">]</span><span class="o">=</span><span class="n">Z</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]][(</span><span class="n">k</span> <span class="o">*</span> <span class="n">n1</span><span class="p">)</span> <span class="p">:</span> <span class="p">((</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">n1</span><span class="p">)]</span>
+                        <span class="n">Zk</span><span class="p">[</span><span class="n">n1</span><span class="p">:(</span><span class="n">n1</span><span class="o">+</span><span class="n">n2</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Z</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]][(</span><span class="n">k</span> <span class="o">*</span> <span class="n">n2</span><span class="p">)</span> <span class="p">:</span> <span class="p">((</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">n2</span><span class="p">)]</span>
+                        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n1</span><span class="o">+</span><span class="n">n2</span><span class="p">)</span>
+                        <span class="n">mask</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">perm_k</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">==</span> <span class="mi">1</span>
+
+                        <span class="n">new_mean_diffs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_diffs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">)][</span><span class="n">perm_before_k</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Zk</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Zk</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]))</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">)]</span> <span class="o">=</span> <span class="n">new_mean_diffs</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span></div>
+
+
+<div class="viewcode-block" id="MultipleAgentsComparator.partial_compare">
+<a class="viewcode-back" href="../../generated/adastop.MultipleAgentsComparator.html#adastop.MultipleAgentsComparator.partial_compare">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">partial_compare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eval_values</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Do the test of the k^th interim.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        eval_values: dict of agents and evaluations</span>
+<span class="sd">            keys are agent names and values are concatenation of evaluations till interim k,</span>
+<span class="sd">            e.g. {&quot;PP0&quot;: [1,1,1,1,1], &quot;SAC&quot;: [42,42,42,42,42]}</span>
+<span class="sd">        verbose: bool</span>
+<span class="sd">            print Steps</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        decisions: dictionary with comparisons as index and with values str in {&quot;equal&quot;, &quot;larger&quot;, &quot;smaller&quot;, &quot;continue&quot;}</span>
+<span class="sd">           Decision of the test at this step.</span>
+<span class="sd">        id_finished: bool</span>
+<span class="sd">           Whether the test is finished or not.</span>
+<span class="sd">        T: float</span>
+<span class="sd">           Test statistic.</span>
+<span class="sd">        bk: float</span>
+<span class="sd">           Thresholds of the tests.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">agent_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">eval_values</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="n">Z</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eval_values</span><span class="p">[</span><span class="n">agent</span><span class="p">])</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent_names</span><span class="p">]</span>
+        <span class="n">n_managers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span><span class="nb">int</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">]</span><span class="o">*</span><span class="n">n_managers</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># initialization</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comparisons</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">comparisons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                    <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_managers</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_managers</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_comparisons</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comparisons</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">):[]</span> <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comparisons</span><span class="p">}</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_iters</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">agent_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_managers</span><span class="p">)}</span>
+                
+            <span class="bp">self</span><span class="o">.</span><span class="n">decisions</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">):</span><span class="s2">&quot;continue&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comparisons</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id_tracked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decisions</span><span class="p">))</span> <span class="c1"># ids of comparisons effectively tracked</span>
+
+        
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span>
+
+        <span class="n">clevel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="o">*</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span>
+
+        <span class="n">mean_diffs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_mean_diffs</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+        
+        
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Step </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+        <span class="n">current_decisions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s2">&quot;continue&quot;</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_tracked</span><span class="p">))</span>
+        <span class="n">current_sign</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">current_decisions</span><span class="p">))</span>
+        
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">current_decisions</span><span class="p">)):</span>
+            <span class="n">current_comparisons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_comparisons</span><span class="p">[</span><span class="n">current_decisions</span><span class="o">==</span><span class="s2">&quot;continue&quot;</span><span class="p">]</span>
+            <span class="n">mean_diffs_now</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">):</span><span class="n">mean_diffs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">)]</span> <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">current_comparisons</span><span class="p">}</span>
+            <span class="n">max_mean_diffs</span> <span class="o">=</span> <span class="p">[</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">mean_diffs_now</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">)][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">current_comparisons</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mean_diffs_now</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">current_comparisons</span><span class="p">[</span><span class="mi">0</span><span class="p">])]))]</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">max_mean_diffs</span><span class="p">)</span>  
+
+            <span class="n">icumulative_probas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalization</span>  <span class="c1"># This corresponds to 1 - F(t) = P(T &gt; t)</span>
+
+            <span class="c1"># Compute admissible values, i.e. values that would not be rejected nor accepted.</span>
+            <span class="n">admissible_values_sup</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">level_spent</span> <span class="o">+</span> <span class="n">icumulative_probas</span> <span class="o">&lt;</span> <span class="n">clevel</span>
+            <span class="p">]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">admissible_values_sup</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">bk_sup</span> <span class="o">=</span> <span class="n">admissible_values_sup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># the minimum admissible value</span>
+                <span class="n">level_to_add</span> <span class="o">=</span> <span class="n">icumulative_probas</span><span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">level_spent</span> <span class="o">+</span> <span class="n">icumulative_probas</span> <span class="o">&lt;</span> <span class="n">clevel</span>
+                <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># This case is possible if clevel-self.level_spent &lt;= 1/ self.normalization (smallest proba possible),</span>
+                <span class="c1"># in which case there are not enough points and we don&#39;t take any decision for now. Happens in particular if B is None.</span>
+                <span class="n">bk_sup</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+                <span class="n">level_to_add</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="c1"># Test statistic, step-down</span>
+            <span class="n">Tmax</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">Tmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+            <span class="n">Tmaxsigned</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">Tminsigned</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_comparisons</span><span class="p">[</span><span class="n">current_decisions</span> <span class="o">==</span> <span class="s2">&quot;continue&quot;</span><span class="p">]):</span>
+                <span class="n">Ti</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+                        <span class="n">Z</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:</span> <span class="p">((</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]])])</span>
+                        <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]][:</span> <span class="p">((</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]])]</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">Ti</span> <span class="o">&gt;</span> <span class="n">Tmax</span><span class="p">:</span>
+                    <span class="n">Tmax</span> <span class="o">=</span> <span class="n">Ti</span>
+                    <span class="n">imax</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="n">Tmaxsigned</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+                        <span class="n">Z</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:</span> <span class="p">((</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]])])</span>
+                        <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]][:</span> <span class="p">((</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]])]</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">Ti</span> <span class="o">&lt;</span> <span class="n">Tmin</span><span class="p">:</span>
+                    <span class="n">Tmin</span> <span class="o">=</span> <span class="n">Ti</span>
+                    <span class="n">imin</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="n">Tminsigned</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:</span> <span class="p">((</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]])])</span>
+                                        <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]][:</span> <span class="p">((</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]])]</span>
+                                  <span class="p">)</span>
+                                    <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">Tmax</span> <span class="o">&gt;</span> <span class="n">bk_sup</span><span class="p">:</span>
+                <span class="n">id_reject</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">current_decisions</span><span class="p">))[</span><span class="n">current_decisions</span><span class="o">==</span> <span class="s2">&quot;continue&quot;</span><span class="p">][</span><span class="n">imax</span><span class="p">]</span>
+                <span class="n">current_decisions</span><span class="p">[</span><span class="n">id_reject</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;reject&quot;</span>
+
+                <span class="k">if</span> <span class="n">Tmaxsigned</span> <span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">decisions</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_comparisons</span><span class="p">[</span><span class="n">id_reject</span><span class="p">])]</span> <span class="o">=</span> <span class="s2">&quot;larger&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">decisions</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_comparisons</span><span class="p">[</span><span class="n">id_reject</span><span class="p">])]</span> <span class="o">=</span> <span class="s2">&quot;smaller&quot;</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;reject&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bk_sup</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level_spent</span> <span class="o">+=</span> <span class="n">level_to_add</span>  <span class="c1"># level effectively used at this point</span>
+        
+        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comparisons</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">decisions</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span><span class="o">==</span><span class="s2">&quot;continue&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">decisions</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span> <span class="o">=</span> <span class="s2">&quot;equal&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval_values</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">agent_names</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_managers</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_eval_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">Z</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_managers</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_iters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent_names</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+
+        <span class="n">id_decided</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">current_decisions</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;continue&quot;</span>
+        
+        <span class="k">if</span>  <span class="ow">not</span><span class="p">(</span><span class="s2">&quot;continue&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">decisions</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_finished</span> <span class="o">=</span> <span class="kc">True</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_tracked</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_tracked</span><span class="p">[</span><span class="o">~</span><span class="n">id_decided</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_comparisons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_comparisons</span><span class="p">[</span><span class="o">~</span><span class="n">id_decided</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_diffs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">)]</span> <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">current_comparisons</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="MultipleAgentsComparator.get_results">
+<a class="viewcode-back" href="../../generated/adastop.MultipleAgentsComparator.html#adastop.MultipleAgentsComparator.get_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a dataframe with the results of the tests.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comparisons</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">results</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;Agent1 vs Agent2&quot;</span><span class="p">:</span> 
+                        <span class="p">[</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> vs </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent_names</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent_names</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]])],</span>
+                    <span class="s2">&quot;mean Agent1&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_eval_values</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                    <span class="s2">&quot;mean Agent2&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_eval_values</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="s2">&quot;mean diff&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_eval_values</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_eval_values</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="s2">&quot;std Agent 1&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_values</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent_names</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]),</span>
+                    <span class="s2">&quot;std Agent 2&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_values</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent_names</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]]]),</span>
+                    <span class="s2">&quot;decisions&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">decisions</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)],</span>
+                <span class="p">}</span>
+            <span class="p">)])</span>
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="MultipleAgentsComparator.plot_results">
+<a class="viewcode-back" href="../../generated/adastop.MultipleAgentsComparator.html#adastop.MultipleAgentsComparator.plot_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        visual representation of results.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        agent_names : list of str or None</span>
+<span class="sd">        axes : tuple of two matplotlib axes of None</span>
+<span class="sd">             if None, use the following:</span>
+<span class="sd">             `fig, (ax1, ax2) = plt.subplots(2, 1, gridspec_kw={&quot;height_ratios&quot;: [1, 2]}, figsize=(6,5))`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent_names</span><span class="p">,</span> <span class="n">axes</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MultipleAgentsComparator.plot_results_sota">
+<a class="viewcode-back" href="../../generated/adastop.MultipleAgentsComparator.html#adastop.MultipleAgentsComparator.plot_results_sota">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_results_sota</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        visual representation of results when the first agent is compared to all the others.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        agent_names : list of str or None</span>
+<span class="sd">        axes : tuple of two matplotlib axes of None</span>
+<span class="sd">             if None, use the following:</span>
+<span class="sd">             `fig, (ax1, ax2) = plt.subplots(2, 1, gridspec_kw={&quot;height_ratios&quot;: [1, 2]}, figsize=(6,5))`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plot_results_sota</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent_names</span><span class="p">,</span> <span class="n">axes</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Timothee Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
