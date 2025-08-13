@@ -103,7 +103,7 @@ The process stops when all the comparisons are decided.
 ** Analysis of AdaStop results -- plot and status commands
 
 #+begin_src bash :session *shell* :results verbatim :exports both
-adastop plot . tesult.pdf
+adastop plot . result.pdf
 #+end_src
 
 [[../examples/plot_result.png]]

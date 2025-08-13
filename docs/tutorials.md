@@ -71,7 +71,6 @@ Options:
   -B, --n-permutations INTEGER  Number of random permutations.  [default:
                                 10000]
   --alpha FLOAT                 Type I error.  [default: 0.05]
-  --beta FLOAT                  early accept parameter.  [default: 0.0]
   --seed INTEGER                Random seed.
   --compare-to-first            Compare all algorithms to the first algorithm.
   --help                        Show this message and exit.
@@ -172,7 +171,7 @@ The process stops when all the comparisons are decided.
 ## Analysis of AdaStop results &#x2013; plot and status commands
 
 ```bash
-adastop plot . tesult.pdf
+adastop plot . result.pdf
 ```
 
 ![img](../examples/plot_result.png)
