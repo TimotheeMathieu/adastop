@@ -171,7 +171,7 @@ The process stops when all the comparisons are decided.
 ## Analysis of AdaStop results &#x2013; plot and status commands
 
 ```bash
-adastop plot . tesult.pdf
+adastop plot . result.pdf
 ```
 
 ![img](../examples/plot_result.png)
