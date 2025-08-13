@@ -27,12 +27,11 @@ def adastop(ctx):
 @click.option("-N", "--size-group", default=5,type=int, show_default=True, help="Number of groups.")
 @click.option("-B", "--n-permutations", default=10000,type=int, show_default=True, help="Number of random permutations.")
 @click.option("--alpha", default=0.05,type=float, show_default=True, help="Type I error.")
-@click.option("--beta", default=0.0,type=float, show_default=True, help="early accept parameter.")
 @click.option("--seed", default=None, type=int, show_default=True, help="Random seed.")
 @click.option("--compare-to-first", is_flag=True, show_default=True, default=False, help="Compare all algorithms to the first algorithm.")
 @click.argument('input_file',required = True, type=str)
 @click.pass_context
-def compare(ctx, input_file, n_groups, size_group, n_permutations, alpha, beta, seed, compare_to_first):
+def compare(ctx, input_file, n_groups, size_group, n_permutations, alpha,  seed, compare_to_first):
     """
     Perform one step of adaptive stopping algorithm using csv file intput_file.
     The csv file must be of size `size_group`.
@@ -69,7 +68,7 @@ def compare(ctx, input_file, n_groups, size_group, n_permutations, alpha, beta, 
     else:
         comparator = MultipleAgentsComparator(n_fits_per_group, n_groups,
                                               n_permutations, comparisons,
-                                              alpha, beta, seed)
+                                              alpha, seed)
         names = df.columns
 
         Z = [df[agent].values for agent in names]
