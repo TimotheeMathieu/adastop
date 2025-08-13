@@ -62,7 +62,7 @@ def compare(ctx, input_file, n_groups, size_group, n_permutations, alpha,  seed,
 
         Z = [np.hstack([comparator.eval_values[agent], df[agent]]) for agent in names]
         if len(names) == 0:
-            raise ValueError('Error: you tried to use more group than what was initially declared, this is not allowed by the theory.')
+            raise ValueError('Error: you tried to use more group than necessary. Use adastop status to see current status for more info.')
         assert "continue" in list(comparator.decisions.values()), "Test finished at last iteration."
 
     else:
