@@ -15,6 +15,17 @@ The command line interface takes csv files as input. Each csv file must contain 
 Below, we give an example based on files containing the evaluations of PPO,DDPG,SAC,TRPO, four Deep Reinforcement Learning algorithmes, given in the \`examples\` directory of the main repository.
 
 
+## Installation
+
+To install adastop, use pip:
+```bash
+pip install adastop
+```
+
+This will automatically install the command line interface as well as the python library.
+
+
+
 ## Help for cli tool
 
 The AdaStop algorithm is initialized with the first test done through \`adastop compare\` and the current state of AdaStop is then saved in a pickle file. The help of \`adastop\` command line can be obtained with the following:
@@ -90,7 +101,7 @@ The input format of adastop is under the form of a csv file containing the score
 
 Let us launch AdaStop on this first batch of data.
 
-First, we clean up the corrent directory of any litter files that could have been spawned by a previous usage of \`adastop\` (if you never used \`adastop\` before, this command will not have any effect).
+First, we clean up the current directory of any litter files that could have been spawned by a previous usage of \`adastop\` (if you never used \`adastop\` before, this command will not have any effect).
 
 ```bash
 adastop reset . # reset the state of the comparator (remove hidden pickle file)
@@ -144,14 +155,14 @@ adastop compare --n-groups 5 --size-group 5  walker5.csv
 
 Test is finished, decisions are
 
-|   | Agent1 vs Agent2 | mean Agent1 | mean Agent2 | mean diff | std Agent 1 | std Agent 2 | decisions |
-|--- |---------------- |----------- |----------- |--------- |----------- |----------- |--------- |
-| 0 | PPO vs DDPG      | 2901.53     | 884.119     | 2017.41   | 1257.93     | 535.74      | larger    |
-| 0 | PPO vs SAC       | 2901.53     | 4543.4      | -1641.87  | 1257.93     | 432.13      | smaller   |
-| 0 | PPO vs TRPO      | 2901.53     | 1215.42     | 1686.11   | 1257.93     | 529.672     | larger    |
-| 0 | DDPG vs SAC      | 884.119     | 4543.4      | -3659.28  | 535.74      | 432.13      | smaller   |
-| 0 | DDPG vs TRPO     | 884.119     | 1215.42     | -331.297  | 535.74      | 529.672     | smaller   |
-| 0 | SAC vs TRPO      | 4543.4      | 1215.42     | 3327.98   | 432.13      | 529.672     | larger    |
+| Agent1 vs Agent2 | mean Agent1 | mean Agent2 | mean diff | std Agent 1 | std Agent 2 | decisions |
+|----------------- |------------ |------------ |---------- |------------ |------------ |---------- |
+| PPO vs DDPG      | 2901.53     | 884.119     | 2017.41   | 1257.93     | 535.74      | larger    |
+| PPO vs SAC       | 2901.53     | 4543.4      | -1641.87  | 1257.93     | 432.13      | smaller   |
+| PPO vs TRPO      | 2901.53     | 1215.42     | 1686.11   | 1257.93     | 529.672     | larger    |
+| DDPG vs SAC      | 884.119     | 4543.4      | -3659.28  | 535.74      | 432.13      | smaller   |
+| DDPG vs TRPO     | 884.119     | 1215.42     | -331.297  | 535.74      | 529.672     | smaller   |
+| SAC vs TRPO      | 4543.4      | 1215.42     | 3327.98   | 432.13      | 529.672     | larger    |
 
 Comparator Saved
 

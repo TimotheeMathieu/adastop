@@ -17,12 +17,13 @@ def test_cli():
     result = runner.invoke(adastop, ['reset', 'examples'])
     assert result.exit_code == 0
     for j in range(1,6):
-        
-        result = runner.invoke(adastop, ['compare', 'examples/walker'+str(j)+'.csv'])
+        result = runner.invoke(adastop, ['compare', "--seed", "1",  'examples/walker'+str(j)+'.csv'])
         assert result.exit_code == 0
 
-    result = runner.invoke(adastop, ['compare', 'examples/walker3.csv'])
+    result = runner.invoke(adastop, ['compare',"--seed", "1",  'examples/walker3.csv'])
     assert result.exit_code == 1
+    assert result.exception.args[0] == 'Error: you tried to use more group than necessary. Use adastop status to see current status for more info.'
+
 
     result = runner.invoke(adastop, ['plot', 'examples', test_pdf_path])
     assert result.exit_code == 0
@@ -34,7 +35,7 @@ def test_cli():
     result = runner.invoke(adastop, ['reset', 'examples'])
     assert result.exit_code == 0
         
-    result = runner.invoke(adastop, ['compare', "--compare-to-first", 'examples/walker1.csv'])
+    result = runner.invoke(adastop, ['compare', "--compare-to-first","--seed", "1",  'examples/walker1.csv'])
     assert result.exit_code == 0
 
 
