@@ -42,9 +42,6 @@ class MultipleAgentsComparator:
     alpha: float, default=0.01
         level of the test
 
-    beta: float, default=0
-        power spent in early accept.
-
     seed: int or None, default = None
 
     Attributes
@@ -84,19 +81,16 @@ class MultipleAgentsComparator:
         B=10000,
         comparisons = None,
         alpha=0.01,
-        beta=0,
         seed=None,
     ):
         self.n = n
         self.K = K
         self.B = B
         self.alpha = alpha
-        self.beta = beta
         self.comparisons = comparisons
         self.boundary = []
         self.k = 0
         self.level_spent = 0
-        self.power_spent = 0
         self.seed = seed
         self.rng = np.random.RandomState(seed)
         self.rejected_decision = []
@@ -235,7 +229,6 @@ class MultipleAgentsComparator:
         k = self.k
 
         clevel = self.alpha*(k + 1) / self.K
-        dlevel = self.beta*(k + 1) / self.K
 
         mean_diffs = self.compute_mean_diffs(k, Z)
         
@@ -270,19 +263,6 @@ class MultipleAgentsComparator:
                 bk_sup = np.inf
                 level_to_add = 0
 
-            cumulative_probas = np.arange(len(values)) / self.normalization  # corresponds to P(T < t)
-            admissible_values_inf = values[
-                self.power_spent + cumulative_probas < dlevel
-            ]
-
-            if len(admissible_values_inf) > 0:
-                bk_inf = admissible_values_inf[-1]  # the maximum admissible value
-                power_to_add = cumulative_probas[
-                    self.power_spent + cumulative_probas <= dlevel
-                ][-1]
-            else:
-                bk_inf = -np.inf
-                power_to_add = 0
 
             # Test statistic, step-down
             Tmax = 0
@@ -323,19 +303,13 @@ class MultipleAgentsComparator:
                     self.decisions[str(self.current_comparisons[id_reject])] = "smaller"
                 if verbose:
                     print("reject")
-            elif Tmin < bk_inf:
-                id_accept = np.arange(len(current_decisions))[current_decisions == "continue"][imin]
-                current_decisions[id_accept] = "accept"
-                self.decisions[str(self.current_comparisons[id_accept])] = "equal"
             else:
                 break
 
             
         
-        self.boundary.append((bk_inf, bk_sup))
-
+        self.boundary.append(bk_sup)
         self.level_spent += level_to_add  # level effectively used at this point
-        self.power_spent += power_to_add 
         
         if k == self.K - 1:
             for c in self.comparisons:
