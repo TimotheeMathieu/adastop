@@ -78,7 +78,6 @@ Options:
   --n-groups INTEGER        Number of groups.  [default: 5]
   --n-permutations INTEGER  Number of random permutations.  [default: 10000]
   --alpha FLOAT             Type I error.  [default: 0.05]
-  --beta FLOAT              early accept parameter.  [default: 0.0]
   --seed INTEGER            Random seed.
   --compare-to-first        Compare all algorithms to the first algorithm.
   --help                    Show this message and exit.
