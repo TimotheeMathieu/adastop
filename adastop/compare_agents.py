@@ -50,9 +50,9 @@ class MultipleAgentsComparator:
     n_iters: dict
         number of iterations (i.e. number of fits) used for each agent. Keys are the agents' names and values are ints.
 
-    Examples
-    --------
-    Adastop can be used with the following code compatible with basically anything:
+    Example
+    -------
+    Adastop can be used with the following code:
 
     >>> comparator = MultipleAgentsComparator(n=6, K=6, B=10000, alpha=0.05)
     >>>

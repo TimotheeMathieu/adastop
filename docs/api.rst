@@ -26,3 +26,12 @@ Main functions
     adastop.plot_results
     adastop.plot_results_sota
     
+
+Confidence sequences
+====================
+
+.. autosummary::
+   :toctree: generated/
+   :templace: class.rst
+
+   adastop.Bounded_Confseq

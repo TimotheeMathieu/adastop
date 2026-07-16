@@ -17,7 +17,6 @@ This will automatically install the command line interface as well as the python
 WARNING: this Readme is for the dev version of adastop, to see the README associated to the released version, see https://pypi.org/project/adastop/
 
 
-
 ## Usage
 
 See [the tutorial](tutorials).
