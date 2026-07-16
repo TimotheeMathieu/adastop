@@ -77,7 +77,6 @@ class MultipleAgentsComparator:
         n=5,
         K=5,
         B=10000,
-        stat_fun = lambda x : np.mean(x),
         comparisons=None,
         alpha=0.01,
         seed=None,
@@ -85,7 +84,6 @@ class MultipleAgentsComparator:
         self.n = n
         self.K = K
         self.B = B
-        self.stat_fun = stat_fun
         self.alpha = alpha
         self.comparisons = comparisons
         self.boundary = []
