@@ -264,7 +264,7 @@ class MultipleAgentsComparator:
                 str(comp): mean_diffs[str(comp)] for comp in current_comparisons
             }
             max_mean_diffs = [
-                np.max([mean_diffs_now[str(comp)][i] for comp in current_comparisons])
+                np.max([np.abs(mean_diffs_now[str(comp)][i]) for comp in current_comparisons])
                 for i in range(len(mean_diffs_now[str(current_comparisons[0])]))
             ]
             values = np.sort(max_mean_diffs)
