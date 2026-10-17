@@ -81,7 +81,7 @@ def plot_results(comparator, agent_names=None, axes = None):
 
     ax1.autoscale(False)
 
-    box_plot = ax2.boxplot(Z, labels=np.array(agent_names)[id_sort], showmeans=True)
+    box_plot = ax2.boxplot(Z, tick_labels=np.array(agent_names)[id_sort], showmeans=True)
     for mean in box_plot['means']:
         mean.set_alpha(0.6)
 
@@ -160,7 +160,7 @@ def plot_results_sota(comparator, agent_names=None, axes = None):
     ax1.autoscale(False)
 
 
-    box_plot = ax2.boxplot(Z, labels=np.array(agent_names)[id_sort], showmeans=True)
+    box_plot = ax2.boxplot(Z, tick_labels=np.array(agent_names)[id_sort], showmeans=True)
     for mean in box_plot['means']:
         mean.set_alpha(0.6)
 
