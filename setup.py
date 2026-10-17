@@ -23,7 +23,7 @@ setup(
     long_description_content_type="text/markdown",
 
     install_requires=[
-        'Click', "numpy", "matplotlib", "pandas", "tabulate"
+        'Click', "numpy", "matplotlib", "pandas", "tabulate", "scipy"
     ],
     entry_points={
         'console_scripts': [
