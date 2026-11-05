@@ -81,7 +81,7 @@ def compare(ctx, input_file, n_groups, size_group, n_permutations, alpha,  seed,
                 data[agent]=comparator.eval_values[agent]
 
     comparator.partial_compare(data, False)
-    if not("continue" in list(comparator.decisions.values())):
+    if "continue" not in list(comparator.decisions.values()):
         click.echo('')
         click.echo("Test is finished, decisions are")
         click.echo(comparator.get_results().to_markdown(index=False))
@@ -131,7 +131,7 @@ def plot(ctx, folder, target_file,width, height ):
     if os.path.isfile(path_lf):
         with open(path_lf, 'rb') as fp:
             comparator = pickle.load(fp)
-        assert not("continue" in list(comparator.decisions.values())), "Testing process not finished yet, cannot plot yet."
+        assert "continue" not in list(comparator.decisions.values()), "Testing process not finished yet, cannot plot yet."
     else:
         raise ValueError('Comparator save file not found.')
     

@@ -1,4 +1,3 @@
-import pytest
 from adastop import MultipleAgentsComparator
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,7 +22,6 @@ def test_plot():
         comparator.partial_compare(evals)
     comparator.plot_results()
 
-    # plt.savefig('fig.pdf')
     fig, axes= plt.subplots(1,2)
     comparator.plot_results(axes=axes)
 
@@ -44,7 +42,7 @@ def test_plot_sota():
             evals = {"Agent "+str(k): rng.normal(size=n) for k in range(n_agents)}
         comparator.partial_compare(evals)
     comparator.plot_results_sota()
-    # plt.savefig('fig2.pdf')
+
     fig, axes= plt.subplots(1,2)
     comparator.plot_results_sota(axes=axes)
 
@@ -61,7 +59,7 @@ def test_plot_noteq():
         else:
             evals = {"Agent "+str(k): rng.normal(size=10)+k for k in range(n_agents)}
         comparator.partial_compare(evals)
-    # plt.savefig('fig2.pdf')
+
     fig, axes= plt.subplots(1,2)
     comparator.plot_results(axes=axes)
 
@@ -81,7 +79,7 @@ def test_plot_sota_noteq():
             evals = {"Agent "+str(k): rng.normal(size=10) for k in range(n_agents)}
         comparator.partial_compare(evals)
     comparator.plot_results_sota()
-    # plt.savefig('fig2.pdf')
+
     fig, axes= plt.subplots(1,2)
     comparator.plot_results_sota(axes=axes)
 
@@ -100,7 +98,7 @@ def test_plot_noteq2():
         else:
             evals = {"Agent "+str(k): rng.normal(size=10)+np.abs(2*K-k) for k in range(n_agents)}
         comparator.partial_compare(evals)
-    # plt.savefig('fig2.pdf')
+
     fig, axes= plt.subplots(1,2)
     comparator.plot_results(axes=axes)
 
@@ -120,7 +118,7 @@ def test_plot_sota_noteq2():
             evals = {"Agent "+str(k): rng.normal(size=10)+np.abs(2*K-k) for k in range(n_agents)}
         comparator.partial_compare(evals)
     comparator.plot_results_sota()
-    # plt.savefig('fig2.pdf')
+
     fig, axes= plt.subplots(1,2)
     comparator.plot_results_sota(axes=axes)
 

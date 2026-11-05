@@ -1,9 +1,6 @@
 import logging
 import numpy as np
 from copy import copy
-import matplotlib.pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
-import matplotlib.patches as mpatches
 import math
 import pandas as pd
 import itertools
@@ -134,7 +131,7 @@ class MultipleAgentsComparator:
         else:
             # Eliminate for conditional
             mean_diffs = {str(comp): [] for comp in self.mean_diffs}
-            to_remove = []
+
             for i in range(len(self.mean_diffs[str(comparisons[0])])):
                 zval = []
                 for comp in self.mean_diffs:
@@ -254,7 +251,6 @@ class MultipleAgentsComparator:
             print("Step {}".format(k))
 
         current_decisions = np.array(["continue"] * len(self.id_tracked))
-        current_sign = np.zeros(len(current_decisions))
 
         for j in range(len(current_decisions)):
             current_comparisons = self.current_comparisons[
@@ -293,7 +289,6 @@ class MultipleAgentsComparator:
             Tmax = 0
             Tmin = np.inf
             Tmaxsigned = 0
-            Tminsigned = 0
             for i, comp in enumerate(
                 self.current_comparisons[current_decisions == "continue"]
             ):
@@ -311,11 +306,6 @@ class MultipleAgentsComparator:
 
                 if Ti < Tmin:
                     Tmin = Ti
-                    imin = i
-                    Tminsigned = (k + 1) * (
-                        np.mean(Z[comp[0]][: ((k + 1) * self.n[comp[0]])])
-                        - np.mean(Z[comp[1]][: ((k + 1) * self.n[comp[1]])])
-                    )
 
             if Tmax > bk_sup:
                 id_reject = np.arange(len(current_decisions))[
@@ -348,7 +338,7 @@ class MultipleAgentsComparator:
 
         id_decided = np.array(current_decisions) != "continue"
 
-        if not ("continue" in self.decisions.values()):
+        if "continue" not in self.decisions.values():
             self.is_finished = True
 
         self.id_tracked = self.id_tracked[~id_decided]
