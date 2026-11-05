@@ -415,3 +415,243 @@ class MultipleAgentsComparator:
              `fig, (ax1, ax2) = plt.subplots(2, 1, gridspec_kw={"height_ratios": [1, 2]}, figsize=(6,5))`
         """
         plot_results_sota(self, agent_names, axes)
+
+
+class PairedAgentsComparator(MultipleAgentsComparator):
+    """
+    Compare sequentially agents, with possible early stopping.
+    At maximum, there can be n times K fits done.
+
+    Use paired data: each row must correspond to the same seed for every agent.
+
+    Parameters
+    ----------
+
+    n: int, or array of ints of size self.n_agents, default=5
+        If int, number of fits before each early stopping check. If array of int, a
+        different number of fits is used for each agent.
+
+    K: int, default=5
+        number of check.
+
+    B: int, default=None
+        Number of random permutations used to approximate permutation distribution.
+
+    alpha: float, default=0.01
+        level of the test
+
+    seed: int or None, default = None
+
+    Attributes
+    ----------
+    agent_names: list of str
+        list of the agents' names.
+    decision: dict
+        decision of the tests for each comparison, keys are the comparisons and values are in {"equal", "larger", "smaller"}.
+    n_iters: dict
+        number of iterations (i.e. number of fits) used for each agent. Keys are the agents' names and values are ints.
+
+    Example
+    -------
+    Adastop can be used with the following code:
+
+    >>> comparator = MultipleAgentsComparator(n=6, K=6, B=10000, alpha=0.05)
+    >>>
+    >>> eval_values = {agent.name: [] for agent in agents}
+    >>>
+    >>> for k in range(comparator.K):
+    >>>    for  agent in enumerate(agents):
+    >>>        # If the agent is still in one of the comparison considered, then generate new evaluations.
+    >>>        if agent in comparator.current_comparisons.ravel():
+    >>>            eval_values[agent.name].append(train_evaluate(agent, n))
+    >>>    comparator.partial_compare(eval_values, verbose)
+    >>>    decisions = comparator.decisions # results of the decisions for step k
+    >>>    if comparator.is_finished:
+    >>>        break
+
+    Where train_evaluate(agent, n) is a function that trains n copies of agent and returns n evaluation values.
+
+    """
+
+    def __init__(
+        self,
+        n=5,
+        K=5,
+        B=10000,
+        alpha=0.01,
+        seed=None,
+    ):
+        super().__init__( n, K, B, None, alpha, seed)
+
+    def partial_compare(self, eval_values, verbose=True):
+        """
+        Do the test of the k^th interim.
+        """
+        if self.agent_names is None:
+            self.agent_names = ["Dummy"] + list([ (a, b) for a, b in itertools.combinations(eval_values.keys(),2)])
+
+        Z = [0]*self.n + [np.array(eval_values[agent1] - eval_values[agent2]) for agent1, agent2 in itertools.combinations(eval_values.keys(),2)]
+        n_managers = len(Z)
+
+        # Re-apply
+        if self.k == 0:
+            # initialization
+            if self.comparisons is None:
+                self.comparisons = np.array(
+                    [
+                        (i, j)
+                        for i in range(n_managers)
+                        for j in range(n_managers)
+                        if i < j
+                    ]
+                )
+            self.current_comparisons = copy(self.comparisons)
+            self.mean_diffs = {str(comp): [] for comp in self.comparisons}
+
+            self.n_iters = {self.agent_names[i]: 0 for i in range(n_managers)}
+
+            self.decisions = {str(c): "continue" for c in self.comparisons}
+            self.id_tracked = np.arange(
+                len(self.decisions)
+            )  # ids of comparisons effectively tracked
+
+        k = self.k
+
+        clevel = self.alpha * (k + 1) / self.K
+
+        mean_diffs = self.compute_mean_diffs(k, Z)
+
+        if verbose:
+            print("Step {}".format(k))
+
+        current_decisions = np.array(["continue"] * len(self.id_tracked))
+        current_sign = np.zeros(len(current_decisions))
+
+        for j in range(len(current_decisions)):
+            current_comparisons = self.current_comparisons[
+                current_decisions == "continue"
+            ]
+            mean_diffs_now = {
+                str(comp): mean_diffs[str(comp)] for comp in current_comparisons
+            }
+            max_mean_diffs = [
+                np.max([np.abs(mean_diffs_now[str(comp)][i]) for comp in current_comparisons])
+                for i in range(len(mean_diffs_now[str(current_comparisons[0])]))
+            ]
+            values = np.sort(max_mean_diffs)
+
+            icumulative_probas = (
+                np.arange(len(values))[::-1] / self.normalization
+            )  # This corresponds to 1 - F(t) = P(T > t)
+
+            # Compute admissible values, i.e. values that would not be rejected nor accepted.
+            admissible_values_sup = values[
+                self.level_spent + icumulative_probas < clevel
+            ]
+
+            if len(admissible_values_sup) > 0:
+                bk_sup = admissible_values_sup[0]  # the minimum admissible value
+                level_to_add = icumulative_probas[
+                    self.level_spent + icumulative_probas < clevel
+                ][0]
+            else:
+                # This case is possible if clevel-self.level_spent <= 1/ self.normalization (smallest proba possible),
+                # in which case there are not enough points and we don't take any decision for now. Happens in particular if B is None.
+                bk_sup = np.inf
+                level_to_add = 0
+
+            # Test statistic, step-down multiple comparison method
+            Tmax = 0
+            Tmin = np.inf
+            Tmaxsigned = 0
+            Tminsigned = 0
+            for i, comp in enumerate(
+                self.current_comparisons[current_decisions == "continue"]
+            ):
+                Ti = (k + 1) * np.abs(
+                    np.mean(Z[comp[0]][: ((k + 1) * self.n[comp[0]])])
+                    - np.mean(Z[comp[1]][: ((k + 1) * self.n[comp[1]])])
+                )
+                if Ti > Tmax:
+                    Tmax = Ti
+                    imax = i
+                    Tmaxsigned = (k + 1) * (
+                        np.mean(Z[comp[0]][: ((k + 1) * self.n[comp[0]])])
+                        - np.mean(Z[comp[1]][: ((k + 1) * self.n[comp[1]])])
+                    )
+
+                if Ti < Tmin:
+                    Tmin = Ti
+                    imin = i
+                    Tminsigned = (k + 1) * (
+                        np.mean(Z[comp[0]][: ((k + 1) * self.n[comp[0]])])
+                        - np.mean(Z[comp[1]][: ((k + 1) * self.n[comp[1]])])
+                    )
+
+            if Tmax > bk_sup:
+                id_reject = np.arange(len(current_decisions))[
+                    current_decisions == "continue"
+                ][imax]
+                current_decisions[id_reject] = "reject"
+
+                if Tmaxsigned > 0:
+                    self.decisions[str(self.current_comparisons[id_reject])] = "larger"
+                else:
+                    self.decisions[str(self.current_comparisons[id_reject])] = "smaller"
+                if verbose:
+                    print("reject")
+            else:
+                break
+
+        self.boundary.append(bk_sup)
+        self.level_spent += level_to_add  # level effectively used at this point
+
+        if k == self.K - 1:
+            for c in self.comparisons:
+                if self.decisions[str(c)] == "continue":
+                    self.decisions[str(c)] = "equal"
+
+        self.k = self.k + 1
+        self.eval_values = {self.agent_names[i]: Z[i] for i in range(n_managers)}
+        self.mean_eval_values = [np.mean(z) for z in Z]
+        for i in range(n_managers):
+            self.n_iters[self.agent_names[i]] = len(Z[i].ravel())
+
+        id_decided = np.array(current_decisions) != "continue"
+
+        if not ("continue" in self.decisions.values()):
+            self.is_finished = True
+
+        self.id_tracked = self.id_tracked[~id_decided]
+        self.current_comparisons = self.current_comparisons[~id_decided]
+        self.mean_diffs = {
+            str(comp): self.mean_diffs[str(comp)] for comp in current_comparisons
+        }
+
+
+    def get_results(self):
+        """
+        Returns a dataframe with the results of the tests.
+        """
+        results = pd.DataFrame()
+        for c in self.comparisons:
+            results = pd.concat(
+                [
+                    results,
+                    pd.DataFrame(
+                        {
+                            "Agent1 vs Agent2": [
+                                "{0} vs {1}".format(
+                                    self.agent_names[c[1]]
+                                )
+                            ],
+                            "mean diff": self.mean_eval_values[c[1]]
+                            "std diff": np.std(
+                                self.eval_values[self.agent_names[c[1]]]
+                            ),
+                            "decisions": self.decisions[str(c)],
+                        }
+                    ),
+                ]
+            )
+        return results

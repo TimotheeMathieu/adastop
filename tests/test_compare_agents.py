@@ -1,5 +1,5 @@
 import pytest
-from adastop import MultipleAgentsComparator
+from adastop import MultipleAgentsComparator, PairedAgentsComparator
 import numpy as np
     
 B = 5000
@@ -20,7 +20,6 @@ def test_partial_compare_not_enough_points():
     evals = {"Agent 1":np.array([0,0,0]),"Agent 2":np.array([0,0,0]),"Agent 3":np.array([0,0,0])}
     comparator.partial_compare(evals)
 
-    
 
 @pytest.mark.parametrize("K,n", [(10,2),(5,3), (3, 5), (1, 15)])
 def test_type1(K,n):
@@ -42,6 +41,28 @@ def test_type1(K,n):
         print(comparator.get_results().to_string(index=False))
     assert np.mean(idxs) < 2*alpha + 1/4/(np.sqrt(n_runs)), "type 1 error seems to be too large."
         
+
+@pytest.mark.parametrize("K,n", [(10,2),(5,3), (3, 5), (1, 15)])
+def test_type1_paired(K,n):
+
+    idxs = []
+    n_agents = 3
+    seed = 0
+    for M in range(n_runs):
+        comparator = PairedAgentsComparator(n=n, K=K, B=B,  alpha=alpha, seed=M)
+        evals = {"Agent "+str(k): [] for k in range(n_agents)}
+        while not comparator.is_finished:
+            seed += 1
+            for k in range(n_agents):
+                rng = np.random.RandomState(seed)
+                evals["Agent "+str(k)] = np.hstack([evals["Agent "+str(k)] , rng.normal(size=n)])
+
+            comparator.partial_compare(evals)
+        idxs.append(not("equal" in comparator.decisions.values()))
+        print(comparator.get_results().to_string(index=False))
+    assert np.mean(idxs) < 2*alpha + 1/4/(np.sqrt(n_runs)), "type 1 error seems to be too large."
+        
+
 
 @pytest.mark.parametrize("K,n", [(3, 5), (1, 15)])
 def test_type2(K,n):

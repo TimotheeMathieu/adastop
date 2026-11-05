@@ -1,4 +1,4 @@
-from .compare_agents import MultipleAgentsComparator
+from .compare_agents import MultipleAgentsComparator, PairedAgentsComparator
 from .plotting import plot_results, plot_results_sota
 from .confidence_sequences import Bounded_Confseq
 
