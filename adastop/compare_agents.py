@@ -487,11 +487,15 @@ class PairedAgentsComparator(MultipleAgentsComparator):
         """
         Do the test of the k^th interim.
         """
+        anames = list(eval_values.keys())
         if self.agent_names is None:
-            self.agent_names = ["Dummy"] + list([ (a, b) for a, b in itertools.combinations(eval_values.keys(),2)])
+            self.agent_names = ["Dummy"] + list([ a+" "+ b for a, b in itertools.combinations(anames,2)])
 
-        Z = [0]*self.n + [np.array(eval_values[agent1] - eval_values[agent2]) for agent1, agent2 in itertools.combinations(eval_values.keys(),2)]
+        Z = [np.array([0]*len(eval_values[anames[0]]))] + [np.array(eval_values[agent1] - eval_values[agent2]) for agent1, agent2 in itertools.combinations(anames,2)]
+
         n_managers = len(Z)
+        if isinstance(self.n, int):
+            self.n = np.array([self.n] * n_managers)
 
         # Re-apply
         if self.k == 0:
@@ -499,15 +503,12 @@ class PairedAgentsComparator(MultipleAgentsComparator):
             if self.comparisons is None:
                 self.comparisons = np.array(
                     [
-                        (i, j)
-                        for i in range(n_managers)
-                        for j in range(n_managers)
-                        if i < j
+                        (0, i)
+                        for i in range(1,n_managers)
                     ]
                 )
             self.current_comparisons = copy(self.comparisons)
             self.mean_diffs = {str(comp): [] for comp in self.comparisons}
-
             self.n_iters = {self.agent_names[i]: 0 for i in range(n_managers)}
 
             self.decisions = {str(c): "continue" for c in self.comparisons}
@@ -641,13 +642,13 @@ class PairedAgentsComparator(MultipleAgentsComparator):
                     pd.DataFrame(
                         {
                             "Agent1 vs Agent2": [
-                                "{0} vs {1}".format(
-                                    self.agent_names[c[1]]
+                                "{0}".format(
+                                    self.agent_names[1]
                                 )
                             ],
-                            "mean diff": self.mean_eval_values[c[1]]
+                            "mean diff": self.mean_eval_values[1],
                             "std diff": np.std(
-                                self.eval_values[self.agent_names[c[1]]]
+                                self.eval_values[self.agent_names[1]]
                             ),
                             "decisions": self.decisions[str(c)],
                         }
