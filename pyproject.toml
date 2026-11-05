@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.scripts]
-adastop = "adastop:main"
+adastop = "adastop.cli:adastop"
 
 [build-system]
 requires = ["uv_build>=0.13.6,<0.14.0"]
