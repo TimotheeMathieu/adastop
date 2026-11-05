@@ -1,0 +1,29 @@
+[project]
+name = "adastop"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "YannBerthelot", email = "yannberthelot1@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "click>=7.0",
+    "matplotlib>=3.9",
+    "numpy>=1.23.2",
+    "pandas>=1.5.0",
+    "scipy>=1.9.2",
+    "tabulate>=0.8.9",
+]
+
+[project.scripts]
+adastop = "adastop:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>6.2.5",
+]
