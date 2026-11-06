@@ -1,0 +1,12 @@
+﻿:mod:`adastop`.MultipleAgentsComparator
+==============================================
+
+.. currentmodule:: adastop
+
+.. autoclass:: MultipleAgentsComparator
+
+.. include:: adastop.MultipleAgentsComparator.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

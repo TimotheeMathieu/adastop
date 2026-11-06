@@ -1,0 +1,12 @@
+﻿:mod:`adastop`.plot_results
+========================================
+
+.. currentmodule:: adastop
+
+.. autofunction:: plot_results
+
+.. include:: adastop.plot_results.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

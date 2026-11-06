@@ -1,0 +1,24 @@
+﻿adastop.Bounded\_Confseq
+========================
+
+.. currentmodule:: adastop
+
+.. autoclass:: Bounded_Confseq
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Bounded_Confseq.__init__
+      ~Bounded_Confseq.capital
+      ~Bounded_Confseq.observe
+   
+   
+
+   
+   
+   
