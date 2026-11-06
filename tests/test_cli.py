@@ -30,7 +30,7 @@ def test_cli():
     assert result.exit_code == 0
     result = runner.invoke(adastop, ['status', 'examples'])
     assert result.exit_code == 0
-    assert os.path.exists(test_pdf_path) == True
+    assert os.path.exists(test_pdf_path)
 
 
     result = runner.invoke(adastop, ['reset', 'examples'])

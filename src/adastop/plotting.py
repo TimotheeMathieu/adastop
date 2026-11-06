@@ -58,24 +58,21 @@ def plot_results(comparator, agent_names=None, axes = None):
     else:
         (ax1, ax2) = axes
 
-    n_iterations = [comparator.n_iters[comparator.agent_names[i]] for i in id_sort]
-    the_table = ax1.table(
-        cellText=[n_iterations], rowLabels=["n_iter"], loc="top", cellLoc="center"
-    )
+
 
     # Draw the heatmap with the mask and correct aspect ratio
     colors = mpl.colormaps["Pastel1"].colors
     colors = [colors[0], "lightgray", colors[1], "white"]
     cmap = ListedColormap(colors, name="my_cmap")
 
-    im = ax1.imshow(links, cmap=cmap, vmin=-1, vmax=2, aspect='auto')
+    ax1.imshow(links, cmap=cmap, vmin=-1, vmax=2, aspect='auto')
 
     ax1.set_yticks(np.arange(len(id_sort)), labels=np.array(agent_names)[id_sort])
     ax1.set_xticks([], labels=[])
     # Loop over data dimensions and create text annotations.
     for i in range(len(annot)):
         for j in range(len(annot[0])):
-            text = ax1.text(j, i, annot[i][j],
+            ax1.text(j, i, annot[i][j],
                            ha="center", va="center", color="k")
 
 
@@ -149,13 +146,13 @@ def plot_results_sota(comparator, agent_names=None, axes = None):
     colors = mpl.colormaps["Pastel1"].colors
     colors = [colors[0], "lightgray", colors[1], "white"]
     cmap = ListedColormap(colors, name="my_cmap")
-    im = ax1.imshow([links], cmap=cmap, vmin=-1, vmax=2, aspect='auto')
+    ax1.imshow([links], cmap=cmap, vmin=-1, vmax=2, aspect='auto')
 
     ax1.set_yticks([], labels=[])
     ax1.set_xticks([], labels=[])
     # Loop over data dimensions and create text annotations.
     for i in range(len(annot)):
-        text = ax1.text(i, 0, annot[i],
+        ax1.text(i, 0, annot[i],
                            ha="center", va="center", color="k")
     ax1.autoscale(False)
 
