@@ -9,7 +9,6 @@ seed = 42
 
 def test_partial_compare():
     rng = np.random.RandomState(seed)
-    idxs = []
     comparator = MultipleAgentsComparator(n=3, K=3, B=B,  alpha=alpha, seed=42)
     evals = {"Agent "+str(k): rng.normal(size=3) for k in range(3)}
     comparator.partial_compare(evals)
@@ -37,7 +36,7 @@ def test_type1(K,n):
             else:
                 evals = {"Agent "+str(k): rng.normal(size=n) for k in range(n_agents)}
             comparator.partial_compare(evals)
-        idxs.append(not("equal" in comparator.decisions.values()))
+        idxs.append("equal" not in comparator.decisions.values())
         print(comparator.get_results().to_string(index=False))
     assert np.mean(idxs) < 2*alpha + 1/4/(np.sqrt(n_runs)), "type 1 error seems to be too large."
         
@@ -80,7 +79,7 @@ def test_type2(K,n):
             else:
                 evals = {"Agent "+str(k): rng.normal(size=n)+2*k for k in range(n_agents)}
             comparator.partial_compare(evals)
-        idxs.append(not("equal" in comparator.decisions.values()))
+        idxs.append("equal" not in comparator.decisions.values())
     assert np.mean(idxs) > 0.3, "type 2 error seems to be too large."
         
 
